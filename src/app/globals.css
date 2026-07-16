@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  VHSMO — Design System                                              */
+/*  Darkroom · Kodak Yellow · Blue Hour · Overexpose · Silver Halide   */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  /* Brand palette */
+  --color-darkroom: #2a2422;
+  --color-darkroom-deep: #1f1a18;
+  --color-kodak: #fdf100;
+  --color-bluehour: #1093ff;
+  --color-overexpose: #ffffff;
+  --color-halide: #e3e3e1;
+
+  /* Legacy aliases — the /product page reads these; mapped to brand */
+  --color-canvas: #e3e3e1;
+  --color-surface: #ffffff;
+  --color-surface-2: #d9d9d6;
+  --color-ink: #2a2422;
+  --color-muted: #6e6862;
+  --color-accent: #1093ff;
+  --color-accent-strong: #0b76d0;
+  --color-green-soft: #fdf7c2;
+  --color-blush: #1093ff;
+  --color-blush-strong: #0b76d0;
+  --color-line: #cfcfcb;
+
+  /* Typography */
+  --font-sans: var(--font-sequel), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sequel), ui-sans-serif, system-ui, sans-serif;
+  --font-marker: var(--font-kids), "Comic Sans MS", cursive;
+  --font-script: var(--font-kids), cursive;
+
+  /* Easing + timing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-cinematic: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Containers */
+  --breakpoint-3xl: 120rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scrollbar-color: var(--color-kodak) var(--color-darkroom-deep);
+  }
+
+  body {
+    background-color: var(--color-darkroom);
+    color: var(--color-halide);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-kodak);
+    color: var(--color-darkroom);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-kodak);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .container-px {
+    padding-inline: clamp(1.25rem, 5vw, 5rem);
+  }
+
+  /* Big cinematic display type */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+  }
+
+  /* Kids Word — stickers, labels, captions, playful moments only */
+  .font-marker {
+    font-family: var(--font-marker);
+    font-weight: 700;
+  }
+  .font-script {
+    font-family: var(--font-script);
+    font-weight: 700;
+  }
+
+  /* Microtext — "/2026", captions, running heads */
+  .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .hairline {
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.18;
+  }
+
+  /* Legacy — product page cards */
+  .card-soft {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 2px rgba(31, 26, 24, 0.04),
+      0 12px 32px -24px rgba(31, 26, 24, 0.3);
+  }
+  .pill-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    background-color: var(--color-kodak);
+    color: var(--color-darkroom);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* A strip of masking tape — rotate/position from the caller */
+  .tape {
+    position: absolute;
+    width: 6.5rem;
+    height: 1.75rem;
+    background: rgba(240, 235, 210, 0.75);
+    box-shadow: 0 2px 6px rgba(31, 26, 24, 0.25);
+    backdrop-filter: blur(1px);
+    /* ragged tape ends */
+    clip-path: polygon(
+      2% 0%, 98% 4%, 100% 30%, 97% 55%, 100% 80%, 98% 100%,
+      3% 96%, 0% 70%, 2% 45%, 0% 20%
+    );
+  }
+
+  /* Paper-scan surface for editorial spreads */
+  .paper {
+    background-color: var(--color-halide);
+    color: var(--color-darkroom);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Ragged, imperfect edges — for sticker/label blocks */
+  .edge-torn {
+    clip-path: polygon(
+      0% 4%, 3% 0%, 97% 1%, 100% 6%, 99% 50%, 100% 94%,
+      96% 100%, 4% 99%, 0% 95%, 1% 48%
+    );
+  }
+}
+
+/* Radix accordion height transition (product page + FAQ) */
+@keyframes acc-down {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-accordion-content-height); opacity: 1; }
+}
+@keyframes acc-up {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}
+
+/* Infinite marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 50s) linear infinite;
+  animation-direction: var(--marquee-direction, normal);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Film grain jitter — the overlay texture shifts like projected film */
+@keyframes grain-jitter {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2%, 1%); }
+  40% { transform: translate(1%, -2%); }
+  60% { transform: translate(-1%, 2%); }
+  80% { transform: translate(2%, -1%); }
+}
+.grain-animate {
+  animation: grain-jitter 0.9s steps(4) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain-animate {
+    animation: none;
+  }
+}
+
+/* Object reveal — slow float, like a print lifting in the tray */
+@keyframes cam-float {
+  0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+  50% { transform: translateY(-14px) rotate(0.6deg); }
+}
+.cam-float {
+  animation: cam-float 7s ease-in-out infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cam-float {
+    animation: none;
+  }
+}
+
+/* Footer clouds — slow horizontal drift */
+@keyframes cloud-drift {
+  from { transform: translateX(-8%); }
+  to { transform: translateX(8%); }
+}
+.cloud-drift {
+  animation: cloud-drift 14s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cloud-drift {
+    animation: none;
+  }
+}
+
+/* Sticker wiggle on hover */
+@keyframes wiggle {
+  0%, 100% { rotate: -2deg; }
+  50% { rotate: 2.5deg; }
+}
+.hover-wiggle:hover {
+  animation: wiggle 0.4s ease-in-out 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hover-wiggle:hover {
+    animation: none;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
