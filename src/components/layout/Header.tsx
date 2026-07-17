@@ -24,7 +24,9 @@ export function Header() {
 
   // Pages that open on a light (paper) surface need dark nav until the
   // header picks up its dark backdrop on scroll.
-  const lightTop = pathname?.startsWith("/product") ?? false;
+  const lightTop =
+    !!pathname &&
+    (pathname.startsWith("/product") || pathname.startsWith("/checkout"));
   const darkText = lightTop && !scrolled;
 
   useEffect(() => {

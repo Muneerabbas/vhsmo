@@ -204,14 +204,10 @@ export function Showcase() {
                   height={showcase.image.height}
                   sizes="(min-width: 1024px) 34rem, 88vw"
                   className="relative block h-auto w-full"
-                  style={{
-                    WebkitMaskImage: CAMERA_MASK,
-                    maskImage: CAMERA_MASK,
-                    filter: "contrast(1.05) saturate(1.08)",
-                  }}
+                 
                 />
                 {/* Warm the studio grey into the darkroom pool */}
-                <div
+                {/* <div
                   aria-hidden
                   className="pointer-events-none absolute inset-0 mix-blend-soft-light"
                   style={{
@@ -220,7 +216,7 @@ export function Showcase() {
                     background:
                       "radial-gradient(ellipse 57% 52% at 50% 46%, rgba(253,241,0,0.45), transparent 70%)",
                   }}
-                />
+                /> */}
               </div>
             </div>
           </Reveal>

@@ -193,7 +193,7 @@ export const community = {
 export const showcase = {
   kicker: "The object",
   image: {
-    src: "/buyproduct/firstimage.png",
+    src: "/camera-cutout.png",
     alt: "The VHSMO pocket camera, studio lit",
     width: 1536,
     height: 1024,

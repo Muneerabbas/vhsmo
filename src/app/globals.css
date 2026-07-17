@@ -270,6 +270,29 @@
   }
 }
 
+/* Verification status pop-in (email check on checkout) */
+@keyframes status-pop {
+  0% { opacity: 0; transform: scale(0.5); }
+  60% { transform: scale(1.12); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.status-pop {
+  animation: status-pop 0.32s var(--ease-out-expo) both;
+}
+@keyframes status-rise {
+  0% { opacity: 0; transform: translateY(-4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.status-rise {
+  animation: status-rise 0.28s var(--ease-out-expo) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-pop,
+  .status-rise {
+    animation: none;
+  }
+}
+
 /* Lenis */
 html.lenis,
 html.lenis body {

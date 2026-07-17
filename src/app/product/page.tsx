@@ -51,7 +51,7 @@ export default function ProductPage() {
         <WhatsInBox />
         <CommunityGallery />
         <CreatorReviews />
-        <Accessories />
+        {/* <Accessories /> */}
       </div>
 
       <Faq />
@@ -59,7 +59,7 @@ export default function ProductPage() {
       {/* Colophon */}
       <div className="container-px mx-auto max-w-[120rem] pb-16">
         <div className="eyebrow flex justify-between border-t border-darkroom/15 pt-5 text-darkroom/45">
-          <span>VHSMO — reserve</span>
+          <span>VHSMO - reserve</span>
           <span>{YEAR_MARK}</span>
         </div>
       </div>
