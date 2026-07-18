@@ -212,19 +212,12 @@ export function OrderSummary({
             label="Shipping"
             value={shipping === 0 ? "Free" : formatCurrency(shipping)}
           />
-          <Row
-            label="Tax"
-            value={tax === 0 ? "Calculated at shipping" : formatCurrency(tax)}
-            muted
-          />
           <div className="my-3 h-px bg-darkroom/12" />
           <div className="flex items-center justify-between text-base font-bold text-darkroom">
-            <span>Due today</span>
+            <span>Total</span>
             <span className="tabular-nums">{formatCurrency(total)}</span>
           </div>
-          {/* <p className="text-xs text-darkroom/50">
-            {formatCurrency(total)} charged when your camera ships.
-          </p> */}
+          <p className="text-xs text-darkroom/50">Inclusive of all taxes.</p>
         </div>
 
         {/* Checkout button */}

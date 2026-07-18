@@ -4,8 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { FilmGrain } from "@/components/brand/FilmGrain";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import Script from "next/script";
 
@@ -113,11 +112,7 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <Header />
-          <main id="main" className="relative">
-            {children}
-          </main>
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
           <CartDrawer />
           <FilmGrain />
         </CartProvider>
