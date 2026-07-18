@@ -7,6 +7,7 @@ import { FilmGrain } from "@/components/brand/FilmGrain";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import Script from "next/script";
 
 /*
  * Brand faces are Sequel Sans (display/body) and Kids Word (marker).
@@ -113,11 +114,17 @@ export default function RootLayout({
             Skip to content
           </a>
           <Header />
-          <main id="main" className="relative">{children}</main>
+          <main id="main" className="relative">
+            {children}
+          </main>
           <Footer />
           <CartDrawer />
           <FilmGrain />
         </CartProvider>
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );

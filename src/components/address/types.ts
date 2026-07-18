@@ -32,6 +32,8 @@ export interface Address {
   longitude: number | null;
 }
 
+
+
 export const emptyAddress: Address = {
   apartment: "",
   street: "",

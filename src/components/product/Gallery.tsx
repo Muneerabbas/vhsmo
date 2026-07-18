@@ -2,14 +2,12 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import type { ProductImage } from "@/lib/products";
 import { cameraProduct } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
 export function Gallery({ images }: { images: ProductImage[] }) {
   const [active, setActive] = useState(0);
-  const current = images[active]!;
 
   return (
     <div className="flex flex-col gap-4 lg:sticky lg:top-28 lg:flex-row">
@@ -41,25 +39,20 @@ export function Gallery({ images }: { images: ProductImage[] }) {
         />
         <div className="relative aspect-square overflow-hidden bg-overexpose p-2.5 shadow-[0.4rem_0.7rem_1.6rem_rgba(31,26,24,0.22)] sm:p-3">
           <div className="relative h-full w-full overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, scale: 1.03 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={current.src}
-                  alt={current.alt}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </motion.div>
-            </AnimatePresence>
+            {images.map((image, i) => (
+              <Image
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                fill
+                priority={i === 0}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className={cn(
+                  "object-cover",
+                  i === active ? "opacity-100" : "opacity-0",
+                )}
+              />
+            ))}
           </div>
 
           {/* Live badge */}
