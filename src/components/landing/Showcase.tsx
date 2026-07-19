@@ -5,11 +5,6 @@ import { Scribble } from "@/components/brand/Scribble";
 import { MagneticButton } from "@/components/brand/MagneticButton";
 import { showcase, hero, features, RESERVE_HREF, TAGLINE, YEAR_MARK } from "@/lib/landing";
 
-/** Radial mask — fades the studio backdrop to transparent so the camera
- *  emerges from the dark, the surrounding grey dissolving into the room. */
-const CAMERA_MASK =
-  "radial-gradient(ellipse 57% 52% at 50% 46%, #000 30%, rgba(0,0,0,0.5) 52%, transparent 72%)";
-
 /** Hand-drawn feature icons — rough marker marks, not clean geometry. */
 function FeatureIcon({ name, className }: { name: string; className?: string }) {
   const common = {
@@ -204,19 +199,7 @@ export function Showcase() {
                   height={showcase.image.height}
                   sizes="(min-width: 1024px) 34rem, 88vw"
                   className="relative block h-auto w-full"
-                 
                 />
-                {/* Warm the studio grey into the darkroom pool */}
-                {/* <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-                  style={{
-                    WebkitMaskImage: CAMERA_MASK,
-                    maskImage: CAMERA_MASK,
-                    background:
-                      "radial-gradient(ellipse 57% 52% at 50% 46%, rgba(253,241,0,0.45), transparent 70%)",
-                  }}
-                /> */}
               </div>
             </div>
           </Reveal>

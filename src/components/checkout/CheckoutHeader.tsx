@@ -1,36 +1,69 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function CheckoutHeader() {
-  return (
-    <div className="container-px mx-auto max-w-[90rem] pt-24 sm:pt-28">
-      {/* Breadcrumb */}
-      <nav
-        aria-label="Breadcrumb"
-        className="eyebrow flex items-center gap-2 text-darkroom/50"
-      >
-        <Link href="/" className="transition-colors hover:text-darkroom">
-          Home
-        </Link>
-        <ChevronRight className="size-3" />
-        <Link href="/product" className="transition-colors hover:text-darkroom">
-          Reserve
-        </Link>
-        <ChevronRight className="size-3" />
-        <span className="text-darkroom">Checkout</span>
-      </nav>
+  const [scrolled, setScrolled] = useState(false);
 
-      <div className="mt-6 flex items-end justify-between gap-4">
-        <h1 className="display text-[clamp(2rem,5vw,3.25rem)] text-darkroom">
-          Checkout
-        </h1>
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <header
+      className={cn(
+        "sticky inset-x-0 top-0 z-30 transition-all duration-500 ease-[var(--ease-out-expo)]",
+        scrolled
+          ? "border-b border-halide/10 bg-darkroom/85 text-halide backdrop-blur-xl"
+          : "border-b border-transparent bg-transparent text-darkroom",
+      )}
+    >
+      <div className="container-px mx-auto flex h-16 max-w-[90rem] items-center justify-between gap-4">
         <Link
-          href="/product"
-          className="hidden items-center gap-2 text-sm font-semibold text-darkroom/60 transition-colors hover:text-darkroom sm:inline-flex"
+          href="/"
+          className={cn(
+            "flex items-center gap-2 text-sm font-semibold transition-colors",
+            scrolled
+              ? "text-halide/70 hover:text-halide"
+              : "text-darkroom/60 hover:text-darkroom",
+          )}
         >
-          <ArrowLeft className="size-4" /> Back to product
+          <ArrowLeft className="size-4" />
+          <span className="hidden sm:inline">Back to store</span>
         </Link>
+
+        {/* Wordmark */}
+        <Link
+          href="/"
+          aria-label="VHSMO — home"
+          className="flex select-none flex-col items-center leading-none"
+        >
+          <span
+            className={cn(
+              "font-marker text-3xl leading-none transition-colors",
+              scrolled ? "text-kodak" : "text-darkroom",
+            )}
+          >
+            VHSMO
+          </span>
+        </Link>
+
+        <span
+          className={cn(
+            "flex items-center gap-1.5 text-sm font-semibold transition-colors",
+            scrolled ? "text-halide/70" : "text-darkroom/60",
+          )}
+        >
+          <ShieldCheck className="size-4 text-bluehour" />
+          <span className="hidden sm:inline">Secure Checkout</span>
+        </span>
       </div>
-    </div>
+    </header>
   );
 }

@@ -6,21 +6,42 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, ShoppingBag, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { flyToCart } from "@/lib/fly-to-cart";
 import { cn } from "@/lib/utils";
 import { RESERVE_HREF, YEAR_MARK } from "@/lib/landing";
+import { cameraProduct } from "@/lib/products";
 
 const navLinks = [
+  { label: "Shop", href: RESERVE_HREF },
+
   { label: "Story", href: "/#story" },
   { label: "Shot on VHSMO", href: "/#photos" },
-  { label: "Community", href: "/#community" },
   { label: "FAQ", href: "/#faq" },
 ];
 
+/** Default variant — mirrors the purchase panel's first swatch so the
+ *  header Reserve merges into the same cart line. */
+const DEFAULT_VARIANT = "Blush";
+
 export function Header() {
-  const { count, openCart, isHydrated } = useCart();
+  const { count, openCart, isHydrated, addItem } = useCart();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Reserve = drop the camera in the cart (addItem also opens the drawer).
+  // When triggered from a visible button, fly the product to the cart first.
+  const reserve = async (source?: HTMLElement | null) => {
+    const image = cameraProduct.images[0]!.src;
+    if (source) await flyToCart(source, image);
+    addItem({
+      id: cameraProduct.id,
+      name: cameraProduct.name,
+      variant: DEFAULT_VARIANT,
+      price: cameraProduct.price,
+      image,
+    });
+  };
 
   // Pages that open on a light (paper) surface need dark nav until the
   // header picks up its dark backdrop on scroll.
@@ -84,23 +105,31 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Link
-            href={RESERVE_HREF}
+          <button
+            type="button"
+            onClick={(e) => void reserve(e.currentTarget)}
             className="hidden rounded-full bg-kodak px-5 py-2 text-sm font-bold text-darkroom transition-transform hover:scale-105 sm:inline-block"
           >
             Reserve
-          </Link>
+          </button>
           <button
             type="button"
+            data-cart-icon
             onClick={openCart}
             aria-label={`Open cart${isHydrated && count > 0 ? ` (${count} items)` : ""}`}
             className="relative flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-halide/10"
           >
             <ShoppingBag className="h-5 w-5" aria-hidden />
             {isHydrated && count > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-kodak text-[0.65rem] font-bold text-darkroom">
+              <motion.span
+                key={count}
+                initial={{ scale: 0.4 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 18 }}
+                className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-kodak text-[0.65rem] font-bold text-darkroom"
+              >
                 {count}
-              </span>
+              </motion.span>
             )}
           </button>
           <button
@@ -161,13 +190,16 @@ export function Header() {
                 transition={{ delay: 0.4, duration: 0.5 }}
                 className="mt-8"
               >
-                <Link
-                  href={RESERVE_HREF}
-                  onClick={() => setMenuOpen(false)}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    reserve();
+                  }}
                   className="font-marker inline-block -rotate-2 bg-kodak px-8 py-4 text-2xl text-darkroom"
                 >
                   Reserve yours →
-                </Link>
+                </button>
               </motion.div>
             </nav>
             <p className="eyebrow container-px pb-8 text-halide/50">

@@ -1,82 +1,115 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useCart } from "@/lib/cart-context";
-import { YEAR_MARK } from "@/lib/landing";
+import { emptyAddress, type Address } from "@/components/address/types";
 import {
-  emptyAddress,
-  type Address,
-  type AddressDetails,
-} from "@/components/address/types";
+  CHECKOUT_FIELDS,
+  validateCheckout,
+  type CheckoutErrors,
+  type CheckoutField,
+} from "@/lib/checkout-validation";
 import { CheckoutHeader } from "@/components/checkout/CheckoutHeader";
+import { CheckoutFooter } from "@/components/checkout/CheckoutFooter";
 import { ContactSection } from "@/components/checkout/ContactSection";
 import { EmptyCart } from "@/components/checkout/EmptyCart";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { ShippingSection } from "@/components/checkout/ShippingSection";
+import { DeliveryBanner } from "@/components/checkout/DeliveryBanner";
 import { useEmailVerification } from "@/components/checkout/useEmailVerification";
 
 export default function CheckoutPage() {
-  const { items, subtotal, shipping, tax, total, count, isHydrated, clear } =
+  const { items, subtotal, shipping, tax, count, isHydrated, clear } =
     useCart();
 
   // Email verification against the waitlist.
   const { email, setEmail, status: emailStatus } = useEmailVerification();
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
 
-  // Shipping address — autocomplete pre-fills it, all fields stay editable.
+  // Shipping address — entered manually, every field editable.
   const [address, setAddress] = useState<Address>(emptyAddress);
   const patchAddress = (patch: Partial<Address>) =>
     setAddress((a) => ({ ...a, ...patch }));
-  const applySuggestion = (d: AddressDetails) =>
-    setAddress((a) => ({
-      ...a,
-      street: d.street,
-      city: d.city,
-      state: d.state,
-      postalCode: d.postalCode,
-      country: d.country,
-      latitude: d.latitude,
-      longitude: d.longitude,
-    }));
 
-  // The checkout button drives the Razorpay flow directly, so the form only
-  // needs to guard against accidental submits (e.g. Enter key in a field).
+  // Validation — a field's error only shows once it's been touched or the
+  // user has attempted checkout.
+  const [touched, setTouched] = useState<Set<CheckoutField>>(new Set());
+  const [submitted, setSubmitted] = useState(false);
+
+  const values = useMemo(
+    () => ({ email, phone, firstName, lastName, address }),
+    [email, phone, firstName, lastName, address],
+  );
+  const errors = useMemo(() => validateCheckout(values), [values]);
+
+  const visibleErrors = useMemo<CheckoutErrors>(() => {
+    const out: CheckoutErrors = {};
+    for (const field of CHECKOUT_FIELDS) {
+      if ((submitted || touched.has(field)) && errors[field]) {
+        out[field] = errors[field];
+      }
+    }
+    return out;
+  }, [errors, touched, submitted]);
+
+  const handleBlur = (field: CheckoutField) =>
+    setTouched((t) => new Set(t).add(field));
+
+  /** Called by the checkout button. Reveals errors and reports readiness. */
+  const attemptCheckout = () => {
+    setSubmitted(true);
+    return Object.keys(errors).length === 0 && emailStatus === "verified";
+  };
+
+  // The form only guards against accidental Enter-key submits.
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
   }
 
   if (isHydrated && items.length === 0) {
-    return <EmptyCart />;
+    return (
+      <div className="paper flex min-h-dvh flex-col">
+        <CheckoutHeader />
+        <div className="flex-1">
+          <EmptyCart />
+        </div>
+        <CheckoutFooter />
+      </div>
+    );
   }
 
   return (
-    <div className="paper min-h-dvh">
+    <div className="paper flex min-h-dvh flex-col">
       <CheckoutHeader />
 
       <form
         onSubmit={onSubmit}
-        className="container-px mx-auto grid max-w-[90rem] gap-10 py-10 lg:grid-cols-[1fr_minmax(360px,26rem)] lg:gap-14 lg:py-14"
+        className="container-px mx-auto grid w-full max-w-[90rem] flex-1 gap-10 py-10 lg:grid-cols-[1fr_minmax(360px,26rem)] lg:gap-14 lg:py-12"
       >
         {/* ---------- Left: details ---------- */}
-        <div className="space-y-10">
+        <div className="space-y-9">
           <ContactSection
             email={email}
             phone={phone}
             onPhoneChange={setPhone}
             onEmailChange={setEmail}
             emailStatus={emailStatus}
+            errors={visibleErrors}
+            onBlurField={handleBlur}
           />
           <ShippingSection
             address={address}
             onChange={patchAddress}
-            onSelectSuggestion={applySuggestion}
             firstName={firstName}
             lastName={lastName}
             onFirstNameChange={setFirstName}
             onLastNameChange={setLastName}
+            errors={visibleErrors}
+            onBlurField={handleBlur}
           />
+          <DeliveryBanner />
         </div>
 
         {/* ---------- Right: order summary ---------- */}
@@ -88,24 +121,15 @@ export default function CheckoutPage() {
           tax={tax}
           total={1}
           emailStatus={emailStatus}
-          customer={{
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: phone,
-          }}
+          canCheckout={Object.keys(errors).length === 0 && emailStatus === "verified"}
+          onAttemptCheckout={attemptCheckout}
+          customer={{ firstName, lastName, email, phone }}
           address={address}
           onSuccess={clear}
         />
       </form>
 
-      {/* Colophon */}
-      <div className="container-px mx-auto max-w-[90rem] pb-16">
-        <div className="eyebrow flex justify-between border-t border-darkroom/15 pt-5 text-darkroom/45">
-          <span>VHSMO — checkout</span>
-          <span>{YEAR_MARK}</span>
-        </div>
-      </div>
+      <CheckoutFooter />
     </div>
   );
 }

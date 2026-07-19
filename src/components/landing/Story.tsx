@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Camera, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { Reveal } from "@/components/brand/Reveal";
 import { Scribble } from "@/components/brand/Scribble";
 import { story, YEAR_MARK } from "@/lib/landing";
@@ -86,17 +86,16 @@ function PinnedPrint({
  * pinned prints, doodles, and a promise note on the right.
  */
 export function Story() {
-  const [night, golden, route9, almostDeleted] = story.photos;
+  const [night, golden, route9, almostDeleted, promiseShot] = story.photos;
 
   return (
-    <section id="story" aria-label="Why VHSMO exists" className="paper relative overflow-hidden">
-      <div className="container-px mx-auto max-w-[120rem] py-24 sm:py-32">
+    <section
+      id="story"
+      aria-label="Why VHSMO exists"
+      className="paper relative overflow-hidden"
+    >
+      <div className="container-px mx-auto max-w-[120rem] py-8 sm:py-8">
         {/* Running head */}
-        <div className="eyebrow flex justify-between border-b border-darkroom/20 pb-4 text-darkroom/60">
-          <span>{story.kicker}</span>
-          <span className="hidden sm:inline">real moments · no filters</span>
-          <span>{YEAR_MARK}</span>
-        </div>
 
         <div className="mt-16 grid grid-cols-12 gap-y-16 lg:mt-20 lg:gap-x-10">
           {/* Left page — the argument */}
@@ -127,15 +126,18 @@ export function Story() {
             {/* The takeaway, framed in crop marks */}
             <Reveal delay={0.2} className="mt-12">
               <span className="relative inline-block px-5 py-4">
-                {["left-0 top-0 border-l-2 border-t-2", "right-0 top-0 border-r-2 border-t-2", "bottom-0 left-0 border-b-2 border-l-2", "bottom-0 right-0 border-b-2 border-r-2"].map(
-                  (corner) => (
-                    <span
-                      key={corner}
-                      aria-hidden
-                      className={`absolute h-4 w-4 border-darkroom ${corner}`}
-                    />
-                  ),
-                )}
+                {[
+                  "left-0 top-0 border-l-2 border-t-2",
+                  "right-0 top-0 border-r-2 border-t-2",
+                  "bottom-0 left-0 border-b-2 border-l-2",
+                  "bottom-0 right-0 border-b-2 border-r-2",
+                ].map((corner) => (
+                  <span
+                    key={corner}
+                    aria-hidden
+                    className={`absolute h-4 w-4 border-darkroom ${corner}`}
+                  />
+                ))}
                 <span className="font-marker bg-kodak px-2 py-0.5 text-xl text-darkroom sm:text-2xl">
                   {story.note}
                 </span>
@@ -168,6 +170,42 @@ export function Story() {
                 </Reveal>
               )}
               {golden && (
+                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
+                  <PinnedPrint
+                    photo={golden}
+                    rotate={seededRotation(31, 1.6)}
+                    sizes="(min-width: 1024px) 21vw, 45vw"
+                  />
+                </Reveal>
+              )}
+              {almostDeleted && (
+                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
+                  <PinnedPrint
+                    photo={almostDeleted}
+                    rotate={seededRotation(53, 1.6)}
+                    sizes="(min-width: 1024px) 21vw, 45vw"
+                  />
+                </Reveal>
+              )}
+              {route9 && (
+                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
+                  <PinnedPrint
+                    photo={route9}
+                    rotate={seededRotation(41, 1.6)}
+                    sizes="(min-width: 1024px) 21vw, 45vw"
+                  />
+                </Reveal>
+              )}
+              {route9 && (
+                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
+                  <PinnedPrint
+                    photo={route9}
+                    rotate={seededRotation(41, 1.6)}
+                    sizes="(min-width: 1024px) 21vw, 45vw"
+                  />
+                </Reveal>
+              )}
+              {/* {golden && (
                 <Reveal
                   delay={0.2}
                   fromRotate={-4}
@@ -180,50 +218,10 @@ export function Story() {
                     circle="The camera was already out."
                   />
                 </Reveal>
-              )}
+              )} */}
             </div>
 
-            {/* Bottom row — one print and the promise note */}
-            <div className="mt-10 flex flex-col items-start gap-10 sm:mt-14 sm:flex-row sm:gap-0">
-              {route9 && (
-                <Reveal delay={0.1} fromRotate={5} className="relative mx-auto w-[86%] sm:mx-0 sm:ml-[4%] sm:w-[38%]">
-                  <PinnedPrint
-                    photo={route9}
-                    rotate={seededRotation(41, 1.6)}
-                    sizes="(min-width: 1024px) 26vw, 80vw"
-                  />
-                  <Send
-                    aria-hidden
-                    strokeWidth={1.6}
-                    className="absolute -bottom-3 -right-3 h-8 w-8 rotate-[15deg] text-darkroom"
-                  />
-                </Reveal>
-              )}
-
-              <Reveal delay={0.25} fromRotate={-6} className="mx-auto w-[72%] sm:mx-0 sm:ml-[14%] sm:mt-8 sm:w-[30%]">
-                <div
-                  className="relative bg-[#f1ead8] px-7 pb-8 pt-10 shadow-[0.3rem_0.55rem_1.1rem_rgba(31,26,24,0.25)] transition-transform duration-300 ease-[var(--ease-out-expo)] hover:rotate-0"
-                  style={{ rotate: `${seededRotation(67, 2.5)}deg` }}
-                >
-                  {/* Push pin */}
-                  <span
-                    aria-hidden
-                    className="absolute left-1/2 top-3 h-3.5 w-3.5 -translate-x-1/2 rounded-full bg-darkroom-deep shadow-[0.15rem_0.25rem_0.3rem_rgba(31,26,24,0.45)]"
-                  />
-                  <Camera
-                    aria-hidden
-                    strokeWidth={1.6}
-                    className="h-10 w-10 text-darkroom"
-                  />
-                  <p className="font-marker mt-4 text-xl leading-snug text-darkroom sm:text-2xl">
-                    No filters.
-                    <span className="mt-1.5 block w-fit bg-kodak px-2 py-0.5">
-                      Promise.
-                    </span>
-                  </p>
-                </div>
-              </Reveal>
-            </div>
+          
           </div>
         </div>
       </div>

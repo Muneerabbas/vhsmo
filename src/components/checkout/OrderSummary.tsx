@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Loader2, Lock, ShoppingBag, Truck } from "lucide-react";
+import { Headphones, Loader2, Lock, ShieldCheck } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import type { CartItem } from "@/lib/cart-context";
 import type { Address } from "@/components/address/types";
@@ -21,7 +21,10 @@ type OrderSummaryProps = {
   tax: number;
   total: number;
   emailStatus: EmailStatus;
-
+  /** True when every field is valid and the email is verified. */
+  canCheckout: boolean;
+  /** Reveals validation errors and reports whether checkout may proceed. */
+  onAttemptCheckout: () => boolean;
   customer: {
     firstName: string;
     lastName: string;
@@ -31,6 +34,7 @@ type OrderSummaryProps = {
   address: Address;
   onSuccess: () => void;
 };
+
 export function OrderSummary({
   items,
   count,
@@ -39,6 +43,8 @@ export function OrderSummary({
   tax,
   total,
   emailStatus,
+  canCheckout,
+  onAttemptCheckout,
   customer,
   address,
   onSuccess,
@@ -49,33 +55,34 @@ export function OrderSummary({
 
   const handleCheckout = async () => {
     if (processing) return;
+    // Reveal any outstanding validation errors before touching Razorpay.
+    if (!onAttemptCheckout()) {
+      // Scroll the first error into view for the user.
+      buttonRef.current
+        ?.closest("form")
+        ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
     setProcessing(true);
 
-    // Read straight from the form so browser-autofilled values are captured
-    // even when they don't fire React's onChange. Fall back to React state.
-    const form = buttonRef.current?.form;
-    const fd = form ? new FormData(form) : null;
-    const fromForm = (name: string) => (fd?.get(name)?.toString() ?? "").trim();
-
-    const firstName = fromForm("firstName") || customer.firstName;
-    const lastName = fromForm("lastName") || customer.lastName;
+    const firstName = customer.firstName.trim();
+    const lastName = customer.lastName.trim();
     const fullName = `${firstName} ${lastName}`.trim();
-
     const shippingInfo = {
-      address1: fromForm("street") || address.street,
-      address2: fromForm("apartment") || address.apartment,
-      city: fromForm("city") || address.city,
-      state: fromForm("state") || address.state,
-      country: fromForm("country") || address.country,
-      postalCode: fromForm("postalCode") || address.postalCode,
+      address1: address.street,
+      address2: address.apartment,
+      city: address.city,
+      state: address.state,
+      country: address.country,
+      postalCode: address.postalCode,
     };
 
     try {
       const res = await fetch("/api/createOrder", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: Math.round(total * 100), // Razorpay uses paise
         }),
@@ -87,52 +94,47 @@ export function OrderSummary({
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-
         amount: order.amount,
         currency: order.currency,
-
         name: "VHSMO",
         description: "VHSMO Camera Preorder",
-
         order_id: order.id,
-
         prefill: {
           name: fullName,
           email: customer.email,
           contact: customer.phone,
         },
-
-        theme: {
-          color: "#111111",
-        },
-
-        modal: {
-          ondismiss: () => setProcessing(false),
-        },
-
+        theme: { color: "#2A2422" },
+        modal: { ondismiss: () => setProcessing(false) },
         handler: async function (response: RazorpayResponse) {
           try {
             const verifyRes = await fetch("/api/verifyPayment", {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 payment: {
                   razorpay_order_id: response.razorpay_order_id,
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_signature: response.razorpay_signature,
                 },
-
                 customer: {
                   name: fullName,
                   email: customer.email,
                   phone: customer.phone,
                 },
-
                 shipping: shippingInfo,
-
-                amount: total,
+                items: items.map((item) => ({
+                  productId: item.id,
+                  name: item.name,
+                  variant: item.variant,
+                  quantity: item.quantity,
+                  price: item.price,
+                  total: item.price * item.quantity,
+                })),
+                subtotal,
+                shippingCost: shipping,
+                tax,
+                total,
               }),
             });
 
@@ -147,32 +149,26 @@ export function OrderSummary({
               );
             }
           } catch (err) {
-            // Payment failures are surfaced by Razorpay's own UI; nothing to do.
             console.error(err);
           }
         },
       };
 
       const razorpay = new (window as any).Razorpay(options);
-
       razorpay.open();
     } catch (err) {
       console.error(err);
+      setProcessing(false);
     }
   };
+
   return (
-    <aside className="lg:sticky lg:top-28 lg:h-fit">
+    <aside className="space-y-4 lg:sticky lg:top-8 lg:h-fit">
       <div className="rounded-2xl border-2 border-darkroom/12 bg-overexpose p-6 shadow-[0_10px_40px_-24px_rgba(31,26,24,0.4)]">
-        <div className="flex items-center justify-between border-b border-darkroom/10 pb-4">
-          <h2 className="text-lg font-bold text-darkroom">Order summary</h2>
-          <span className="flex items-center gap-1.5 text-sm text-darkroom/55">
-            <ShoppingBag className="size-4" />
-            {count}
-          </span>
-        </div>
+        <h2 className="text-lg font-bold text-darkroom">Order summary</h2>
 
         {/* Items */}
-        <ul className="divide-y divide-darkroom/10">
+        <ul className="mt-4 divide-y divide-darkroom/10 border-y border-darkroom/10">
           {items.map((item) => (
             <li
               key={`${item.id}-${item.variant ?? ""}`}
@@ -186,7 +182,7 @@ export function OrderSummary({
                   sizes="64px"
                   className="object-cover"
                 />
-                <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-darkroom text-[0.65rem] font-bold text-halide">
+                <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-darkroom text-[0.65rem] font-bold text-kodak">
                   {item.quantity}
                 </span>
               </div>
@@ -197,6 +193,7 @@ export function OrderSummary({
                 {item.variant && (
                   <p className="text-xs text-darkroom/55">{item.variant}</p>
                 )}
+                <p className="text-xs text-darkroom/45">Qty: {item.quantity}</p>
               </div>
               <span className="self-center text-sm font-semibold tabular-nums text-darkroom">
                 {formatCurrency(item.price * item.quantity)}
@@ -206,18 +203,24 @@ export function OrderSummary({
         </ul>
 
         {/* Totals */}
-        <div className="space-y-2 border-t border-darkroom/10 pt-4 text-sm">
+        <div className="space-y-2.5 pt-4 text-sm">
           <Row label="Subtotal" value={formatCurrency(subtotal)} />
           <Row
             label="Shipping"
             value={shipping === 0 ? "Free" : formatCurrency(shipping)}
           />
           <div className="my-3 h-px bg-darkroom/12" />
-          <div className="flex items-center justify-between text-base font-bold text-darkroom">
-            <span>Total</span>
-            <span className="tabular-nums">{formatCurrency(total)}</span>
+          <div className="flex items-end justify-between text-darkroom">
+            <div>
+              <span className="text-base font-bold">Total</span>
+              <p className="text-xs font-normal text-darkroom/50">
+                Inclusive of all taxes.
+              </p>
+            </div>
+            <span className="text-2xl font-bold tabular-nums">
+              {formatCurrency(total)}
+            </span>
           </div>
-          <p className="text-xs text-darkroom/50">Inclusive of all taxes.</p>
         </div>
 
         {/* Checkout button */}
@@ -225,8 +228,8 @@ export function OrderSummary({
           ref={buttonRef}
           type="button"
           onClick={handleCheckout}
-          disabled={emailStatus !== "verified" || processing}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none disabled:hover:shadow-none disabled:active:scale-100"
+          disabled={processing}
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none disabled:hover:shadow-none disabled:active:scale-100"
         >
           {processing ? (
             <>
@@ -236,45 +239,58 @@ export function OrderSummary({
           ) : (
             <>
               <Lock className="size-4" />
-              {emailStatus === "verified"
-                ? "Checkout"
-                : "Verify email to continue"}
+              {canCheckout
+                ? "Pay securely"
+                : emailStatus === "verified"
+                  ? "Continue"
+                  : "Verify email & continue"}
             </>
           )}
         </button>
 
-        <div className="mt-4 flex items-center justify-center gap-4 text-xs text-darkroom/55">
-          <span className="flex items-center gap-1.5">
-            <Lock className="size-3.5" /> Encrypted
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Truck className="size-3.5" /> Free shipping
-          </span>
+        <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-darkroom/55">
+          <Lock className="size-3.5" /> Encrypted &amp; secure. Your data is safe
+          with us.
+        </p>
+
+        {/* Secure & Safe banner */}
+        <div className="mt-5 flex items-start gap-3 rounded-xl bg-bluehour/[0.08] p-4">
+          <ShieldCheck className="mt-0.5 size-5 shrink-0 text-bluehour" />
+          <div>
+            <p className="text-sm font-bold text-darkroom">Secure &amp; Safe</p>
+            <p className="mt-0.5 text-xs leading-relaxed text-darkroom/60">
+              Your data is protected with 256-bit encryption. Powered by
+              Razorpay.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Need help card */}
+      <div className="flex items-center gap-3.5 rounded-2xl border-2 border-darkroom/12 bg-overexpose p-5 shadow-[0_10px_40px_-24px_rgba(31,26,24,0.4)]">
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-kodak/50 text-darkroom">
+          <Headphones className="size-5" />
+        </span>
+        <div>
+          <p className="text-sm font-bold text-darkroom">Need help?</p>
+          <p className="text-xs text-darkroom/55">We&apos;re here for you.</p>
+          <a
+            href="mailto:support@vhsmo.com"
+            className="text-xs font-semibold text-bluehour hover:underline"
+          >
+            support@vhsmo.com
+          </a>
         </div>
       </div>
     </aside>
   );
 }
 
-function Row({
-  label,
-  value,
-  muted,
-}: {
-  label: string;
-  value: string;
-  muted?: boolean;
-}) {
+function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-darkroom/60">{label}</span>
-      <span
-        className={
-          muted ? "text-xs text-darkroom/50" : "tabular-nums text-darkroom"
-        }
-      >
-        {value}
-      </span>
+      <span className="tabular-nums text-darkroom">{value}</span>
     </div>
   );
 }

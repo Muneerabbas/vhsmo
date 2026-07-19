@@ -4,8 +4,16 @@ import { supabase } from "@/lib/supabase";
 
 export async function POST(req: Request) {
   try {
-    const { payment, customer, shipping, amount } = await req.json();
-
+const {
+  payment,
+  customer,
+  shipping,
+  items,
+  subtotal,
+  shippingCost,
+  tax,
+  total,
+} = await req.json();
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       payment ?? {};
 
@@ -46,7 +54,13 @@ export async function POST(req: Request) {
       country: shipping?.country,
       postal_code: shipping?.postalCode,
 
-      amount,
+      items,
+
+      subtotal,
+      shipping_cost: shippingCost,
+      tax,
+      total,
+      amount: total,  
       currency: "INR",
       payment_status: "paid",
     });

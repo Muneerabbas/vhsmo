@@ -13,12 +13,12 @@ export function ShotOn() {
   const photos = shotOn.photos;
 
   return (
-    <section id="photos" aria-label="Shot on VHSMO" className="bg-darkroom-deep pb-32 text-halide">
+    <section id="photos" aria-label="Shot on VHSMO" className="bg-darkroom-deep pb-1 text-halide">
       <Marquee text={`shot on VHSMO · ${shotOn.marquee}`} variant="kodak" />
 
       <div className="container-px mx-auto max-w-[120rem] pt-24 sm:pt-32">
         <Reveal>
-          <p className="eyebrow text-kodak">{shotOn.kicker}</p>
+          {/* <p className="eyebrow text-kodak">{shotOn.kicker}</p> */}
           <h2 className="display mt-6 max-w-4xl text-[clamp(2.6rem,7vw,7.5rem)] text-overexpose">
             {shotOn.headline}
           </h2>
@@ -39,23 +39,17 @@ export function ShotOn() {
             </Reveal>
           ))}
 
-          {/* Issue card — the PDF's yellow cover slipped into the pile */}
+          {/* Another print slipped into the pile */}
           <Reveal fromRotate={5}>
-            <div
-              className="edge-torn flex aspect-[3/4] flex-col justify-between bg-kodak p-6 text-darkroom shadow-[0.4rem_0.7rem_1.4rem_rgba(0,0,0,0.45)]"
-              style={{ rotate: `${seededRotation(101, 4)}deg` }}
-            >
-              <span className="font-marker text-4xl leading-none sm:text-5xl">
-                VHSMO
-              </span>
-              <div>
-                <p className="display text-xl leading-tight sm:text-2xl">
-                  REAL MOMENTS
-                  <br />/ NO FILTERS
-                </p>
-                <p className="eyebrow mt-4 opacity-70">vol. I · now rolling</p>
-              </div>
-            </div>
+            <TapedPhoto
+              src="/buyproduct/vhsmoparty.jpg"
+              alt="VHSMO Camera on a table at a party"
+              width={1024}
+              height={768}
+              rotate={seededRotation(101, 4)}
+              tape="corners"
+              sizes="(min-width: 1024px) 30vw, 45vw"
+            />
           </Reveal>
 
           {photos.slice(3).map((photo, i) => (
@@ -78,9 +72,9 @@ export function ShotOn() {
         </div>
       </div>
 
-      <div className="mt-24">
+      {/* <div className="mt-24">
         <Marquee text={shotOn.marquee} variant="darkroom" reverse duration={22} className="border-y border-kodak/30" />
-      </div>
+      </div> */}
     </section>
   );
 }

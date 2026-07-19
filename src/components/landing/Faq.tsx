@@ -14,7 +14,7 @@ export function LandingFaq() {
     <section id="faq" aria-label="Frequently asked questions" className="paper py-28 sm:py-40">
       <div className="container-px mx-auto grid max-w-[120rem] grid-cols-12 gap-y-12">
         <Reveal className="col-span-12 lg:col-span-4">
-          <p className="eyebrow text-darkroom/60">{faq.kicker}</p>
+          {/* <p className="eyebrow text-darkroom/60">{faq.kicker}</p> */}
           <h2 className="display mt-6 text-[clamp(2.2rem,4vw,4.5rem)] text-darkroom">
             Asked,
             <br />
@@ -22,6 +22,12 @@ export function LandingFaq() {
           </h2>
           <p className="font-marker mt-8 rotate-[-2deg] text-lg text-darkroom/70">
             still curious? write to us.
+            <a
+              href="mailto:team@vhsmo.com"
+              className="bg-kodak py-1 px-1 mt-1 block w-fit text-darkroom  transition-colors hover:text-bluehour"
+            >
+              team@vhsmo.com
+            </a>
           </p>
         </Reveal>
 

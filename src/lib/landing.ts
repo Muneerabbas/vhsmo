@@ -3,7 +3,7 @@
  * Voice: fashion campaign, never spec sheet. Edit copy here, not in sections.
  */
 
-export const RESERVE_HREF = "/product";
+export const RESERVE_HREF = "/#reserve";
 export const YEAR_MARK = "/2026";
 export const TAGLINE = ["Play it.", "Live it.", "Rewind Nothing."];
 
@@ -13,7 +13,7 @@ export const hero = {
   sub: "A pocket camera with the soul of the 2000s.",
   cta: "Reserve yours",
   image: {
-    src: "/hero-new.png",
+    src: "/heroNew1.png",
     alt: "VHSMO camera in a cinematic scene",
   },
 };
@@ -90,6 +90,12 @@ export const story = {
       alt: "Two friends in warm indoor light, shot on VHSMO",
       caption: "the one we almost deleted",
       story: "Blurry, overexposed — and the only one that felt like that night.",
+    },
+    {
+      src: "/vhsmoclicks/seven.avif",
+      alt: "A quiet moment shot on VHSMO, straight out of camera",
+      caption: "no filters. promise.",
+      story: "Straight out of the camera. Every single time.",
     },
   ],
 };

@@ -6,7 +6,30 @@ import { Check, RotateCcw, Star, Truck } from "lucide-react";
 import { cameraProduct } from "@/lib/products";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
+import { flyToCart } from "@/lib/fly-to-cart";
 import { Scribble } from "@/components/brand/Scribble";
+import { instantTransfer } from "@/lib/landing";
+
+/** Apple logo, for the App Store badge. */
+function AppleLogo() {
+  return (
+    <svg aria-hidden viewBox="0 0 384 512" className="h-5 w-5 fill-current">
+      <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
+    </svg>
+  );
+}
+
+/** Google Play glyph, for the Play Store badge. */
+function PlayLogo() {
+  return (
+    <svg aria-hidden viewBox="0 0 512 512" className="h-5 w-5">
+      <path fill="#2196F3" d="M99.6 32.7 325 258.1 99.6 483.5c-9.9-5.2-16.6-15.6-16.6-27.6V60.3c0-12 6.7-22.4 16.6-27.6z" />
+      <path fill="#FFC107" d="m396.7 186.6 65.9 38.1c20.5 11.8 20.5 41.5 0 53.3l-65.9 38.1-71.7-58 71.7-71.5z" />
+      <path fill="#4CAF50" d="M99.6 32.7c3.8-2 8.1-3.2 12.9-3.2 5.5 0 11.1 1.5 16.3 4.5l267.9 152.6-71.7 71.5L99.6 32.7z" />
+      <path fill="#F44336" d="M325 258.1 396.7 316 128.8 468.6c-5.2 3-10.8 4.5-16.3 4.5-4.8 0-9.1-1.2-12.9-3.2L325 258.1z" />
+    </svg>
+  );
+}
 
 const colors = [
   { id: "Blush", swatch: "#f2b8c6" },
@@ -24,8 +47,25 @@ const waitlistAvatars = [
 export function PurchasePanel() {
   const { addItem } = useCart();
   const [color, setColor] = useState<string>(colors[0].id);
+  const [adding, setAdding] = useState(false);
 
   const hero = cameraProduct.images[0]!;
+
+  // Fly the product image to the cart icon, then land the item in the cart
+  // (addItem opens the drawer once the flight ends).
+  const reserve = async (button: HTMLElement) => {
+    if (adding) return;
+    setAdding(true);
+    await flyToCart(button, hero.src);
+    addItem({
+      id: cameraProduct.id,
+      name: cameraProduct.name,
+      variant: color,
+      price: cameraProduct.price,
+      image: hero.src,
+    });
+    setAdding(false);
+  };
   const discount =
     cameraProduct.compareAtPrice != null
       ? Math.round(
@@ -38,7 +78,7 @@ export function PurchasePanel() {
   return (
     <div className="lg:sticky lg:top-28">
       {/* Running head */}
-      <div className="eyebrow flex items-center justify-between border-b border-darkroom/15 pb-3 text-darkroom/50">
+      {/* <div className="eyebrow flex items-center justify-between border-b border-darkroom/15 pb-3 text-darkroom/50">
         <span>The object</span>
         <span className="flex items-center gap-1.5">
           <span className="flex">
@@ -48,7 +88,7 @@ export function PurchasePanel() {
           </span>
           4.9 · 1,248
         </span>
-      </div>
+      </div> */}
 
       <h1 className="display mt-6 text-[clamp(2.2rem,4vw,3.25rem)] text-darkroom">
         {cameraProduct.name}
@@ -129,18 +169,11 @@ export function PurchasePanel() {
       {/* Actions */}
       <div className="mt-7">
         <button
-          onClick={() =>
-            addItem({
-              id: cameraProduct.id,
-              name: cameraProduct.name,
-              variant: color,
-              price: cameraProduct.price,
-              image: hero.src,
-            })
-          }
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-kodak px-8 py-4 text-base font-bold tracking-tight text-darkroom transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(253,241,0,0.25)] active:scale-[0.98]"
+          onClick={(e) => void reserve(e.currentTarget)}
+          disabled={adding}
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-kodak px-8 py-4 text-base font-bold tracking-tight text-darkroom transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(253,241,0,0.25)] active:scale-[0.98] disabled:cursor-wait"
         >
-          Reserve yours — {formatCurrency(cameraProduct.price)}
+          {adding ? "Adding…" : "Reserve yours"}
         </button>
       </div>
 
@@ -166,6 +199,44 @@ export function PurchasePanel() {
           <br />
           <span className="text-darkroom/60">already holding a spot</span>
         </p>
+      </div>
+
+      {/* The app, in one breath — pairs with the camera instead of its own section */}
+      <div className="mt-8 rounded-2xl bg-darkroom/[0.06] p-5">
+        <div className="flex items-start gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[22%] bg-darkroom-deep shadow-[0.15rem_0.3rem_0.6rem_rgba(31,26,24,0.35)]">
+            <span className="font-marker -rotate-3 text-[0.7rem] text-kodak">VHSMO</span>
+          </span>
+          <div>
+            <h3 className="font-bold text-darkroom">{instantTransfer.app.name}</h3>
+            <p className="mt-0.5 text-sm leading-snug text-darkroom/75">
+              Every shot lands on your phone in seconds — then edit with film
+              filters and share straight from your gallery.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap items-center gap-2.5">
+          <a
+            href="#"
+            aria-label="Download on the App Store"
+            className="flex items-center gap-2 rounded-lg bg-darkroom-deep px-3 py-3 text-overexpose transition-transform hover:scale-[1.03]"
+          >
+            <AppleLogo />
+            <span className="leading-tight">
+              <span className="block text-sm font-semibold">App Store</span>
+            </span>
+          </a>
+          <a
+            href="#"
+            aria-label="Get it on Google Play"
+            className="flex items-center gap-2 rounded-lg bg-darkroom-deep px-3 py-3 text-overexpose transition-transform hover:scale-[1.03]"
+          >
+            <PlayLogo />
+            <span className="leading-tight">
+              <span className="block text-sm font-semibold">Google Play</span>
+            </span>
+          </a>
+        </div>
       </div>
     </div>
   );

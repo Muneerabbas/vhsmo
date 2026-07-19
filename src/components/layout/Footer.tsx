@@ -1,77 +1,50 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Camera, Images, Users, MessageCircle, Bookmark, Instagram, Youtube } from "lucide-react";
+import {
+  Camera,
+  Headphones,
+  Instagram,
+  ShieldCheck,
+  ShoppingBag,
+  Youtube,
+} from "lucide-react";
 import { Scribble } from "@/components/brand/Scribble";
-import { RESERVE_HREF, TAGLINE, YEAR_MARK } from "@/lib/landing";
+import { Sticker } from "@/components/brand/Sticker";
+import { RazorpayLogo } from "@/components/checkout/PartnerLogos";
+import { LEGAL_DOCS } from "@/lib/legal";
+import { RESERVE_HREF } from "@/lib/landing";
+import { FooterNewsletter } from "./FooterNewsletter";
 
-/** Link columns — icon, heading, and a short stack of destinations. */
+/** Link columns — only destinations that actually exist on the site. */
 const columns = [
   {
-    title: "Story",
+    title: "Shop",
+    Icon: ShoppingBag,
+    links: [
+      { label: "Pre-order Now", href: RESERVE_HREF },
+      { label: "The Camera", href: "/product" },
+      { label: "Shipping Info", href: "/legal/shipping" },
+    ],
+  },
+  {
+    title: "Explore",
     Icon: Camera,
     links: [
       { label: "Our Story", href: "/#story" },
-      { label: "Founders", href: "/#story" },
-      { label: "Behind VHSMO", href: "/#story" },
+      { label: "Shot on VHSMO", href: "/#photos" },
+      { label: "Community", href: "/#community" },
     ],
   },
   {
-    title: "Shot on VHSMO",
-    Icon: Images,
+    title: "Support",
+    Icon: Headphones,
     links: [
-      { label: "Gallery", href: "/#photos" },
-      { label: "Community Shots", href: "/#community" },
-      { label: "Submit Yours", href: "/#community" },
-    ],
-  },
-  {
-    title: "Community",
-    Icon: Users,
-    links: [
-      { label: "Discord", href: "#" },
-      { label: "Instagram", href: "#" },
-      { label: "YouTube", href: "#" },
-    ],
-  },
-  {
-    title: "FAQ",
-    Icon: MessageCircle,
-    links: [
-      { label: "Product", href: RESERVE_HREF },
-      { label: "Shipping", href: "/#faq" },
-      { label: "Support", href: "/#faq" },
-    ],
-  },
-  {
-    title: "Reserve",
-    Icon: Bookmark,
-    links: [
-      { label: "Pre-order Now", href: RESERVE_HREF },
-      { label: "Shipping Info", href: RESERVE_HREF },
-      { label: "Returns", href: RESERVE_HREF },
+      { label: "FAQ", href: "/#faq" },
+      { label: "Contact Us", href: "mailto:support@vhsmo.com" },
+      { label: "Refund Policy", href: "/legal/refund" },
     ],
   },
 ];
-
-/** Apple logo for the App Store badge. */
-function AppleLogo() {
-  return (
-    <svg aria-hidden viewBox="0 0 384 512" className="h-6 w-6 fill-current">
-      <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-    </svg>
-  );
-}
-
-/** Google Play glyph for the Play Store badge. */
-function PlayLogo() {
-  return (
-    <svg aria-hidden viewBox="0 0 512 512" className="h-5 w-5">
-      <path fill="#2196F3" d="M99.6 32.7 325 258.1 99.6 483.5c-9.9-5.2-16.6-15.6-16.6-27.6V60.3c0-12 6.7-22.4 16.6-27.6z" />
-      <path fill="#FFC107" d="m396.7 186.6 65.9 38.1c20.5 11.8 20.5 41.5 0 53.3l-65.9 38.1-71.7-58 71.7-71.5z" />
-      <path fill="#4CAF50" d="M99.6 32.7c3.8-2 8.1-3.2 12.9-3.2 5.5 0 11.1 1.5 16.3 4.5l267.9 152.6-71.7 71.5L99.6 32.7z" />
-      <path fill="#F44336" d="M325 258.1 396.7 316 128.8 468.6c-5.2 3-10.8 4.5-16.3 4.5-4.8 0-9.1-1.2-12.9-3.2L325 258.1z" />
-    </svg>
-  );
-}
 
 /** Discord glyph — not in lucide, so drawn here. */
 function DiscordLogo({ className }: { className?: string }) {
@@ -88,131 +61,87 @@ const socials = [
   { label: "Discord", href: "#", Icon: DiscordLogo },
 ];
 
+/** Official card / rail logos for the "We accept" row (public/payments). */
+function PaymentMarks() {
+  return (
+    <span className="flex items-center gap-4">
+      <Image
+        src="/payments/visa.svg"
+        alt="Visa"
+        width={49}
+        height={16}
+        unoptimized
+        className="h-4 w-auto"
+      />
+      <Image
+        src="/payments/mastercard.svg"
+        alt="Mastercard"
+        width={39}
+        height={24}
+        unoptimized
+        className="h-6 w-auto"
+      />
+      <Image
+        src="/payments/rupay.jpg"
+        alt="RuPay"
+        width={59}
+        height={20}
+        unoptimized
+        className="h-5 w-auto mix-blend-multiply"
+      />
+      <Image
+        src="/payments/upi.svg"
+        alt="UPI"
+        width={57}
+        height={20}
+        unoptimized
+        className="h-5 w-auto"
+      />
+    </span>
+  );
+}
+
 /**
- * The closing frame — a paper spread: the tagline set big on the left,
- * the app on the right, a grid of destinations below, and a bottom rule
- * carrying the copyright, the "made it real" sticker, and the socials.
+ * The universal closing frame — brand + socials on the left, the site's real
+ * destinations in the middle, the waitlist signup on the right, and a trust
+ * bar (Razorpay + payment rails + legal) underneath.
  */
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="paper relative overflow-hidden">
-      <div className="container-px relative mx-auto max-w-[120rem] py-12 sm:py-16">
-        {/* Top zone — tagline + the app */}
-        <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-14">
-          {/* Left — the tagline, big */}
-          <div className="relative">
-            <p className="eyebrow text-darkroom/50">{YEAR_MARK.replace("/", "")}</p>
-            <h2 className="display mt-3 text-[clamp(2.1rem,4.4vw,3.6rem)] text-darkroom">
-              {TAGLINE[0]} {TAGLINE[1]}
-              <br />
-              <span className="relative inline-block">
-                {TAGLINE[2]}
-                <Scribble className="absolute -bottom-2 left-0 h-3 w-full" />
-              </span>
-            </h2>
-            <p className="mt-5 max-w-md text-base leading-relaxed text-darkroom/75">
-              VHSMO is a new kind of camera experience.
-              <br className="hidden sm:block" /> Real moments. No filters. Just you.
-            </p>
-          </div>
-
-          {/* Right — the app */}
-          <div className="lg:pl-16 lg:[border-left:1px_solid_rgba(42,36,34,0.14)]">
-            <h3 className="relative inline-block text-lg font-bold text-darkroom">
-              The VHSMO App
-              <Scribble className="absolute -bottom-1.5 left-0 h-2 w-full" />
-            </h3>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-darkroom/70">
-              Edit with film filters, curate your moments, and relive them — exactly as you saw them.
-            </p>
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a
-                href="#"
-                aria-label="Download on the App Store"
-                className="flex items-center gap-2.5 rounded-xl border border-darkroom/25 px-4 py-2.5 text-darkroom transition-colors hover:border-darkroom/60 hover:bg-darkroom/[0.04]"
-              >
-                <AppleLogo />
-                <span className="leading-tight">
-                  <span className="block text-[0.6rem] opacity-70">Download on the</span>
-                  <span className="block text-base font-semibold">App Store</span>
-                </span>
-              </a>
-              <a
-                href="#"
-                aria-label="Get it on Google Play"
-                className="flex items-center gap-2.5 rounded-xl border border-darkroom/25 px-4 py-2.5 text-darkroom transition-colors hover:border-darkroom/60 hover:bg-darkroom/[0.04]"
-              >
-                <PlayLogo />
-                <span className="leading-tight">
-                  <span className="block text-[0.6rem] uppercase tracking-wide opacity-70">Get it on</span>
-                  <span className="block text-base font-semibold">Google Play</span>
-                </span>
-              </a>
-            </div>
-          </div>
+    <footer className="paper relative overflow-hidden border-t border-darkroom/10">
+      <div className="container-px relative mx-auto max-w-[110rem] pt-16 pb-10 sm:pt-20">
+        {/* Slapped-on brand label */}
+        <div className="absolute right-[clamp(1.25rem,5vw,5rem)] top-8 hidden lg:block">
+          <Sticker rotate={-2.5} size="sm">
+            that&apos;s what made it real.
+          </Sticker>
         </div>
 
-        {/* Rule */}
-        <div className="my-10 h-px bg-darkroom/15" />
-
-        {/* Link columns */}
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
-          {columns.map(({ title, Icon, links }) => (
-            <div key={title}>
-              <Icon aria-hidden strokeWidth={1.7} className="h-5 w-5 text-darkroom" />
-              <h4 className="eyebrow mt-3 text-darkroom">{title}</h4>
-              <ul className="mt-3 space-y-2">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-darkroom/65 transition-colors hover:text-darkroom"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
-
-        {/* Rule */}
-        <div className="my-10 h-px bg-darkroom/15" />
-
-        {/* Bottom bar */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-4">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-darkroom-deep">
-              <span className="font-marker -rotate-3 text-sm text-kodak">V</span>
-            </span>
-            <p className="text-sm text-darkroom/60">
-              © {year} VHSMO.
-              <br className="hidden sm:block" /> Designed to be noticed.
-            </p>
-          </div>
-
-          <p className="font-marker w-fit -rotate-2 bg-kodak px-3 py-1.5 text-lg leading-tight text-darkroom shadow-[0.15rem_0.3rem_0.5rem_rgba(31,26,24,0.18)]">
-            that&apos;s what made it real.
-          </p>
-
-          <div className="flex items-center gap-6">
-            <a
-              href="mailto:hello@vhsmo.com"
-              className="text-sm text-darkroom/70 transition-colors hover:text-darkroom"
+        {/* Top zone — brand · links · newsletter */}
+        <div className="grid gap-12 lg:grid-cols-[1.25fr_2fr_1.25fr] lg:gap-14">
+          {/* Brand */}
+          <div>
+            <Link
+              href="/"
+              aria-label="VHSMO home"
+              className="font-marker inline-block -rotate-2 text-4xl leading-none text-darkroom transition-transform hover:rotate-0"
             >
-              hello@vhsmo.com
-            </a>
-            <ul className="flex items-center gap-3">
+              VHSMO
+            </Link>
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-darkroom/70">
+              A new kind of camera experience.
+              <br />
+              Real moments. No filters. Just you.
+            </p>
+            <ul className="mt-6 flex items-center gap-3">
               {socials.map(({ label, href, Icon }) => (
                 <li key={label}>
                   <a
                     href={href}
                     aria-label={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-darkroom/20 text-darkroom transition-colors hover:border-darkroom/60 hover:bg-darkroom hover:text-halide"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-darkroom/20 text-darkroom transition-colors hover:border-darkroom/60 hover:bg-darkroom hover:text-kodak"
                   >
                     <Icon aria-hidden className="h-4 w-4" />
                   </a>
@@ -220,6 +149,83 @@ export function Footer() {
               ))}
             </ul>
           </div>
+
+          {/* Link columns */}
+          <nav
+            aria-label="Footer"
+            className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3"
+          >
+            {columns.map(({ title, Icon, links }) => (
+              <div key={title}>
+                <Icon
+                  aria-hidden
+                  strokeWidth={1.7}
+                  className="h-5 w-5 text-darkroom"
+                />
+                <h3 className="eyebrow mt-3 text-darkroom">{title}</h3>
+                <ul className="mt-4 space-y-2.5">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-darkroom/65 transition-colors hover:text-darkroom"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+
+          {/* Newsletter */}
+          <div className="lg:border-l lg:border-darkroom/15 lg:pl-10">
+            <h3 className="eyebrow relative inline-block text-darkroom">
+              Stay in the loop
+              <Scribble className="absolute -bottom-1.5 left-0 h-1.5 w-full" />
+            </h3>
+            <p className="mt-4 text-sm leading-relaxed text-darkroom/70">
+              Updates on drops, stories, and more.
+            </p>
+            <div className="mt-5">
+              <FooterNewsletter />
+            </div>
+          </div>
+        </div>
+
+        {/* Rule */}
+        <div className="mt-14 h-px bg-darkroom/15" />
+
+        {/* Trust bar */}
+        <div className="flex flex-col items-center gap-5 py-7 text-sm text-darkroom/60 lg:flex-row lg:justify-between">
+          <p>© {year} VHSMO. All rights reserved.</p>
+
+          <p className="flex items-center gap-2">
+            <ShieldCheck className="size-4 text-darkroom/70" />
+            Secure payments powered by
+            <RazorpayLogo className="h-4 w-auto" />
+          </p>
+
+          <p className="flex items-center gap-3">
+            <span className="text-darkroom/50">We accept</span>
+            <PaymentMarks />
+          </p>
+        </div>
+
+        {/* Legal row */}
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 border-t border-darkroom/10 pt-6 text-sm text-darkroom/55">
+          {LEGAL_DOCS.map((doc, i) => (
+            <span key={doc.slug} className="flex items-center gap-3">
+              {i > 0 && <span className="text-darkroom/25">·</span>}
+              <Link
+                href={`/legal/${doc.slug}`}
+                className="transition-colors hover:text-darkroom"
+              >
+                {doc.title}
+              </Link>
+            </span>
+          ))}
         </div>
       </div>
     </footer>

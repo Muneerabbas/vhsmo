@@ -72,19 +72,21 @@ export function StarburstSeal({
       <svg
         viewBox="0 0 100 100"
         aria-hidden
-        className="absolute inset-0 h-full w-full fill-kodak drop-shadow-[0.2rem_0.3rem_0_rgba(31,26,24,0.35)]"
+        className="absolute inset-0 h-full w-full fill-bluehour drop-shadow-[0.2rem_0.3rem_0_rgba(31,26,24,0.35)]"
       >
         <path
-          d={Array.from({ length: 48 }, (_, i) => {
-            const angle = (i / 48) * Math.PI * 2;
-            const r = i % 2 === 0 ? 50 : 46;
-            const x = 50 + Math.cos(angle) * r;
-            const y = 50 + Math.sin(angle) * r;
-            return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
-          }).join(" ") + " Z"}
+          d={
+            Array.from({ length: 48 }, (_, i) => {
+              const angle = (i / 48) * Math.PI * 2;
+              const r = i % 2 === 0 ? 50 : 46;
+              const x = 50 + Math.cos(angle) * r;
+              const y = 50 + Math.sin(angle) * r;
+              return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
+            }).join(" ") + " Z"
+          }
         />
       </svg>
-      <span className="font-marker relative z-10 max-w-[70%] text-center leading-tight text-darkroom">
+      <span className="font-marker relative z-10 max-w-[70%] text-center leading-tight text-overexpose sm:max-w-[60%]">
         {children}
       </span>
     </span>

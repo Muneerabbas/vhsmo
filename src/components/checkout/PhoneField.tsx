@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, Phone } from "lucide-react";
+import { AlertCircle, Check, ChevronDown, Phone } from "lucide-react";
 import { cardClass, controlClass, iconClass, labelClass } from "./styles";
 
 const countries = [
@@ -22,13 +22,20 @@ type Country = (typeof countries)[number];
 type PhoneFieldProps = {
   phone: string;
   onPhoneChange: (value: string) => void;
+  error?: string;
+  onBlur?: () => void;
 };
 
-export function PhoneField({ phone, onPhoneChange }: PhoneFieldProps) {
+export function PhoneField({
+  phone,
+  onPhoneChange,
+  error,
+  onBlur,
+}: PhoneFieldProps) {
   const [country, setCountry] = useState<Country>(countries[0]);
-      // const [number, setNumber] = useState("");
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const invalid = Boolean(error);
 
   useEffect(() => {
     if (!open) return;
@@ -43,7 +50,14 @@ export function PhoneField({ phone, onPhoneChange }: PhoneFieldProps) {
 
   return (
     <div ref={wrapRef} className="relative">
-      <div className={cardClass}>
+      <div
+        className={
+          cardClass +
+          (invalid
+            ? " !border-red-400/70 focus-within:!border-red-500 focus-within:!shadow-[0_8px_24px_-10px_rgba(239,68,68,0.45)]"
+            : "")
+        }
+      >
         <div className="flex items-center gap-3">
           <Phone className={iconClass} />
           <span className="min-w-0 flex-1">
@@ -75,7 +89,8 @@ export function PhoneField({ phone, onPhoneChange }: PhoneFieldProps) {
                 required
                 value={phone}
                 onChange={(e) => onPhoneChange(e.target.value)}
-                
+                onBlur={onBlur}
+                aria-invalid={invalid}
                 placeholder="98765 43210"
                 autoComplete="tel-national"
                 inputMode="tel"
@@ -121,6 +136,13 @@ export function PhoneField({ phone, onPhoneChange }: PhoneFieldProps) {
             );
           })}
         </ul>
+      )}
+
+      {invalid && (
+        <p className="status-rise mt-1.5 flex items-center gap-1 pl-1 text-xs font-semibold text-red-500">
+          <AlertCircle className="size-3.5 shrink-0" />
+          {error}
+        </p>
       )}
     </div>
   );

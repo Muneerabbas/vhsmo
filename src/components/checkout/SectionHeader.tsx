@@ -1,7 +1,14 @@
-export function SectionHeader({ title }: { title: string }) {
+export function SectionHeader({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle?: string;
+}) {
   return (
-    <div className="flex items-center gap-3">
+    <div>
       <h2 className="text-lg font-bold text-darkroom">{title}</h2>
+      {subtitle && <p className="mt-1 text-sm text-darkroom/55">{subtitle}</p>}
     </div>
   );
 }

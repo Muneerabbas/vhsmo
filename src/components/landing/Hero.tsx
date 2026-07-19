@@ -72,11 +72,13 @@ export function Hero() {
             sizes="100vw"
             className="object-cover object-[center_30%]"
           />
+          {/* <div className="absolute inset-0 bg-[#5A4332]/35 mix-blend-multiply" /> */}
+          {/* <div className="absolute inset-0 bg-[#163B38]/45 mix-blend-multiply pointer-events-none" />{" "} */}
         </motion.div>
       </motion.div>
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-t from-darkroom/85 via-darkroom/10 to-darkroom/40"
+        className="absolute inset-0 bg-gradient-to-t from-darkroom/85 via-darkroom/10 to-darkroom/65"
       />
 
       {/* The wordmark — wider than the frame, always clipped */}
@@ -106,7 +108,6 @@ export function Hero() {
       </motion.h1>
 
       {/* Running heads */}
-    
 
       {/* The pitch */}
       <motion.div
@@ -117,9 +118,7 @@ export function Hero() {
           <p className="max-w-md text-lg font-medium leading-snug text-overexpose sm:text-2xl">
             {hero.sub}
           </p>
-          <p className="eyebrow mt-3 text-kodak">
-            {TAGLINE.join(" ")}
-          </p>
+          <p className="eyebrow mt-3 text-kodak">{TAGLINE.join(" ")}</p>
         </div>
         <MagneticButton href={RESERVE_HREF}>
           {hero.cta}

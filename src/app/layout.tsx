@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, Shantell_Sans } from "next/font/google";
+import { Inter_Tight } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
@@ -7,12 +8,13 @@ import { FilmGrain } from "@/components/brand/FilmGrain";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import Script from "next/script";
+import { Marquee } from "@/components/brand/Marquee";
+import { shotOn } from "@/lib/landing";
 
 /*
  * Brand faces are Sequel Sans (display/body) and Kids Word (marker).
- * Both are commercial — these are the closest free stand-ins, exposed
- * under brand-agnostic variables so licensed files can be swapped in
- * later via next/font/local without touching any component.
+ * Sequel is commercial — Inter Tight is the closest free stand-in. Kids
+ * Word is the licensed brand marker face, loaded locally.
  */
 const sequel = Inter_Tight({
   subsets: ["latin"],
@@ -21,9 +23,8 @@ const sequel = Inter_Tight({
   display: "swap",
 });
 
-const kids = Shantell_Sans({
-  subsets: ["latin"],
-  weight: ["700", "800"],
+const kids = localFont({
+  src: "./fonts/KidsWord.otf",
   variable: "--font-kids",
   display: "swap",
 });
@@ -100,12 +101,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sequel.variable} ${kids.variable}`}>
       <body className="min-h-dvh antialiased">
+    
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
         />
         <CartProvider>
           <SmoothScroll />
+
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-kodak focus:px-5 focus:py-2 focus:text-sm focus:font-semibold focus:text-darkroom"
