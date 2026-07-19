@@ -34,7 +34,7 @@ export function FooterNewsletter() {
   if (status === "done") {
     return (
       <p className="font-marker w-fit -rotate-1 bg-kodak px-3 py-2 text-lg leading-tight text-darkroom shadow-[0.15rem_0.3rem_0.5rem_rgba(31,26,24,0.18)]">
-        you&apos;re in. see you at the drop.
+        you&apos;re in the loop now!
       </p>
     );
   }

@@ -13,7 +13,7 @@ export const hero = {
   sub: "A pocket camera with the soul of the 2000s.",
   cta: "Reserve yours",
   image: {
-    src: "/heroNew1.png",
+    src: "/heroNew2.png",
     alt: "VHSMO camera in a cinematic scene",
   },
 };
@@ -152,14 +152,29 @@ export const shotOn = {
   kicker: "Shot on VHSMO / Vol. I",
   headline: "Real moments. No filters.",
   photos: [
-    { src: "/vhsmoclicks/one.jpeg", alt: "Two friends dressed up at a house party" },
-    { src: "/vhsmoclicks/two.avif", alt: "A night out, caught in direct flash" },
-    { src: "/vhsmoclicks/three.avif", alt: "An in-between moment shot on VHSMO" },
+    {
+      src: "/vhsmoclicks/one.jpeg",
+      alt: "Two friends dressed up at a house party",
+    },
+    {
+      src: "/vhsmoclicks/two.avif",
+      alt: "A night out, caught in direct flash",
+    },
+    {
+      src: "/vhsmoclicks/three.avif",
+      alt: "An in-between moment shot on VHSMO",
+    },
     { src: "/vhsmoclicks/four.avif", alt: "A trip photographed on VHSMO" },
     { src: "/vhsmoclicks/five.avif", alt: "Golden hour shot on VHSMO" },
     { src: "/vhsmoclicks/six.avif", alt: "Friends shot on VHSMO" },
     { src: "/vhsmoclicks/seven.avif", alt: "A quiet moment shot on VHSMO" },
-    { src: "/samples/sample-flat.jpg", alt: "A flash photo shot on VHSMO" },
+    { src: "/vhsmoclicks/nine.jpg", alt: "A quiet moment shot on VHSMO" },
+    { src: "/vhsmoclicks/ten.jpg", alt: "A quiet moment shot on VHSMO" },
+    { src: "/vhsmoclicks/twelve.jpg", alt: "A quiet moment shot on VHSMO" },
+    { src: "/vhsmoclicks/fourteen.jpg", alt: "A quiet moment shot on VHSMO" },
+    { src: "/vhsmoclicks/fifteen.jpg", alt: "A quiet moment shot on VHSMO" },
+
+    { src: "/vhsmoclicks/eight.jpg", alt: "A quiet moment shot on VHSMO" },
   ],
   marquee: "now rolling",
 };
@@ -234,12 +249,17 @@ export const faq = {
 };
 
 export const finalCta = {
-  lineOne: "The world keeps moving.",
-  lineTwo: "Thanks for pausing to look.",
+  welcome: "welcome to\nthe club!!!!!!",
+  population:
+    "Population: you, us, and everyone tired of looking perfect in every photo. Go make something worth being blurry.",
+  wordmark: "VHSMO",
+  lineOne: "The world keeps",
+  lineTwo: "moving. Thanks for",
+  lineThree: "pausing to look!",
   sub: "First batch — /2026. Reserve yours before it's gone.",
   cta: "Reserve yours",
   photo: {
-    src: "/buyproduct/vhsmoparty.jpg",
-    alt: "VHSMO on a party table, night in full swing behind it",
+    src: "/buyproduct/usingvhsmo.jpg",
+    alt: "Someone raising a pink VHSMO to their eye, mid-shot in the sun",
   },
 };

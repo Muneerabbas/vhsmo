@@ -109,7 +109,6 @@ export default function CheckoutPage() {
             errors={visibleErrors}
             onBlurField={handleBlur}
           />
-          <DeliveryBanner />
         </div>
 
         {/* ---------- Right: order summary ---------- */}

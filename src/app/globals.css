@@ -104,6 +104,16 @@
     font-weight: 700;
   }
 
+  /* Wavy "blue hour" blob texture for the final CTA welcome panel */
+  .finalcta-blue {
+    background-color: var(--color-bluehour);
+    background-image:
+      radial-gradient(60% 55% at 20% 25%, rgba(255, 255, 255, 0.18), transparent 60%),
+      radial-gradient(70% 60% at 80% 30%, rgba(11, 60, 120, 0.35), transparent 55%),
+      radial-gradient(55% 65% at 65% 85%, rgba(120, 180, 255, 0.35), transparent 60%),
+      radial-gradient(50% 50% at 15% 90%, rgba(11, 60, 120, 0.3), transparent 55%);
+  }
+
   /* Microtext — "/2026", captions, running heads */
   .eyebrow {
     font-size: 0.7rem;

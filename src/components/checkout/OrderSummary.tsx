@@ -141,6 +141,39 @@ export function OrderSummary({
             const result = await verifyRes.json();
 
             if (verifyRes.ok && result.success) {
+              // Stash the order so the confirmation page can render the full
+              // receipt (items, address, totals) without a round-trip.
+              try {
+                sessionStorage.setItem(
+                  "vhsmo:lastOrder",
+                  JSON.stringify({
+                    orderId: response.razorpay_order_id,
+                    paymentId: response.razorpay_payment_id,
+                    placedAt: Date.now(),
+                    customer: {
+                      name: fullName,
+                      email: customer.email,
+                      phone: customer.phone,
+                    },
+                    address: shippingInfo,
+                    items: items.map((item) => ({
+                      id: item.id,
+                      name: item.name,
+                      variant: item.variant,
+                      quantity: item.quantity,
+                      price: item.price,
+                      image: item.image,
+                    })),
+                    subtotal,
+                    shipping,
+                    tax,
+                    total: subtotal + shipping + tax,
+                  }),
+                );
+              } catch {
+                // sessionStorage unavailable — page falls back to IDs only.
+              }
+
               onSuccess();
               router.push(
                 `/checkout/success?order=${encodeURIComponent(
@@ -228,7 +261,7 @@ export function OrderSummary({
           ref={buttonRef}
           type="button"
           onClick={handleCheckout}
-          disabled={processing}
+          disabled={processing || emailStatus !== "verified"}
           className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none disabled:hover:shadow-none disabled:active:scale-100"
         >
           {processing ? (
@@ -249,8 +282,8 @@ export function OrderSummary({
         </button>
 
         <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-darkroom/55">
-          <Lock className="size-3.5" /> Encrypted &amp; secure. Your data is safe
-          with us.
+          <Lock className="size-3.5" /> Encrypted &amp; secure. Your data is
+          safe with us.
         </p>
 
         {/* Secure & Safe banner */}
@@ -278,7 +311,7 @@ export function OrderSummary({
             href="mailto:support@vhsmo.com"
             className="text-xs font-semibold text-bluehour hover:underline"
           >
-            support@vhsmo.com
+            team@vhsmo.com
           </a>
         </div>
       </div>

@@ -9,10 +9,8 @@ type TapedPhotoProps = {
   alt: string;
   width: number;
   height: number;
-  /** Resting rotation in degrees — pass a seeded value. */
   rotate?: number;
   caption?: string;
-  /** Which corners get masking tape. */
   tape?: "top" | "corners" | "none";
   sizes?: string;
   priority?: boolean;
@@ -20,16 +18,15 @@ type TapedPhotoProps = {
 };
 
 /**
- * A photo that looks taped into a scrapbook: white print border,
- * masking tape, cast shadow. On hover it lifts and settles flat,
- * like picking the print up off the page.
+ * A sleek, cinematic print. Features a clean white matte border and
+ * translucent "frosted scotch tape" elements, scaled down for smaller displays.
  */
 export function TapedPhoto({
   src,
   alt,
   width,
   height,
-  rotate = -2,
+  rotate = 0,
   caption,
   tape = "top",
   sizes,
@@ -38,40 +35,74 @@ export function TapedPhoto({
 }: TapedPhotoProps) {
   const reduceMotion = useReducedMotion();
 
+  // Realistic frosted clear tape effect - slightly thinner for smaller images
+  const tapeStyle =
+    "absolute h-5 bg-white/40 backdrop-blur-md border border-white/30 shadow-[0_1px_3px_rgba(0,0,0,0.1)] " +
+    "pointer-events-none z-20 after:content-[''] after:absolute after:inset-0 " +
+    "after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent";
+
   return (
     <motion.figure
       initial={false}
       whileHover={
-        reduceMotion
-          ? undefined
-          : { rotate: 0, scale: 1.025, y: -4, zIndex: 20 }
+        reduceMotion ? undefined : { scale: 1.08, y: -4, zIndex: 30, rotate: 0 }
       }
-      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
       style={{ rotate }}
-      className={cn("relative inline-block", className)}
+      className={cn(
+        "relative inline-block group select-none flex-shrink-0",
+        className,
+      )}
     >
-      <div className="relative bg-overexpose p-2 pb-3 shadow-[0.4rem_0.7rem_1.4rem_rgba(31,26,24,0.45)] sm:p-2.5 sm:pb-4">
-        <Image
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          sizes={sizes}
-          priority={priority}
-          className="block h-auto w-full"
-        />
-        {tape === "top" && (
-          <span aria-hidden className="tape -top-3 left-1/2 -translate-x-1/2 -rotate-3" />
+      {/* Clean Gallery Matte Frame - Padding reduced for smaller scale */}
+      <div
+        className={cn(
+          "relative p-1.5 pb-6 sm:p-2 sm:pb-8 bg-[#FAFAFA]",
+          "border border-zinc-200 shadow-[0_4px_15px_rgb(0,0,0,0.1)]",
+          "transition-shadow duration-300 group-hover:shadow-[0_12px_30px_rgb(0,0,0,0.2)]",
         )}
+      >
+        <div className="relative overflow-hidden bg-black/5 border border-black/10">
+          <Image
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            sizes={sizes}
+            priority={priority}
+            // Reduced heights: Mobile: 120px, Tablet: 160px, Desktop: 180px
+            className="block h-[120px] sm:h-[160px] md:h-[180px] w-auto object-cover grayscale-[0.2] contrast-[1.1]"
+          />
+        </div>
+
+        {/* Frosted Tape Variations - Scaled down widths */}
+        {tape === "top" && (
+          <div
+            aria-hidden
+            className={cn(
+              tapeStyle,
+              "w-14 -top-2.5 left-1/2 -translate-x-1/2 -rotate-2",
+            )}
+          />
+        )}
+
         {tape === "corners" && (
           <>
-            <span aria-hidden className="tape -left-8 -top-2 w-20 -rotate-45" />
-            <span aria-hidden className="tape -right-8 -top-2 w-20 rotate-45" />
+            <div
+              aria-hidden
+              className={cn(tapeStyle, "w-10 -left-3 -top-2.5 -rotate-45")}
+            />
+            <div
+              aria-hidden
+              className={cn(tapeStyle, "w-10 -right-3 -top-2.5 rotate-45")}
+            />
           </>
         )}
       </div>
+
+      {/* Minimalist Gallery Caption */}
       {caption && (
-        <figcaption className="font-marker mt-3 text-center text-sm text-current opacity-80 sm:text-base">
+        <figcaption className="mt-2 text-center font-mono text-[9px] sm:text-[10px] tracking-widest text-zinc-400 uppercase">
           {caption}
         </figcaption>
       )}

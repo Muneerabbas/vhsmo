@@ -67,6 +67,7 @@ export function ContactSection({
                   placeholder="you@gmail.com"
                   autoComplete="email"
                   inputMode="email"
+                  maxLength={254}
                   aria-invalid={emailInvalid}
                   className={controlClass}
                 />
