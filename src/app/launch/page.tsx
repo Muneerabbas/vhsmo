@@ -82,15 +82,15 @@ export default function LaunchPage() {
     <div className="relative flex min-h-dvh flex-col overflow-hidden bg-darkroom text-halide">
       {/* The scene — night-out photograph sunk into the darkroom */}
       <div aria-hidden className="absolute inset-0">
-        {/* <Image
-          src="/buyproduct/vhsmoparty.jpg"
+        <Image
+          src="/heroNew2.png"
           alt=""
           fill
           priority
           sizes="100vw"
           className="object-cover opacity-30"
-        /> */}
-        <div className="absolute inset-0 bg-gradient-to-b from-darkroom/80 via-darkroom/55 to-darkroom" />
+        />
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-darkroom/80 via-darkroom/55 to-darkroom" /> */}
       </div>
 
       {/* Running head — the "now rolling" band, teased for the drop */}
