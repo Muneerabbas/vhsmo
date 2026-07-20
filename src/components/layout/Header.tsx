@@ -75,7 +75,7 @@ export function Header() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="container-px mx-auto flex h-16 max-w-[120rem] items-center justify-between sm:h-20">
+      <div className="shell flex h-16 items-center justify-between sm:h-20">
         <Link
           href="/"
           aria-label="VHSMO home"

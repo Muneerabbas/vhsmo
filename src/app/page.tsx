@@ -1,9 +1,9 @@
 import { Hero } from "@/components/landing/Hero";
 import { Story } from "@/components/landing/Story";
-import { Careers } from "@/components/landing/Careers";
+import { Showcase } from "@/components/landing/Showcase";
+import { InstantTransfer } from "@/components/landing/InstantTransfer";
 import { ShotOn } from "@/components/landing/ShotOn";
 import { Community } from "@/components/landing/Community";
-import { Showcase } from "@/components/landing/Showcase";
 import { LandingFaq } from "@/components/landing/Faq";
 import { FinalCta } from "@/components/landing/FinalCta";
 import { cameraProduct } from "@/lib/products";
@@ -11,28 +11,36 @@ import { Gallery } from "@/components/product/Gallery";
 import { PurchasePanel } from "@/components/product/PurchasePanel";
 import { ProductFeatures } from "@/components/product/ProductFeatures";
 import { ProductAccordion } from "@/components/product/ProductAccordion";
-import { Marquee } from "@/components/brand/Marquee";
-import { shotOn } from "@/lib/landing";
 
 /**
- * The issue, front to back:
- * hook → why → proof (transfer, pocket, gallery)
- * → people → object → fine print → farewell.
+ * The landing page, read as one story rather than a stack of bands:
+ *
+ *   1. Hero            — the hook (full-bleed)
+ *   2. Story           — why VHSMO exists
+ *   3. Showcase        — the object, annotated with its three pillars
+ *   4. InstantTransfer — the one feature that sells it: it's already on your phone
+ *   5. ShotOn          — proof: real photos off the camera
+ *   6. Community       — social proof: people's actual nights
+ *   7. Reserve         — the buy (gallery + price + what's included)
+ *   8. FAQ             — the last objections
+ *   9. FinalCta        — the send-off
+ *
+ * Every section aligns to the `.shell` container; only the hero backdrop
+ * and the gallery strips are allowed to bleed full-width.
  */
 export default function HomePage() {
   return (
     <>
-
       <Hero />
       <Story />
+      {/* <Showcase /> */}
+      {/* <InstantTransfer /> */}
       <ShotOn />
       {/* <Community /> */}
-      {/* <Showcase /> */}
-      {/* <Careers /> */}
 
       {/* Reserve — the object itself, gallery + price, then the feature strip */}
       <div id="reserve" className="paper scroll-mt-20">
-        <section className="container-px mx-auto max-w-[120rem] py-16 sm:py-24">
+        <section className="shell section">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               {/* Wrapper bounds the gallery's sticky box so it can't slide

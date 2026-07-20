@@ -12,9 +12,9 @@ export function FinalCta() {
   return (
     <section
       aria-label="Reserve your VHSMO"
-      className=" py-8 sm:py-8 paper paper"
+      className="section-sm paper"
     >
-      <div className="container-px mx-auto max-w-[88rem]">
+      <div className="shell">
         <Reveal>
           <div className="flex flex-col gap-4 sm:gap-5">
             {/* Top row — blue welcome + yellow manifesto */}

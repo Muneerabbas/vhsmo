@@ -55,8 +55,8 @@ export function InstantTransfer() {
   const [line1, line2, line3] = instantTransfer.headline;
 
   return (
-    <section aria-label="Instant transfer" className="paper relative overflow-hidden py-24 sm:py-32">
-      <div className="container-px mx-auto max-w-[120rem]">
+    <section aria-label="Instant transfer" className="section paper relative overflow-hidden">
+      <div className="shell">
         <div className="grid grid-cols-12 items-center gap-y-16 lg:gap-x-10">
           {/* The pitch */}
           <div className="col-span-12 lg:col-span-4">

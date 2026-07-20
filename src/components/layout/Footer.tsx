@@ -111,9 +111,9 @@ export function Footer() {
 
   return (
     <footer className="paper relative overflow-hidden border-t border-darkroom/10">
-      <div className="container-px relative mx-auto max-w-[110rem] pt-16 pb-10 sm:pt-20">
+      <div className="shell relative pt-16 pb-10 sm:pt-20">
         {/* Slapped-on brand label */}
-        <div className="absolute right-[clamp(1.25rem,5vw,5rem)] top-8 hidden lg:block">
+        <div className="absolute right-[clamp(1.375rem,4vw,5rem)] top-8 hidden lg:block">
           <Sticker rotate={-2.5} size="sm">
             that&apos;s what made it real.
           </Sticker>

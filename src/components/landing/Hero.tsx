@@ -112,7 +112,7 @@ export function Hero() {
       {/* The pitch */}
       <motion.div
         style={reduceMotion ? undefined : { opacity: fade }}
-        className="container-px relative z-10 mx-auto flex w-full max-w-[120rem] flex-col items-start gap-6 pb-12 sm:flex-row sm:items-end sm:justify-between sm:pb-16"
+        className="shell relative z-10 flex flex-col items-start gap-6 pb-12 sm:flex-row sm:items-end sm:justify-between sm:pb-16"
       >
         <div>
           <p className="max-w-md text-lg font-medium leading-snug text-overexpose sm:text-2xl">

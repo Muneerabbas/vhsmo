@@ -82,8 +82,44 @@
 }
 
 @layer components {
+  /* Full-bleed gutter — used by chrome (header/footer) and edge-padded
+     full-width blocks. Content still spans the whole viewport. */
   .container-px {
     padding-inline: clamp(1.25rem, 5vw, 5rem);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /*  Layout grid — one invisible column everything aligns to          */
+  /* ---------------------------------------------------------------- */
+
+  /* The global content container. Every section's text, cards, photos,
+     grids and CTAs sit inside this centered measure so the page reads as
+     one column, not a stack of full-bleed bands. Only hero backdrops and
+     the marquee/gallery strips are allowed to bleed past it.
+       max-width : 1280px
+       gutters   : 22px (mobile) → 48px (tablet) → 80px (desktop) */
+  .shell {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.375rem, 4vw, 5rem);
+  }
+  /* Narrow reading measure for text-led moments (kept inside .shell). */
+  .measure {
+    max-width: 42rem;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /*  Vertical rhythm — three intentional steps, not one flat size     */
+  /* ---------------------------------------------------------------- */
+  .section {
+    padding-block: clamp(4.5rem, 8vw, 7.5rem); /* ~72 → 120px  (default) */
+  }
+  .section-lg {
+    padding-block: clamp(6rem, 11vw, 10rem); /* ~96 → 160px  (feature beats) */
+  }
+  .section-sm {
+    padding-block: clamp(3rem, 5vw, 4.5rem); /* ~48 → 72px   (tight transitions) */
   }
 
   /* Big cinematic display type */

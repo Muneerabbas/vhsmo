@@ -11,8 +11,8 @@ import { faq } from "@/lib/landing";
  */
 export function LandingFaq() {
   return (
-    <section id="faq" aria-label="Frequently asked questions" className="paper py-28 sm:py-40">
-      <div className="container-px mx-auto grid max-w-[120rem] grid-cols-12 gap-y-12">
+    <section id="faq" aria-label="Frequently asked questions" className="section paper">
+      <div className="shell grid grid-cols-12 gap-y-12">
         <Reveal className="col-span-12 lg:col-span-4">
           {/* <p className="eyebrow text-darkroom/60">{faq.kicker}</p> */}
           <h2 className="display mt-6 text-[clamp(2.2rem,4vw,4.5rem)] text-darkroom">

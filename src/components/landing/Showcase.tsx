@@ -135,7 +135,7 @@ export function Showcase() {
   return (
     <section
       aria-label="The VHSMO camera"
-      className="relative overflow-hidden bg-darkroom-deep py-24 text-halide sm:py-32"
+      className="section relative overflow-hidden bg-darkroom-deep text-halide"
     >
       {/* Faint ambient wash so the dark isn't flat */}
       <div
@@ -147,7 +147,7 @@ export function Showcase() {
         }}
       />
 
-      <div className="container-px relative mx-auto max-w-[120rem]">
+      <div className="shell relative">
         {/* Running head */}
         <Reveal>
           <div className="eyebrow flex justify-between border-b border-halide/15 pb-4 text-halide/50">
@@ -174,9 +174,11 @@ export function Showcase() {
         {/* The object, annotated. Center = camera, gutters = spec call-outs. */}
         <div className="mt-16 grid items-center gap-10 lg:mt-24 lg:grid-cols-[1fr_minmax(0,1.35fr)_1fr] lg:gap-6">
           {/* Left gutter — the lens */}
-          <Reveal className="hidden lg:flex lg:justify-end">
-            <Callout pillar={lens} index={0} align="right" />
-          </Reveal>
+          {lens && (
+            <Reveal className="hidden lg:flex lg:justify-end">
+              <Callout pillar={lens} index={0} align="right" />
+            </Reveal>
+          )}
 
           {/* Center — the object emerging from the dark */}
           <Reveal delay={0.1}>

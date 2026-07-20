@@ -88,17 +88,11 @@ export function ShotOn() {
       <Marquee text={`shot on VHSMO · ${shotOn.marquee}`} variant="kodak" />
 
       {/* Running head — matches the eyebrow pattern used across the site */}
-      <div className="container-px relative mx-auto mb-14 mt-16 max-w-[120rem]">
-        {/* <Reveal>
-          <div className="eyebrow flex justify-between border-b border-halide/15 pb-4 text-halide/50">
-            <span>{shotOn.kicker}</span>
-            <span className="hidden sm:inline">raw captures · continuous roll</span>
-            <span className="text-kodak">{YEAR_MARK}</span>
-          </div>
-        </Reveal> */}
+      <div className=" relative mb-14 mt-16  text-center ">
+   
 
         <Reveal delay={0.05}>
-          <h2 className="display mt-12 max-w-4xl text-[clamp(2.4rem,5.5vw,6rem)] leading-[0.95] text-overexpose">
+          <h2 className="display mt-12 max-w-4xl text-[clamp(2.2rem,4.5vw,4.25rem)] leading-[0.95] text-overexpose">
             Real moments.{" "}
             <span className="relative inline-block text-kodak">
               No filters.

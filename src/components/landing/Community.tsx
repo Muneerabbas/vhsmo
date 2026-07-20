@@ -10,12 +10,12 @@ import { seededRotation } from "@/lib/random";
  */
 export function Community() {
   return (
-    <section id="community" aria-label="Community" className="paper relative overflow-hidden py-28 sm:py-40">
-      <div className="container-px mx-auto max-w-[120rem]">
+    <section id="community" aria-label="Community" className="section paper relative overflow-hidden">
+      <div className="shell">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow text-darkroom/60">{community.kicker}</p>
-            <h2 className="display mt-6 max-w-3xl text-[clamp(2.4rem,5.5vw,6rem)] text-darkroom">
+            <h2 className="display mt-6 max-w-3xl text-[clamp(2.2rem,4.5vw,4rem)] text-darkroom">
               {community.headline}
             </h2>
           </div>

@@ -88,16 +88,31 @@ function PinnedPrint({
 export function Story() {
   const [night, golden, route9, almostDeleted, promiseShot] = story.photos;
 
+  // Five prints, three columns. The middle and right columns drop down a
+  // little so the wall reads pinned-up rather than gridded, but every gutter
+  // stays even. The "golden hour" print carries the circled line.
+  const corkboard: {
+    photo?: StoryPhoto;
+    seed: number;
+    from: number;
+    offset?: string;
+    circle?: string;
+  }[] = [
+    { photo: night, seed: 23, from: -5 },
+    { photo: golden, seed: 31, from: 4, offset: "sm:mt-10", circle: "The camera was already out." },
+    { photo: route9, seed: 41, from: -3, offset: "sm:mt-4" },
+    { photo: almostDeleted, seed: 53, from: 4, offset: "sm:-mt-2" },
+    { photo: promiseShot, seed: 17, from: -4, offset: "sm:mt-8" },
+  ];
+
   return (
     <section
       id="story"
       aria-label="Why VHSMO exists"
       className="paper relative overflow-hidden"
     >
-      <div className="container-px mx-auto max-w-[120rem] py-8 sm:py-8">
-        {/* Running head */}
-
-        <div className="mt-16 grid grid-cols-12 gap-y-16 lg:mt-20 lg:gap-x-10">
+      <div className="shell section-lg">
+        <div className="grid grid-cols-12 gap-y-16 lg:gap-x-12">
           {/* Left page — the argument */}
           <div className="col-span-12 lg:col-span-4">
             <Reveal>
@@ -145,83 +160,31 @@ export function Story() {
             </Reveal>
           </div>
 
-          {/* Right page — the corkboard */}
+          {/* Right page — the corkboard. Five distinct prints on a 3-column
+              grid; columns stagger vertically for a pinned-up feel while the
+              gutters stay perfectly even. */}
           <div className="relative col-span-12 lg:col-span-8">
-            <AsteriskDoodle className="absolute -top-8 right-0 h-8 w-8 rotate-12 text-darkroom" />
+            <AsteriskDoodle className="absolute -top-8 right-0 z-10 h-8 w-8 rotate-12 text-darkroom" />
 
-            {/* Top row — three prints */}
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-8">
-              {almostDeleted && (
-                <Reveal fromRotate={-5}>
-                  <PinnedPrint
-                    photo={almostDeleted}
-                    rotate={seededRotation(53, 1.6)}
-                    sizes="(min-width: 1024px) 21vw, 45vw"
-                  />
-                </Reveal>
+            <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 sm:gap-8">
+              {corkboard.map(({ photo, seed, from, circle, offset }, i) =>
+                photo ? (
+                  <Reveal
+                    key={i}
+                    delay={(i % 3) * 0.08}
+                    fromRotate={from}
+                    className={offset}
+                  >
+                    <PinnedPrint
+                      photo={photo}
+                      rotate={seededRotation(seed, 1.6)}
+                      sizes="(min-width: 1024px) 18vw, 45vw"
+                      circle={circle}
+                    />
+                  </Reveal>
+                ) : null,
               )}
-              {night && (
-                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
-                  <PinnedPrint
-                    photo={night}
-                    rotate={seededRotation(23, 1.6)}
-                    sizes="(min-width: 1024px) 21vw, 45vw"
-                  />
-                </Reveal>
-              )}
-              {golden && (
-                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
-                  <PinnedPrint
-                    photo={golden}
-                    rotate={seededRotation(31, 1.6)}
-                    sizes="(min-width: 1024px) 21vw, 45vw"
-                  />
-                </Reveal>
-              )}
-              {almostDeleted && (
-                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
-                  <PinnedPrint
-                    photo={almostDeleted}
-                    rotate={seededRotation(53, 1.6)}
-                    sizes="(min-width: 1024px) 21vw, 45vw"
-                  />
-                </Reveal>
-              )}
-              {route9 && (
-                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
-                  <PinnedPrint
-                    photo={route9}
-                    rotate={seededRotation(41, 1.6)}
-                    sizes="(min-width: 1024px) 21vw, 45vw"
-                  />
-                </Reveal>
-              )}
-              {route9 && (
-                <Reveal delay={0.1} fromRotate={4} className="sm:mt-2">
-                  <PinnedPrint
-                    photo={route9}
-                    rotate={seededRotation(41, 1.6)}
-                    sizes="(min-width: 1024px) 21vw, 45vw"
-                  />
-                </Reveal>
-              )}
-              {/* {golden && (
-                <Reveal
-                  delay={0.2}
-                  fromRotate={-4}
-                  className="col-span-2 mx-auto w-[72%] sm:col-span-1 sm:mx-0 sm:mt-1 sm:w-auto"
-                >
-                  <PinnedPrint
-                    photo={golden}
-                    rotate={seededRotation(31, 1.6)}
-                    sizes="(min-width: 1024px) 21vw, 45vw"
-                    circle="The camera was already out."
-                  />
-                </Reveal>
-              )} */}
             </div>
-
-          
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ const features: { icon: LucideIcon; l1: string; l2: string }[] = [
 export function ProductFeatures() {
   return (
     <section aria-label="Why VHSMO" className="bg-bluehour py-14 text-overexpose sm:py-16">
-      <div className="container-px mx-auto max-w-[120rem]">
+      <div className="shell">
         <ul className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
           {features.map(({ icon: Icon, l1, l2 }, i) => (
             <Reveal key={l1} delay={i * 0.06} className="text-center">
