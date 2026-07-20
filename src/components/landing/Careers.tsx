@@ -49,7 +49,7 @@ function Field({ name, label, placeholder, icon, type = "text", required }: Fiel
 }
 
 /**
- * The careers desk — a taped print of the crew on one side, a
+ * The careers desk - a taped print of the crew on one side, a
  * scrapbook-styled application form on the other, stickers bleeding
  * off every edge. Each field is a card that lights up blue-hour when
  * you land in it: icon, tracked label, and room to type.
@@ -127,7 +127,7 @@ export function Careers() {
               <div className="edge-torn flex min-h-[22rem] flex-col items-center justify-center gap-3 bg-overexpose px-8 text-center shadow-[0.3rem_0.5rem_1rem_rgba(31,26,24,0.15)]">
                 <p className="font-marker text-2xl text-darkroom">got it :)</p>
                 <p className="max-w-xs text-sm text-darkroom/60">
-                  Thanks for reaching out — we&apos;ll be in touch if it&apos;s a fit.
+                  Thanks for reaching out - we&apos;ll be in touch if it&apos;s a fit.
                 </p>
               </div>
             ) : (
@@ -158,7 +158,7 @@ export function Careers() {
                   icon={<Phone className={iconClass} />}
                 />
 
-                {/* Area of interest — same card, native select */}
+                {/* Area of interest - same card, native select */}
                 <label className={cardClass + " block cursor-pointer"}>
                   <div className="flex items-center gap-3">
                     <Briefcase className={iconClass} aria-hidden />
@@ -191,7 +191,7 @@ export function Careers() {
                   </div>
                 </label>
 
-                {/* Message — taller card, icon pinned to the top line */}
+                {/* Message - taller card, icon pinned to the top line */}
                 <label className={cardClass + " block cursor-text"}>
                   <div className="flex items-start gap-3">
                     <MessageSquare className={iconClass + " mt-0.5"} aria-hidden />

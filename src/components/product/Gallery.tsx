@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { ProductImage } from "@/lib/products";
-import { cameraProduct } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
 export function Gallery({ images }: { images: ProductImage[] }) {
@@ -31,7 +30,7 @@ export function Gallery({ images }: { images: ProductImage[] }) {
         ))}
       </div>
 
-      {/* Main image — a taped print in the darkroom */}
+      {/* Main image - a taped print in the darkroom */}
       <div className="relative order-1 flex-1 lg:order-2">
         <span
           aria-hidden
@@ -62,11 +61,6 @@ export function Gallery({ images }: { images: ProductImage[] }) {
               Reservations open
             </span>
           </div>
-
-          {/* Shipping note, handwritten */}
-          <span className="font-marker absolute bottom-4 right-4 -rotate-2 bg-darkroom px-3 py-1 text-sm text-kodak shadow-[0.15rem_0.25rem_0.5rem_rgba(31,26,24,0.35)]">
-            {cameraProduct.estimatedShipping}
-          </span>
         </div>
       </div>
     </div>

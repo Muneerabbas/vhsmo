@@ -82,7 +82,7 @@ export function flyToCart(
     };
     flight.addEventListener("finish", land);
     flight.addEventListener("cancel", land);
-    // Frozen timelines (e.g. hidden tab) never fire finish — don't let the
+    // Frozen timelines (e.g. hidden tab) never fire finish - don't let the
     // add-to-cart hang behind the animation.
     setTimeout(land, 1000);
   });

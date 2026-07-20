@@ -12,7 +12,7 @@ export function seeded(seed: number): number {
 
 /**
  * Rotation in degrees within [-max, max], stable for a given seed.
- * Rounded to 3 decimals — React's SSR serializer truncates long floats
+ * Rounded to 3 decimals - React's SSR serializer truncates long floats
  * in style attributes, which would otherwise cause hydration mismatches.
  */
 export function seededRotation(seed: number, max = 4): number {

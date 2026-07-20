@@ -81,21 +81,28 @@ export function Hero() {
         className="absolute inset-0 bg-gradient-to-t from-darkroom/85 via-darkroom/10 to-darkroom/65"
       />
 
-      {/* The wordmark — wider than the frame, always clipped */}
+      {/* The wordmark - wider than the frame, always clipped */}
       <motion.h1
         aria-label="VHSMO"
-        className="pointer-events-none absolute left-1/2 top-[38%] w-[120vw] -translate-x-1/2 -translate-y-1/2 select-none text-center"
+        className="pointer-events-none absolute left-1/2 top-1/2 w-[120vw] -translate-x-1/2 -translate-y-1/2 select-none text-center"
         style={reduceMotion ? undefined : { x: logoX, y: logoY }}
       >
         <motion.span
-          className="font-marker block whitespace-nowrap text-[27vw] leading-none text-kodak drop-shadow-[0.5rem_0.8rem_0_rgba(31,26,24,0.35)]"
+          className="font-marker block whitespace-nowrap text-[30vw] leading-none text-kodak drop-shadow-[0.5rem_0.8rem_0_rgba(31,26,24,0.35)]  select-none"
           style={reduceMotion ? undefined : { y: scrollLogoY }}
         >
+          {/* <Image
+            src={hero.camera.src}
+            alt={hero.camera.alt}
+            width={1000}
+            height={400}
+            className="absolute mx-auto top-1rem right-130 z-0"
+          /> */}
           {"VHSMO".split("").map((ch, i) => (
             <span
               key={i}
               aria-hidden
-              className="inline-block"
+              className=" inline-block z-10"
               style={{
                 rotate: `${seededRotation(i + 7, 6)}deg`,
                 translate: `0px ${seededRotation(i + 3, 2)}vw`,
@@ -106,7 +113,15 @@ export function Hero() {
           ))}
         </motion.span>
       </motion.h1>
-
+      <div>
+        <Image
+          src={hero.camera.src}
+          alt={hero.camera.alt}
+          width={400}
+          height={400}
+          className="mx-auto mb-4 z-10"
+        />
+      </div>
       {/* Running heads */}
 
       {/* The pitch */}

@@ -41,7 +41,7 @@ export function CheckoutHeader() {
         {/* Wordmark */}
         <Link
           href="/"
-          aria-label="VHSMO — home"
+          aria-label="VHSMO - home"
           className="flex select-none flex-col items-center leading-none"
         >
           <span

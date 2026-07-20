@@ -4,7 +4,7 @@ import { MagneticButton } from "@/components/brand/MagneticButton";
 import { finalCta, RESERVE_HREF } from "@/lib/landing";
 
 /**
- * The ending. A scrapbook collage on white — a blue "welcome to the
+ * The ending. A scrapbook collage on white - a blue "welcome to the
  * club" panel, the yellow manifesto note, and one wide dark bar holding
  * the Kids Word sign-off beside a taped field photograph.
  */
@@ -17,7 +17,7 @@ export function FinalCta() {
       <div className="shell">
         <Reveal>
           <div className="flex flex-col gap-4 sm:gap-5">
-            {/* Top row — blue welcome + yellow manifesto */}
+            {/* Top row - blue welcome + yellow manifesto */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
               {/* Blue panel */}
               <div className="relative flex flex-col justify-center gap-6 overflow-hidden bg-bluehour p-6 sm:p-8 md:aspect-[16/10]">

@@ -21,7 +21,7 @@ type DevelopImageProps = {
 };
 
 /**
- * A photo that develops as it scrolls into view — starts washed out
+ * A photo that develops as it scrolls into view - starts washed out
  * and overexposed, settles into full density. Film in the tray.
  */
 export function DevelopImage({

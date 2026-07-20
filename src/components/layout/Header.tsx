@@ -19,7 +19,7 @@ const navLinks = [
   { label: "FAQ", href: "/#faq" },
 ];
 
-/** Default variant — mirrors the purchase panel's first swatch so the
+/** Default variant - mirrors the purchase panel's first swatch so the
  *  header Reserve merges into the same cart line. */
 const DEFAULT_VARIANT = "Blush";
 
@@ -47,7 +47,9 @@ export function Header() {
   // header picks up its dark backdrop on scroll.
   const lightTop =
     !!pathname &&
-    (pathname.startsWith("/product") || pathname.startsWith("/checkout"));
+    (pathname.startsWith("/product") ||
+      pathname.startsWith("/checkout") ||
+      pathname.startsWith("/legal"));
   const darkText = lightTop && !scrolled;
 
   useEffect(() => {

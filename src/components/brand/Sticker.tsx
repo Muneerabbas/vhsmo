@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 type StickerProps = {
   children: React.ReactNode;
-  /** Rotation in degrees — pass a seeded value, never uniform. */
+  /** Rotation in degrees - pass a seeded value, never uniform. */
   rotate?: number;
   variant?: "kodak" | "bluehour" | "paper" | "darkroom";
   size?: "sm" | "md" | "lg";
@@ -23,7 +23,7 @@ const sizeClasses: Record<NonNullable<StickerProps["size"]>, string> = {
 };
 
 /**
- * A slapped-on brand sticker — Kids Word lettering, ragged edges,
+ * A slapped-on brand sticker - Kids Word lettering, ragged edges,
  * cast shadow, wiggles when touched. The brand's graffiti mark.
  */
 export function Sticker({
@@ -49,7 +49,7 @@ export function Sticker({
 }
 
 /**
- * Circular starburst seal — the PDF's "Strategic Message" badge.
+ * Circular starburst seal - the PDF's "Strategic Message" badge.
  * Text sits centered inside a serrated disc.
  */
 export function StarburstSeal({

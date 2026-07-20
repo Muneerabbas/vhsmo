@@ -5,7 +5,7 @@ import { community } from "@/lib/landing";
 import { seededRotation } from "@/lib/random";
 
 /**
- * The corkboard — messages people sent us, pinned up as paper scraps
+ * The corkboard - messages people sent us, pinned up as paper scraps
  * between their photos. A scrapbook, not a testimonial wall.
  */
 export function Community() {
@@ -88,7 +88,7 @@ export function Community() {
 
         <Reveal className="mt-24 text-center">
           <Sticker rotate={2} size="md" variant="bluehour">
-            tag us — we print our favourites
+            tag us - we print our favourites
           </Sticker>
         </Reveal>
       </div>

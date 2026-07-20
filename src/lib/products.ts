@@ -27,7 +27,7 @@ export interface Accessory {
   name: string;
   description: string;
   price: number;
-  /** Named icon rendered on a kodak disc — no stock photography. */
+  /** Named icon rendered on a kodak disc - no stock photography. */
   icon: "strap" | "skin" | "battery" | "looks";
   comingSoon?: boolean;
 }
@@ -35,13 +35,13 @@ export interface Accessory {
 export const cameraProduct: Product = {
   id: "vhsmo-camera",
   slug: "vhsmo-camera",
-  name: "VHSMO Camera",
-  tagline: "A pocket camera with the soul of the 2000s.",
+  name: "VHSMO Vol. 1",
+  tagline: "A pocket camera with instant wireless transfer.",
   price: 4999,
   compareAtPrice: 6999,
   currency: "INR",
   depositNote:
-    "Reserve now to lock in the early price. Fully refundable — nothing's charged until it ships.",
+    "Reserve now to lock in the early price. Fully refundable if not shipped by September 15th 2026.",
   estimatedShipping: "First batch · ships 2026",
   images: [
     {
@@ -62,10 +62,10 @@ export const cameraProduct: Product = {
     },
   ],
   highlights: [
-    "True 2000s optics — no filters, no overlays",
-    "One button. No menus. No learning curve.",
-    "Wireless to your phone in seconds",
-    "Palm-sized — always in reach",
+    "Real 2000s-style photos. No filters. No overlays.",
+    "Screen-free. No menus. Stay in the moment.",
+    "Wireless to the VHSMO app in seconds.",
+    "Palm-sized. Cloud-free. Ready to go.",
   ],
 };
 
@@ -117,11 +117,79 @@ export const boxContents: { item: string; detail: string }[] = [
   { item: "Lifetime membership", detail: "Aperture Field Notes community" },
 ];
 
+/** A feature callout in the 3D inspect section. Selecting one glides the
+ *  orbit camera to `view` (spherical angles around the model, radians). */
+export interface InspectFeature {
+  id: string;
+  title: string;
+  detail: string;
+  view: { azimuth: number; polar: number; radius: number };
+}
+
+export const inspectFeatures: InspectFeature[] = [
+  {
+    id: "lens",
+    title: "True 2000s optics",
+    detail:
+      "A real CCD-era lens and flash that slightly soft, overexposed digicam look straight off the sensor. No filters faking it.",
+    view: { azimuth: 0.15, polar: 1.25, radius: 5.6 },
+  },
+  {
+    id: "button",
+    title: "One button",
+    detail:
+      "Point, press, done. No menus, no modes, no settings to scroll  the camera decides so you can stay in the moment.",
+    view: { azimuth: 0.35, polar: 0.5, radius: 6.4 },
+  },
+  {
+    id: "transfer",
+    title: "Instant transfer",
+    detail:
+      "Every shot lands in the VHSMO app within seconds of pressing the shutter. Shoot the night, post the night.",
+    view: { azimuth: Math.PI - 0.35, polar: 1.2, radius: 6.2 },
+  },
+  {
+    id: "pocket",
+    title: "Palm-sized body",
+    detail:
+      "Small enough for a jeans pocket, light enough to forget it's there  until the moment you don't want to miss.",
+    view: { azimuth: Math.PI / 2, polar: 1.45, radius: 7 },
+  },
+];
+
+/** Product-specific FAQ shown under the 3D inspect section. */
+export const productFaq: { q: string; a: string }[] = [
+  {
+    q: "Is this a film camera? Do I need to buy film?",
+    a: "No film, ever. VHSMO is digital with a sensor and lens tuned to shoot like the pocket cameras of the 2000s - you get the look without developing costs or waiting weeks for scans.",
+  },
+  {
+    q: "How do my photos get to my phone?",
+    a: "The camera pairs with the VHSMO app over wireless. Every shot appears in the app within seconds of taking it - no cables, no card readers, no exporting.",
+  },
+  {
+    q: "How long does the battery last?",
+    a: "A full night out and then some - hundreds of shots on one charge. When it does run flat, it charges over USB-C with the same cable as your phone.",
+  },
+  {
+    q: "How many photos can it hold?",
+    a: "Thousands. And since everything syncs to your phone as you shoot, the camera's storage is a backup, not a limit.",
+  },
+  {
+    q: "Will it survive a night out?",
+    a: "It's built for exactly that - a solid, pocket-proof body that shrugs off bags, jackets and dance floors. Treat it like your keys, not like glassware.",
+  },
+  {
+    q: "When does it ship, and can I get my money back?",
+    a: "First batch ships in 2026. Reserving locks the early price and is fully refundable - nothing is charged until your camera actually ships.",
+  },
+];
+
 export const accessories: Accessory[] = [
   {
     id: "acc-strap",
     name: "Wrist Strap",
-    description: "A woven cord that keeps VHSMO on you — not in a drawer.",
+    description: "A woven cord that keeps VHSMO on you - not in a drawer.",
     price: 299,
     icon: "strap",
   },

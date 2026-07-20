@@ -22,7 +22,7 @@ function AsteriskDoodle({ className }: { className?: string }) {
 }
 
 /**
- * Frame used only in this spread: a clean pinned print — white border,
+ * Frame used only in this spread: a clean pinned print - white border,
  * one strip of tape, caption underlined in yellow marker, and the
  * one-line story beneath. Straightens slightly on hover.
  */
@@ -63,11 +63,13 @@ function PinnedPrint({
           {circleAt >= 0 && circle ? (
             <>
               {photo.story.slice(0, circleAt)}
-              <span className="relative inline-block whitespace-nowrap">
+              {/* The nowrap + ink ellipse only fits once the cards are wide
+                  enough - on phones the sentence wraps like normal text. */}
+              <span className="relative inline sm:inline-block sm:whitespace-nowrap">
                 {circle}
                 <span
                   aria-hidden
-                  className="absolute -inset-x-2 -inset-y-1 -rotate-1 rounded-[50%] border-[1.5px] border-darkroom/80"
+                  className="absolute -inset-x-2 -inset-y-1 hidden -rotate-1 rounded-[50%] border-[1.5px] border-darkroom/80 sm:block"
                 />
               </span>
               {photo.story.slice(circleAt + circle.length)}
@@ -82,7 +84,7 @@ function PinnedPrint({
 }
 
 /**
- * The "why" spread — argument on the left page; a neat corkboard of
+ * The "why" spread - argument on the left page; a neat corkboard of
  * pinned prints, doodles, and a promise note on the right.
  */
 export function Story() {
@@ -99,10 +101,17 @@ export function Story() {
     circle?: string;
   }[] = [
     { photo: night, seed: 23, from: -5 },
-    { photo: golden, seed: 31, from: 4, offset: "sm:mt-10", circle: "The camera was already out." },
+    {
+      photo: golden,
+      seed: 31,
+      from: 4,
+      offset: "sm:mt-10",
+      circle: "The camera was already out.",
+    },
     { photo: route9, seed: 41, from: -3, offset: "sm:mt-4" },
     { photo: almostDeleted, seed: 53, from: 4, offset: "sm:-mt-2" },
     { photo: promiseShot, seed: 17, from: -4, offset: "sm:mt-8" },
+    { photo: route9, seed: 41, from: -3, offset: "sm:mt-4" },
   ];
 
   return (
@@ -113,7 +122,7 @@ export function Story() {
     >
       <div className="shell section-lg">
         <div className="grid grid-cols-12 gap-y-16 lg:gap-x-12">
-          {/* Left page — the argument */}
+          {/* Left page - the argument */}
           <div className="col-span-12 lg:col-span-4">
             <Reveal>
               <h2 className="display text-[clamp(2.1rem,3.4vw,3.6rem)] text-darkroom">
@@ -160,7 +169,7 @@ export function Story() {
             </Reveal>
           </div>
 
-          {/* Right page — the corkboard. Five distinct prints on a 3-column
+          {/* Right page - the corkboard. Five distinct prints on a 3-column
               grid; columns stagger vertically for a pinned-up feel while the
               gutters stay perfectly even. */}
           <div className="relative col-span-12 lg:col-span-8">

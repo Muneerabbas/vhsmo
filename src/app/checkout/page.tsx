@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useCart } from "@/lib/cart-context";
+import { usePersistedState } from "@/components/checkout/usePersistedState";
 import { emptyAddress, type Address } from "@/components/address/types";
 import {
   CHECKOUT_FIELDS,
@@ -24,16 +25,19 @@ export default function CheckoutPage() {
 
   // Email verification against the waitlist.
   const { email, setEmail, status: emailStatus } = useEmailVerification();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [firstName, setFirstName] = usePersistedState("checkout:firstName", "");
+  const [lastName, setLastName] = usePersistedState("checkout:lastName", "");
+  const [phone, setPhone] = usePersistedState("checkout:phone", "");
 
-  // Shipping address — entered manually, every field editable.
-  const [address, setAddress] = useState<Address>(emptyAddress);
+  // Shipping address - entered manually, every field editable.
+  const [address, setAddress] = usePersistedState<Address>(
+    "checkout:address",
+    emptyAddress,
+  );
   const patchAddress = (patch: Partial<Address>) =>
     setAddress((a) => ({ ...a, ...patch }));
 
-  // Validation — a field's error only shows once it's been touched or the
+  // Validation - a field's error only shows once it's been touched or the
   // user has attempted checkout.
   const [touched, setTouched] = useState<Set<CheckoutField>>(new Set());
   const [submitted, setSubmitted] = useState(false);
@@ -67,6 +71,17 @@ export default function CheckoutPage() {
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
   }
+
+  // On a completed order, empty the cart and wipe the persisted draft so the
+  // next visit starts clean.
+  const handleSuccess = () => {
+    clear();
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setPhone("");
+    setAddress(emptyAddress);
+  };
 
   if (isHydrated && items.length === 0) {
     return (
@@ -124,7 +139,7 @@ export default function CheckoutPage() {
           onAttemptCheckout={attemptCheckout}
           customer={{ firstName, lastName, email, phone }}
           address={address}
-          onSuccess={clear}
+          onSuccess={handleSuccess}
         />
       </form>
 

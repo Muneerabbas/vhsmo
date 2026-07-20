@@ -12,7 +12,7 @@ const reviews = [
     handle: "@film.by.sana",
   },
   {
-    quote: "Reserved mine already — the photos are on my phone before I've put it down.",
+    quote: "Reserved mine already - the photos are on my phone before I've put it down.",
     handle: "@shotbykaii",
   },
 ];

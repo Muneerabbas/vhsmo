@@ -13,7 +13,7 @@ import { shotOn } from "@/lib/landing";
 
 /*
  * Brand faces are Sequel Sans (display/body) and Kids Word (marker).
- * Sequel is commercial — Inter Tight is the closest free stand-in. Kids
+ * Sequel is commercial - Inter Tight is the closest free stand-in. Kids
  * Word is the licensed brand marker face, loaded locally.
  */
 const sequel = Inter_Tight({
@@ -34,11 +34,11 @@ const SITE_URL = "https://vhsmo.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "VHSMO — Play it. Live it. Rewind Nothing.",
+    default: "VHSMO - Play it. Live it. Rewind Nothing.",
     template: "%s · VHSMO",
   },
   description:
-    "A pocket camera with the soul of the 2000s. True retro lens, every shot on your phone in seconds, small enough to live in your jacket. Reserve yours — /2026.",
+    "A pocket camera with the soul of the 2000s. True retro lens, every shot on your phone in seconds, small enough to live in your jacket. Reserve yours - /2026.",
   keywords: [
     "VHSMO",
     "retro digital camera",
@@ -51,9 +51,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE_URL,
-    title: "VHSMO — Play it. Live it. Rewind Nothing.",
+    title: "VHSMO - Play it. Live it. Rewind Nothing.",
     description:
-      "A pocket camera with the soul of the 2000s. Reserve yours — /2026.",
+      "A pocket camera with the soul of the 2000s. Reserve yours - /2026.",
     siteName: "VHSMO",
     images: [
       {
@@ -66,9 +66,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "VHSMO — Play it. Live it. Rewind Nothing.",
+    title: "VHSMO - Play it. Live it. Rewind Nothing.",
     description:
-      "A pocket camera with the soul of the 2000s. Reserve yours — /2026.",
+      "A pocket camera with the soul of the 2000s. Reserve yours - /2026.",
   },
   alternates: { canonical: SITE_URL },
   robots: { index: true, follow: true },
@@ -84,7 +84,7 @@ const productJsonLd = {
   "@type": "Product",
   name: "VHSMO Pocket Camera",
   description:
-    "A pocket camera with the soul of the 2000s — true retro lens, instant wireless transfer, palm-sized build.",
+    "A pocket camera with the soul of the 2000s - true retro lens, instant wireless transfer, palm-sized build.",
   brand: { "@type": "Brand", name: "VHSMO" },
   offers: {
     "@type": "Offer",

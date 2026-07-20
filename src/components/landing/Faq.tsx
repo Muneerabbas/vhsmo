@@ -6,7 +6,7 @@ import { Reveal } from "@/components/brand/Reveal";
 import { faq } from "@/lib/landing";
 
 /**
- * The fine print, set as a ruled editorial index — hairlines, index
+ * The fine print, set as a ruled editorial index - hairlines, index
  * numbers, one accent. No boxes.
  */
 export function LandingFaq() {

@@ -12,7 +12,7 @@ export function ConfirmationScreen({ orderId }: { orderId: string }) {
           You&apos;re on the list.
         </h1>
         <p className="mt-4 max-w-md text-base leading-relaxed text-darkroom/60">
-          Your reservation is locked in — nothing&apos;s charged until it ships.
+          Your reservation is locked in - nothing&apos;s charged until it ships.
           We&apos;ve sent a confirmation to your email.
         </p>
         <p className="font-marker mt-6 -rotate-1 bg-kodak px-4 py-1.5 text-lg text-darkroom">

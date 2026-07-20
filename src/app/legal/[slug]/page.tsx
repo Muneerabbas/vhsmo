@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import { LegalPage } from "@/components/legal/LegalPage";
 import { LEGAL_DOCS, getLegalDoc } from "@/lib/legal";
 
-type Params = { params: Promise<{ slug: string }> };
+type Params = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ from?: string }>;
+};
 
 export function generateStaticParams() {
   return LEGAL_DOCS.map((doc) => ({ slug: doc.slug }));
@@ -20,9 +23,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function Page({ params }: Params) {
+export default async function Page({ params, searchParams }: Params) {
   const { slug } = await params;
+  const { from } = await searchParams;
   const doc = getLegalDoc(slug);
   if (!doc) notFound();
-  return <LegalPage doc={doc} />;
+  return <LegalPage doc={doc} from={from} />;
 }

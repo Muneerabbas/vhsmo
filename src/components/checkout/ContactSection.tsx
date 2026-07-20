@@ -110,7 +110,7 @@ export function ContactSection({
               >
                 {emailStatus === "checking" && "Checking waitlist…"}
                 {emailStatus === "verified" &&
-                  "Verified — you're on the waitlist."}
+                  "Verified - you're on the waitlist."}
                 {emailStatus === "notfound" &&
                   "This email isn't on the waitlist yet."}
               </p>

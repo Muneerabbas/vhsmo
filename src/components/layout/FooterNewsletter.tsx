@@ -5,7 +5,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 
 type Status = "idle" | "sending" | "done" | "error";
 
-/** "Stay in the loop" — footer signup that drops the email on the waitlist. */
+/** "Stay in the loop" - footer signup that drops the email on the waitlist. */
 export function FooterNewsletter() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -72,7 +72,7 @@ export function FooterNewsletter() {
       </form>
       {status === "error" && (
         <p className="status-rise mt-2 text-xs font-semibold text-red-500">
-          That didn&apos;t work — check the email and try again.
+          That didn&apos;t work - check the email and try again.
         </p>
       )}
     </div>

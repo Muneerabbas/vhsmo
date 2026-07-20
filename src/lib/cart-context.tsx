@@ -32,7 +32,7 @@ type CartAction =
   | { type: "clear" };
 
 const STORAGE_KEY = "aperture-cart-v1";
-const TAX_RATE = 0.0; // Placeholder — calculated at real checkout
+const TAX_RATE = 0.0; // Placeholder - calculated at real checkout
 const FREE_SHIPPING = true;
 
 function sameLine(a: CartItem, id: string, variant?: string) {

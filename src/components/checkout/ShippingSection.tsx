@@ -43,7 +43,7 @@ export function ShippingSection({
   errors,
   onBlurField,
 }: ShippingSectionProps) {
-  // Country is locked to India — its ISO seeds the dependent state/city lists.
+  // Country is locked to India - its ISO seeds the dependent state/city lists.
   const [countryIso] = useState("IN");
   const [stateIso, setStateIso] = useState("");
 

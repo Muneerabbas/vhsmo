@@ -1,6 +1,6 @@
 /**
  * Policy content for the footer legal pages. Editorial placeholder copy
- * written for VHSMO — a pre-order pocket camera brand shipping in India via
+ * written for VHSMO - a pre-order pocket camera brand shipping in India via
  * Razorpay (payments) and WARIQ Logistics (fulfilment). Review with counsel
  * before launch.
  */
@@ -80,13 +80,13 @@ export const LEGAL_DOCS: LegalDoc[] = [
         heading: "1. What we collect",
         body: [
           "When you reserve, check out, or join the waitlist, we collect your name, email address, phone number, and shipping address. When you pay, Razorpay processes your payment details on our behalf.",
-          "We also collect basic technical data — such as device and browsing information — to keep the site secure and working well.",
+          "We also collect basic technical data - such as device and browsing information - to keep the site secure and working well.",
         ],
       },
       {
         heading: "2. How we use it",
         body: [
-          "We use your information to process orders, arrange delivery through our logistics partner, send order and shipping updates, provide support, and — only if you opt in — send you product news.",
+          "We use your information to process orders, arrange delivery through our logistics partner, send order and shipping updates, provide support, and - only if you opt in - send you product news.",
         ],
       },
       {
@@ -178,7 +178,7 @@ export const LEGAL_DOCS: LegalDoc[] = [
       {
         heading: "4. Addresses & failed deliveries",
         body: [
-          "Please double-check your shipping address at checkout — we can't redirect a parcel once it's dispatched. If a delivery fails after multiple attempts, the parcel returns to us and we'll reach out to re-ship.",
+          "Please double-check your shipping address at checkout - we can't redirect a parcel once it's dispatched. If a delivery fails after multiple attempts, the parcel returns to us and we'll reach out to re-ship.",
         ],
       },
       {

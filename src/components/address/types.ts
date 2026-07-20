@@ -1,4 +1,4 @@
-/** Shipping address the checkout form holds — entered manually. */
+/** Shipping address the checkout form holds - entered manually. */
 export interface Address {
   apartment: string;
   street: string;

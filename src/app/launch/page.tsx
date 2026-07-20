@@ -13,7 +13,7 @@ import { Reveal } from "@/components/brand/Reveal";
 import { seededRotation } from "@/lib/random";
 import { TAGLINE, YEAR_MARK } from "@/lib/landing";
 
-// VHSMO goes live — July 25, 6:00 PM IST.
+// VHSMO goes live - July 25, 6:00 PM IST.
 const LAUNCH_DATE = new Date("2026-07-25T18:00:00+05:30");
 
 type Remaining = {
@@ -42,12 +42,12 @@ function getRemaining(): Remaining {
 type VerifyStatus = "idle" | "checking" | "verified" | "notfound" | "error";
 
 /**
- * The drop poster. Same magazine-scan language as the landing page —
- * taped prints, slapped stickers, running marquee bands — compressed
+ * The drop poster. Same magazine-scan language as the landing page -
+ * taped prints, slapped stickers, running marquee bands - compressed
  * into a single countdown spread.
  */
 export default function LaunchPage() {
-  // Countdown — computed on the client only to avoid hydration mismatch.
+  // Countdown - computed on the client only to avoid hydration mismatch.
   const [time, setTime] = useState<Remaining | null>(null);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function LaunchPage() {
 
   return (
     <div className="relative flex min-h-dvh flex-col overflow-hidden bg-darkroom text-halide">
-      {/* The scene — night-out photograph sunk into the darkroom */}
+      {/* The scene - night-out photograph sunk into the darkroom */}
       <div aria-hidden className="absolute inset-0">
         <Image
           src="/heroNew2.png"
@@ -88,12 +88,12 @@ export default function LaunchPage() {
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-30"
+          className="object-cover opacity-30 "
         />
         {/* <div className="absolute inset-0 bg-gradient-to-b from-darkroom/80 via-darkroom/55 to-darkroom" /> */}
       </div>
 
-      {/* Running head — the "now rolling" band, teased for the drop */}
+      {/* Running head - the "now rolling" band, teased for the drop */}
       <div className="relative z-10">
         <Marquee text={`launching july 25 · 6:00 pm ist ${YEAR_MARK}`} duration={24} />
       </div>
@@ -113,7 +113,7 @@ export default function LaunchPage() {
           </div>
         </Reveal>
 
-        {/* Wordmark — sprayed on, one letter at a time */}
+        {/* Wordmark - sprayed on, one letter at a time */}
         <Reveal delay={0.1} fromRotate={-2}>
           <h1
             aria-label="VHSMO"
@@ -149,7 +149,7 @@ export default function LaunchPage() {
           <p className="eyebrow mt-4 text-kodak">{TAGLINE.join(" ")}</p>
         </Reveal>
 
-        {/* Countdown — four prints taped to the page, or the live sticker */}
+        {/* Countdown - four prints taped to the page, or the live sticker */}
         {time?.done ? (
           <div className="mt-12 flex flex-col items-center gap-8">
             <Sticker size="lg" rotate={seededRotation(11, 4)}>
@@ -230,11 +230,11 @@ export default function LaunchPage() {
             </button>
           </form>
 
-          {/* Result — scribbled into the margin */}
+          {/* Result - scribbled into the margin */}
           <div className="mt-5 min-h-[1.75rem]">
             {status === "verified" && (
               <p className="status-rise font-marker inline-block -rotate-1 bg-green-600 px-3 py-1 text-sm text-white">
-                You&apos;re on the list — early access is yours.
+                You&apos;re on the list - early access is yours.
               </p>
             )}
             {status === "notfound" && (
@@ -244,7 +244,7 @@ export default function LaunchPage() {
             )}
             {status === "error" && (
               <p className="status-rise font-marker inline-block rounded-md bg-red-500/15 px-3 py-1 text-sm text-red-400">
-                Something went wrong — try again.
+                Something went wrong - try again.
               </p>
             )}
             {(status === "idle" || status === "checking") && (

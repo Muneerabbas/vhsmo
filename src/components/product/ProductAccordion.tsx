@@ -1,89 +1,188 @@
 "use client";
 
 import * as Accordion from "@radix-ui/react-accordion";
-import { Plus } from "lucide-react";
+import { Cable, Camera, Gift, MemoryStick, Plus } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 type Item = {
   title: string;
   body: React.ReactNode;
 };
 
+/** A single "what's inside" line - kodak disc icon, then the item. */
+function BoxItem({
+  icon: Icon,
+  children,
+}: {
+  icon: LucideIcon;
+  children: React.ReactNode;
+}) {
+  return (
+    <li className="flex items-center gap-3">
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-kodak/90">
+        <Icon className="size-4 text-darkroom" strokeWidth={2} />
+      </span>
+      <span className="text-darkroom/85">{children}</span>
+    </li>
+  );
+}
+
 const items: Item[] = [
   {
     title: "How It Works",
     body: (
-      <p>
-        Charge it, pocket it, press the one button. No menus, no previews, no
-        retakes — every shot lands in your phone&apos;s camera roll through the
-        VHSMO app seconds after you take it. You find out what you caught
-        later, and the finding out is half the joy.
-      </p>
+      <div className="space-y-4">
+        <p className="font-semibold text-darkroom">
+          Using VHSMO is as simple as using a disposable camera.
+        </p>
+        <p>
+          Frame your shot through the viewfinder and press the shutter.
+          That&apos;s it - no confusing menus, modes, or settings to worry
+          about.
+        </p>
+        <p>
+          When you&apos;re ready to view or share your photos, simply press the
+          Wi-Fi button on the back and open the VHSMO app. Your photos transfer
+          directly to your phone in seconds, with no internet required.
+        </p>
+        <p>
+          Prefer a cable? Plug the camera into your computer using USB-C to
+          browse and copy your photos instantly - no app needed.
+        </p>
+        <p>
+          And because there&apos;s no screen pulling you back in, you stay where
+          the memory is happening. No reviewing every shot. No chasing perfect.
+          Just capture it and keep living it.
+        </p>
+      </div>
     ),
   },
   {
-    title: "Free Returns",
+    title: "Reservation & Shipping Policy",
     body: (
-      <p>
-        7-day no-questions returns after delivery, with free shipping both
-        ways. Your reservation itself is fully refundable — nothing is charged
-        until the camera ships.
-      </p>
+      <div className="space-y-4">
+        <p className="font-semibold text-darkroom">
+          Lock in the first-batch price.
+        </p>
+        <p>
+          Reserve your VHSMO at the exclusive pre-order price while first-batch
+          stock lasts. VHSMO is currently in production, and all reserved units
+          are scheduled to ship by 15 September 2026.
+        </p>
+        <p>
+          If your order has not shipped by that date, you can request a full
+          refund - no questions asked.
+        </p>
+        <p className="font-semibold text-darkroom">
+          Free standard shipping across India.
+        </p>
+        <p>
+          We&apos;ll send you a production update before dispatch, followed by
+          tracking details once your VHSMO is on the way.
+        </p>
+      </div>
     ),
   },
   {
     title: "What's Inside",
     body: (
-      <ul className="space-y-2">
-        {[
-          ["VHSMO Camera", "in your choice of finish"],
-          ["Woven wrist cord", "so it stays on you, not in a drawer"],
-          ["USB-C charging cable", ""],
-          ["Quick-start card", "one side is enough"],
-          ["VHSMO sticker sheet", "slap them somewhere loud"],
-        ].map(([item, detail]) => (
-          <li key={item} className="flex gap-2">
-            <span className="font-semibold text-darkroom">{item}</span>
-            {detail && <span className="text-darkroom/60">— {detail}</span>}
-          </li>
-        ))}
-      </ul>
+      <div className="space-y-4">
+        <p>
+          Every VHSMO comes ready to start shooting straight out of the box.
+        </p>
+        <div>
+          <p className="font-semibold text-darkroom">Included with every camera:</p>
+          <ul className="mt-2.5 space-y-2">
+            <BoxItem icon={Camera}>VHSMO Camera</BoxItem>
+            <BoxItem icon={Cable}>USB-C charging and data cable</BoxItem>
+            <BoxItem icon={MemoryStick}>4GB microSD card, pre-installed</BoxItem>
+          </ul>
+        </div>
+        <div>
+          <p className="font-semibold text-darkroom">Limited-time pre-order bonus:</p>
+          <ul className="mt-2.5 space-y-2">
+            <BoxItem icon={Gift}>VHSMO lanyard</BoxItem>
+            <BoxItem icon={Gift}>Exclusive VHSMO sticker pack</BoxItem>
+          </ul>
+        </div>
+        <p className="font-marker text-darkroom">
+          Charge it. Turn it on. Start shooting.
+        </p>
+      </div>
     ),
   },
   {
     title: "Specs",
     body: (
-      <dl className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
-        {[
-          ["Lens", "Fixed-focus retro optic, true 2000s rendering"],
-          ["Flash", "Built-in, on by default — that's the look"],
-          ["Transfer", "Wireless to the VHSMO app in seconds"],
-          ["Battery", "USB-C rechargeable, weeks of shots per charge"],
-          ["Size", "Palm-sized, pocket-ready"],
-          ["Finishes", "Blush, Cream, Charcoal"],
-        ].map(([label, value]) => (
-          <div key={label} className="flex flex-col">
-            <dt className="text-xs font-semibold uppercase tracking-wide text-darkroom/50">
-              {label}
-            </dt>
-            <dd className="text-darkroom/85">{value}</dd>
-          </div>
-        ))}
-      </dl>
+      <div className="space-y-4">
+        <p>
+          Everything you need to capture the moment - without menus, settings or
+          distractions.
+        </p>
+        <dl className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
+          {[
+            ["Sensor", "5MP CMOS sensor"],
+            ["Lens", "Fixed-focus retro lens with a 71° field of view"],
+            ["Shooting", "Automatic exposure and white balance"],
+            ["Transfer", "Direct wireless transfer through the VHSMO app"],
+            ["USB-C", "Rechargeable battery and wired photo transfer"],
+            ["Viewfinder", "Classic optical viewfinder"],
+            ["Flash", "Built-in 2W LED flash"],
+            ["Storage", "4GB microSD card included"],
+          ].map(([label, value]) => (
+            <div key={label} className="flex flex-col">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-darkroom/50">
+                {label}
+              </dt>
+              <dd className="text-darkroom/85">{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="font-marker text-darkroom">
+          No screen. No filters. No overthinking. Just point, shoot and keep
+          living.
+        </p>
+      </div>
     ),
   },
   {
-    title: "Warranty",
+    title: "Warranty & Replacements",
     body: (
-      <p>
-        Every VHSMO ships with a 1-year warranty covering manufacturing
-        defects. If something&apos;s wrong that we caused, we repair or replace
-        it — simple as that.
-      </p>
+      <div className="space-y-4">
+        <p className="font-semibold text-darkroom">
+          Something we caused? We&apos;ll make it right.
+        </p>
+        <p>
+          Every VHSMO includes a 12-month limited warranty covering
+          manufacturing defects and hardware malfunctions under normal use.
+        </p>
+        <p>
+          <span className="font-semibold text-darkroom">Covered:</span>{" "}
+          Dead-on-arrival units, defects in materials or workmanship, and
+          factory-related hardware issues.
+        </p>
+        <p>
+          <span className="font-semibold text-darkroom">Not covered:</span>{" "}
+          Drops, water damage, misuse, unauthorized repairs, modifications, or
+          normal wear and tear.
+        </p>
+        <p>
+          To make a claim, email{" "}
+          <a
+            href="mailto:team@vhsmo.com"
+            className="font-semibold text-bluehour underline underline-offset-2"
+          >
+            team@vhsmo.com
+          </a>{" "}
+          with your order number and clear photos or videos of the issue. Once
+          verified, we&apos;ll arrange a repair or replacement.
+        </p>
+      </div>
     ),
   },
 ];
 
-/** The fine print, ruled like the FAQ — same hairlines, blue hover,
+/** The fine print, ruled like the FAQ - same hairlines, blue hover,
  *  same open/close motion. */
 export function ProductAccordion() {
   return (

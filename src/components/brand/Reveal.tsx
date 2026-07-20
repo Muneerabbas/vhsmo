@@ -13,7 +13,7 @@ type RevealProps = {
 };
 
 /**
- * Cinematic section reveal — rises, settles, no bounce.
+ * Cinematic section reveal - rises, settles, no bounce.
  */
 export function Reveal({
   children,

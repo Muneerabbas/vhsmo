@@ -15,7 +15,7 @@ import { LEGAL_DOCS } from "@/lib/legal";
 import { RESERVE_HREF } from "@/lib/landing";
 import { FooterNewsletter } from "./FooterNewsletter";
 
-/** Link columns — only destinations that actually exist on the site. */
+/** Link columns - only destinations that actually exist on the site. */
 const columns = [
   {
     title: "Shop",
@@ -46,7 +46,7 @@ const columns = [
   },
 ];
 
-/** Discord glyph — not in lucide, so drawn here. */
+/** Discord glyph - not in lucide, so drawn here. */
 function DiscordLogo({ className }: { className?: string }) {
   return (
     <svg aria-hidden viewBox="0 0 640 512" className={className} fill="currentColor">
@@ -102,7 +102,7 @@ function PaymentMarks() {
 }
 
 /**
- * The universal closing frame — brand + socials on the left, the site's real
+ * The universal closing frame - brand + socials on the left, the site's real
  * destinations in the middle, the waitlist signup on the right, and a trust
  * bar (Razorpay + payment rails + legal) underneath.
  */
@@ -119,7 +119,7 @@ export function Footer() {
           </Sticker>
         </div>
 
-        {/* Top zone — brand · links · newsletter */}
+        {/* Top zone - brand · links · newsletter */}
         <div className="grid gap-12 lg:grid-cols-[1.25fr_2fr_1.25fr] lg:gap-14">
           {/* Brand */}
           <div>

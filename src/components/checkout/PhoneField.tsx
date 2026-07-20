@@ -36,7 +36,7 @@ export function PhoneField({
               <span className="text-bluehour"> *</span>
             </span>
             <div className="flex items-center gap-2">
-              {/* Fixed India country code — not changeable. */}
+              {/* Fixed India country code - not changeable. */}
               <span className="-ml-0.5 shrink-0 py-0.5 text-sm font-semibold tabular-nums text-darkroom">
                 +91
               </span>

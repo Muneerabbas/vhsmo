@@ -16,7 +16,7 @@ const variantClasses: Record<NonNullable<MarqueeProps["variant"]>, string> = {
 };
 
 /**
- * Infinite strip of running microtext — the PDF's "now rolling" bands.
+ * Infinite strip of running microtext - the PDF's "now rolling" bands.
  * Pure CSS animation; pauses for prefers-reduced-motion.
  */
 export function Marquee({

@@ -12,7 +12,7 @@ type Person = {
 
 /**
  * An intern's name set inline in the story. Hover or focus the name and
- * their details develop into a small card floating above the word — like
+ * their details develop into a small card floating above the word - like
  * a caption surfacing off a contact sheet.
  */
 export function CrewName({ person }: { person: Person }) {

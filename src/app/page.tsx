@@ -5,6 +5,7 @@ import { InstantTransfer } from "@/components/landing/InstantTransfer";
 import { ShotOn } from "@/components/landing/ShotOn";
 import { Community } from "@/components/landing/Community";
 import { LandingFaq } from "@/components/landing/Faq";
+import { Inspect } from "@/components/landing/Inspect";
 import { FinalCta } from "@/components/landing/FinalCta";
 import { cameraProduct } from "@/lib/products";
 import { Gallery } from "@/components/product/Gallery";
@@ -15,15 +16,15 @@ import { ProductAccordion } from "@/components/product/ProductAccordion";
 /**
  * The landing page, read as one story rather than a stack of bands:
  *
- *   1. Hero            — the hook (full-bleed)
- *   2. Story           — why VHSMO exists
- *   3. Showcase        — the object, annotated with its three pillars
- *   4. InstantTransfer — the one feature that sells it: it's already on your phone
- *   5. ShotOn          — proof: real photos off the camera
- *   6. Community       — social proof: people's actual nights
- *   7. Reserve         — the buy (gallery + price + what's included)
- *   8. FAQ             — the last objections
- *   9. FinalCta        — the send-off
+ *   1. Hero            - the hook (full-bleed)
+ *   2. Story           - why VHSMO exists
+ *   3. Showcase        - the object, annotated with its three pillars
+ *   4. InstantTransfer - the one feature that sells it: it's already on your phone
+ *   5. ShotOn          - proof: real photos off the camera
+ *   6. Community       - social proof: people's actual nights
+ *   7. Reserve         - the buy (gallery + price + what's included)
+ *   8. FAQ             - the last objections
+ *   9. FinalCta        - the send-off
  *
  * Every section aligns to the `.shell` container; only the hero backdrop
  * and the gallery strips are allowed to bleed full-width.
@@ -38,7 +39,11 @@ export default function HomePage() {
       <ShotOn />
       {/* <Community /> */}
 
-      {/* Reserve — the object itself, gallery + price, then the feature strip */}
+      {/* Inspect - the camera as a 3D object: turn it over, hit a feature,
+          reserve it, get questions answered */}
+      <Inspect />
+
+      {/* Reserve - the object itself, gallery + price, then the feature strip */}
       <div id="reserve" className="paper scroll-mt-20">
         <section className="shell section">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">

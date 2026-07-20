@@ -2,10 +2,10 @@ import Link from "next/link";
 import { RazorpayLogo, WareIQLogo } from "./PartnerLogos";
 
 export const LEGAL_LINKS = [
-  { label: "Terms of Service", href: "/legal/terms" },
-  { label: "Privacy Policy", href: "/legal/privacy" },
-  { label: "Refund Policy", href: "/legal/refund" },
-  { label: "Shipping Policy", href: "/legal/shipping" },
+  { label: "Terms of Service", href: "/legal/terms?from=checkout" },
+  { label: "Privacy Policy", href: "/legal/privacy?from=checkout" },
+  { label: "Refund Policy", href: "/legal/refund?from=checkout" },
+  { label: "Shipping Policy", href: "/legal/shipping?from=checkout" },
 ];
 
 export function CheckoutFooter() {

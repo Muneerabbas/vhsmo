@@ -1,5 +1,5 @@
 /**
- * VHSMO landing page — the whole magazine issue, copy and assets.
+ * VHSMO landing page - the whole magazine issue, copy and assets.
  * Voice: fashion campaign, never spec sheet. Edit copy here, not in sections.
  */
 
@@ -10,10 +10,14 @@ export const TAGLINE = ["Play it.", "Live it.", "Rewind Nothing."];
 export const hero = {
   kicker: "Designed to be noticed · Built to last a lifetime",
   headline: "VHSMO",
-  sub: "A pocket camera with the soul of the 2000s.",
+  sub: "A screen-free pocket camera with the soul of 2000s.",
   cta: "Reserve yours",
   image: {
     src: "/heroNew2.png",
+    alt: "VHSMO camera in a cinematic scene",
+  },
+  camera: {
+    src: "/camera.png",
     alt: "VHSMO camera in a cinematic scene",
   },
 };
@@ -23,7 +27,7 @@ export const features = {
     {
       icon: "lens",
       title: "Retro lens",
-      body: "True 2000s optics — no filters, no overlays.",
+      body: "True 2000s optics - no filters, no overlays.",
     },
     {
       icon: "transfer",
@@ -33,7 +37,7 @@ export const features = {
     {
       icon: "pocket",
       title: "Pocket build",
-      body: "Palm-sized — always with you, always ready.",
+      body: "Palm-sized - always with you, always ready.",
     },
   ],
 };
@@ -42,8 +46,9 @@ export const story = {
   kicker: "Why we exist",
   pullQuote: "Cameras got smarter. Photos got emptier.",
   paragraphs: [
-    "Somewhere along the way, taking a picture stopped being a moment and started being a workflow. Fourteen apps. Nine filters. A grid of near-identical takes you'll never look at again.",
-    "VHSMO started as two founders in a rented garage and one stubborn idea: a camera you grabbed on the way out the door. One button. No preview worth trusting. You found out what you caught later — and the finding out was half the joy.",
+    "Somewhere along the way, photos became something to perfect instead of something to remember.",
+    "Yet the ones we treasure most are rarely perfect. They're blurry, overexposed, badly framed and unmistakably real.",
+    "That's the feeling we built VHSMO around. A screen-free camera that keeps you in the moment instead of pulling you out of it. No checking. No retaking. No chasing perfection. Just trust that the moment in front of you is already worth remembering.",
   ],
   crew: [
     {
@@ -89,7 +94,7 @@ export const story = {
       src: "/samples/sample-warm.jpg",
       alt: "Two friends in warm indoor light, shot on VHSMO",
       caption: "the one we almost deleted",
-      story: "Blurry, overexposed — and the only one that felt like that night.",
+      story: "Blurry, overexposed - and the only one that felt like that night.",
     },
     {
       src: "/vhsmoclicks/seven.avif",
@@ -108,7 +113,7 @@ export const instantTransfer = {
   app: {
     name: "The VHSMO App",
     description:
-      "Edit with our film filters, curate your moments, and relive them — exactly as you saw them.",
+      "Edit with our film filters, curate your moments, and relive them - exactly as you saw them.",
   },
   features: ["Film Filters", "Your Gallery", "Easy Sharing"],
   phone: {
@@ -136,7 +141,7 @@ export const instantTransfer = {
 export const careers = {
   kicker: "Join the crew",
   headline: "Create Your Own Career.",
-  body: "We're always on the lookout for creators & enthusiasts to join our team. If VHSMO sounds like the place for you, drop us your info — we'll be sure to reach out :)",
+  body: "We're always on the lookout for creators & enthusiasts to join our team. If VHSMO sounds like the place for you, drop us your info - we'll be sure to reach out :)",
   image: {
     src: "/buyproduct/usingvhsmo.jpg",
     alt: "A VHSMO creator shooting on the pink camera",
@@ -227,11 +232,11 @@ export const faq = {
   items: [
     {
       q: "What makes VHSMO different from other cameras?",
-      a: "It's the only camera of its kind: true vintage photos straight from the lens, and wireless delivery to your phone in seconds. Not the modern-now-disposable cycle — one object, built to last.",
+      a: "It's the only camera of its kind: true vintage photos straight from the lens, and wireless delivery to your phone in seconds. Not the modern-now-disposable cycle - one object, built to last.",
     },
     {
       q: "How do I transfer photos from the camera?",
-      a: "You don't, really — VHSMO does. Your photos transfer wirelessly to any phone, compatible with iOS and Android. No app gymnastics, no cables, no card readers.",
+      a: "You don't, really - VHSMO does. Your photos transfer wirelessly to any phone, compatible with iOS and Android. No app gymnastics, no cables, no card readers.",
     },
     {
       q: "Is the camera beginner-friendly?",
@@ -239,11 +244,11 @@ export const faq = {
     },
     {
       q: "What is the battery life of a VHSMO?",
-      a: "Built for full days, not full bars. A charge covers a weekend of normal shooting — trips, nights, and the in-between — and tops up over USB-C while you sleep.",
+      a: "Built for full days, not full bars. A charge covers a weekend of normal shooting - trips, nights, and the in-between - and tops up over USB-C while you sleep.",
     },
     {
       q: "When does it ship?",
-      a: "First batch ships in 2026. Reserving now holds your place in line — early reservations get the first cameras off the line.",
+      a: "First batch ships in 2026. Reserving now holds your place in line - early reservations get the first cameras off the line.",
     },
   ],
 };
@@ -256,7 +261,7 @@ export const finalCta = {
   lineOne: "The world keeps",
   lineTwo: "moving. Thanks for",
   lineThree: "pausing to look!",
-  sub: "First batch — /2026. Reserve yours before it's gone.",
+  sub: "First batch - /2026. Reserve yours before it's gone.",
   cta: "Reserve yours",
   photo: {
     src: "/buyproduct/usingvhsmo.jpg",

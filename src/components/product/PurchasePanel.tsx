@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { Check, RotateCcw, Star, Truck } from "lucide-react";
+import { Check, ShieldCheck, Truck } from "lucide-react";
 import { cameraProduct } from "@/lib/products";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
@@ -36,13 +35,6 @@ const colors = [
   { id: "Cream", swatch: "#ece4d3" },
   { id: "Charcoal", swatch: "#2a2422" },
 ] as const;
-
-const waitlistAvatars = [
-  "/vhsmoclicks/one.jpeg",
-  "/vhsmoclicks/two.avif",
-  "/vhsmoclicks/three.avif",
-  "/vhsmoclicks/five.avif",
-];
 
 export function PurchasePanel() {
   const { addItem } = useCart();
@@ -123,7 +115,7 @@ export function PurchasePanel() {
           <Truck className="size-4" /> Free shipping
         </span>
         <span className="flex items-center gap-2">
-          <RotateCcw className="size-4" /> 7-day returns
+          <ShieldCheck className="size-4" /> 12-month defect warranty
         </span>
       </div>
 
@@ -131,8 +123,8 @@ export function PurchasePanel() {
       <ul className="mt-6 space-y-2.5">
         {cameraProduct.highlights.map((h) => (
           <li key={h} className="flex items-start gap-2.5 text-[0.95rem] text-darkroom/85">
-            <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-kodak">
-              <Check className="size-3 text-darkroom" strokeWidth={3} />
+            <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-bluehour">
+              <Check className="size-3 text-overexpose" strokeWidth={3} />
             </span>
             {h}
           </li>
@@ -182,26 +174,7 @@ export function PurchasePanel() {
         {cameraProduct.depositNote}
       </p>
 
-      {/* Waitlist proof */}
-      <div className="mt-6 flex items-center gap-3">
-        <div className="flex">
-          {waitlistAvatars.map((src, i) => (
-            <span
-              key={i}
-              className="relative -ml-2 size-9 overflow-hidden rounded-full ring-2 ring-halide first:ml-0"
-            >
-              <Image src={src} alt="" fill sizes="36px" className="object-cover" />
-            </span>
-          ))}
-        </div>
-        <p className="text-sm leading-tight text-darkroom">
-          <span className="font-bold">22K+ creators</span>
-          <br />
-          <span className="text-darkroom/60">already holding a spot</span>
-        </p>
-      </div>
-
-      {/* The app, in one breath — pairs with the camera instead of its own section */}
+      {/* The app, in one breath - pairs with the camera instead of its own section */}
       <div className="mt-8 rounded-2xl bg-darkroom/[0.06] p-5">
         <div className="flex items-start gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[22%] bg-darkroom-deep shadow-[0.15rem_0.3rem_0.6rem_rgba(31,26,24,0.35)]">
@@ -210,7 +183,7 @@ export function PurchasePanel() {
           <div>
             <h3 className="font-bold text-darkroom">{instantTransfer.app.name}</h3>
             <p className="mt-0.5 text-sm leading-snug text-darkroom/75">
-              Every shot lands on your phone in seconds — then edit with film
+              Every shot lands on your phone in seconds - then edit with film
               filters and share straight from your gallery.
             </p>
           </div>

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-/** Footer newsletter — adds an email to the subscribers table. */
+/** Footer newsletter - adds an email to the subscribers table. */
 export async function POST(req: Request) {
   try {
     const { email } = await req.json();

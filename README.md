@@ -1,4 +1,4 @@
-# Aperture — Premium Camera Pre-order Landing
+# Aperture - Premium Camera Pre-order Landing
 
 A production-ready, conversion-focused launch site for a fictional premium camera
 brand, **Aperture Field One**. Built to feel like a hardware startup preparing for
@@ -9,9 +9,9 @@ launch (Apple / Leica / Teenage Engineering territory) rather than a generic sto
 - **Next.js 15** (App Router) + **React 19**
 - **TypeScript** (strict, `noUncheckedIndexedAccess`)
 - **Tailwind CSS v4** (CSS-first `@theme` config)
-- **Framer Motion** — scroll reveals, parallax, sticky storytelling, carousel
-- **GSAP** — available for future timeline work
-- **Lenis** — smooth scrolling (respects `prefers-reduced-motion`)
+- **Framer Motion** - scroll reveals, parallax, sticky storytelling, carousel
+- **GSAP** - available for future timeline work
+- **Lenis** - smooth scrolling (respects `prefers-reduced-motion`)
 - **shadcn/ui-style** primitives on **Radix UI** (Button, Accordion)
 - **lucide-react** icons
 
@@ -33,8 +33,8 @@ npm start        # serve the production build
 
 | Route       | Description                                                            |
 | ----------- | --------------------------------------------------------------------- |
-| `/`         | Home — hero, vision, sticky showcase, sample photos, features, journey, team, testimonials, FAQ, final pre-order |
-| `/product`  | Product — gallery, sticky purchase panel, specs, in-the-box, shipping/warranty, reviews, accessories, FAQ |
+| `/`         | Home - hero, vision, sticky showcase, sample photos, features, journey, team, testimonials, FAQ, final pre-order |
+| `/product`  | Product - gallery, sticky purchase panel, specs, in-the-box, shipping/warranty, reviews, accessories, FAQ |
 | `/sitemap.xml`, `/robots.txt` | Generated for SEO                                   |
 
 ## Architecture
@@ -67,7 +67,7 @@ across tabs via the `storage` event. Variants (camera finish) are tracked per li
 ### Adding a product / scaling
 
 All content lives in `lib/products.ts` and `lib/content.ts` as typed modules.
-The cart and components are product-agnostic — add entries to the data files (and,
+The cart and components are product-agnostic - add entries to the data files (and,
 for a multi-product catalogue, parameterise `/product/[slug]`) to scale.
 
 ## Trust & conversion
@@ -80,7 +80,7 @@ clearly-labelled placeholders ready to wire to a real payment/fulfilment backend
 ## Notes
 
 - Imagery uses Unsplash source URLs (configured in `next.config.ts`) for a
-  deterministic build — swap `src` values in the data files for brand photography.
+  deterministic build - swap `src` values in the data files for brand photography.
 - Animations honour `prefers-reduced-motion` globally.
 - Accessible: skip link, focus-visible rings, ARIA on interactive controls,
   semantic landmarks. SEO: per-route metadata, Open Graph, Product JSON-LD.

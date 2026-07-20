@@ -5,7 +5,7 @@ import { AlertCircle, Check, ChevronDown, Search } from "lucide-react";
 import { cardClass, controlClass, labelClass } from "./styles";
 
 export type LocationOption = {
-  /** Human-readable name — this is what gets submitted. */
+  /** Human-readable name - this is what gets submitted. */
   name: string;
   /** ISO code used internally to fetch dependent lists. */
   isoCode: string;

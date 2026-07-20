@@ -5,7 +5,7 @@ import { Scribble } from "@/components/brand/Scribble";
 import { MagneticButton } from "@/components/brand/MagneticButton";
 import { showcase, hero, features, RESERVE_HREF, TAGLINE, YEAR_MARK } from "@/lib/landing";
 
-/** Hand-drawn feature icons — rough marker marks, not clean geometry. */
+/** Hand-drawn feature icons - rough marker marks, not clean geometry. */
 function FeatureIcon({ name, className }: { name: string; className?: string }) {
   const common = {
     fill: "none",
@@ -55,7 +55,7 @@ function FeatureIcon({ name, className }: { name: string; className?: string }) 
   );
 }
 
-/** A wobbly marker connector — a dash and a dot, drawn toward the object. */
+/** A wobbly marker connector - a dash and a dot, drawn toward the object. */
 function Connector({ side }: { side: "left" | "right" }) {
   return (
     <svg
@@ -100,7 +100,7 @@ function Callout({
         (align === "right" ? "flex-row-reverse text-right" : "text-left")
       }
     >
-      {/* connector points inward — toward the centered object */}
+      {/* connector points inward - toward the centered object */}
       <Connector side={align === "right" ? "left" : "right"} />
       <div className={align === "right" ? "flex flex-row-reverse gap-4" : "flex gap-4"}>
         <span
@@ -126,7 +126,7 @@ function Callout({
  * "The Object," developed out of the darkroom. On near-black the pink
  * camera goes electric; a kodak spotlight blooms behind it and an inset
  * vignette dissolves the studio backdrop into the dark. The three pillars
- * frame it as annotated call-outs with hand-drawn marker connectors —
+ * frame it as annotated call-outs with hand-drawn marker connectors -
  * a product diagram in the brand's scrappy hand, not a spec grid.
  */
 export function Showcase() {
@@ -157,7 +157,7 @@ export function Showcase() {
           </div>
         </Reveal>
 
-        {/* The statement — quiet line, then loud line */}
+        {/* The statement - quiet line, then loud line */}
         <Reveal className="mx-auto mt-14 max-w-4xl text-center sm:mt-16">
           <h2 className="display text-[clamp(2.4rem,5.5vw,4.75rem)]">
             <span className="block text-halide/35">Small enough to forget.</span>
@@ -173,14 +173,14 @@ export function Showcase() {
 
         {/* The object, annotated. Center = camera, gutters = spec call-outs. */}
         <div className="mt-16 grid items-center gap-10 lg:mt-24 lg:grid-cols-[1fr_minmax(0,1.35fr)_1fr] lg:gap-6">
-          {/* Left gutter — the lens */}
+          {/* Left gutter - the lens */}
           {lens && (
             <Reveal className="hidden lg:flex lg:justify-end">
               <Callout pillar={lens} index={0} align="right" />
             </Reveal>
           )}
 
-          {/* Center — the object emerging from the dark */}
+          {/* Center - the object emerging from the dark */}
           <Reveal delay={0.1}>
             <div className="relative mx-auto w-full max-w-xl">
               {/* Kodak spotlight blooming behind the camera */}
@@ -206,7 +206,7 @@ export function Showcase() {
             </div>
           </Reveal>
 
-          {/* Right gutter — transfer + pocket */}
+          {/* Right gutter - transfer + pocket */}
           <div className="hidden lg:flex lg:flex-col lg:gap-12">
             {rest.map((pillar, i) => (
               <Reveal key={pillar.title} delay={0.16 + i * 0.08}>
@@ -215,7 +215,7 @@ export function Showcase() {
             ))}
           </div>
 
-          {/* Mobile / tablet — the same specs, stacked cleanly under the object */}
+          {/* Mobile / tablet - the same specs, stacked cleanly under the object */}
           <div className="grid gap-6 sm:grid-cols-3 lg:hidden">
             {features.items.map((pillar, i) => (
               <Reveal key={pillar.title} delay={i * 0.08}>

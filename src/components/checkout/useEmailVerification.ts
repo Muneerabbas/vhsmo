@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePersistedState } from "./usePersistedState";
 
 export type EmailStatus = "idle" | "checking" | "verified" | "notfound";
 
 /** Debounced check of the entered email against the waitlist. */
 export function useEmailVerification() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = usePersistedState("checkout:email", "");
   const [status, setStatus] = useState<EmailStatus>("idle");
   const isFormatValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 

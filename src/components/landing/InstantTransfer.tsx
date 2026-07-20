@@ -97,11 +97,11 @@ export function InstantTransfer() {
             </Reveal>
           </div>
 
-          {/* The hand-off — print, arrow, camera and phone share one frame,
+          {/* The hand-off - print, arrow, camera and phone share one frame,
               so the composition can't drift apart between breakpoints */}
           <div className="col-span-12 lg:col-span-8">
             <div className="relative flex flex-col items-center lg:block lg:min-h-[640px]">
-              {/* The escaping print — flies out of the camera (order 2 on
+              {/* The escaping print - flies out of the camera (order 2 on
                   mobile so the story reads camera → print → phone) */}
               <motion.div
                 className="relative z-20 order-2 mt-10 w-[42%] max-w-[9rem] lg:absolute lg:left-[7%] lg:top-[15%] lg:order-none lg:mt-0 lg:w-[22%] lg:max-w-[13rem]"
@@ -120,7 +120,7 @@ export function InstantTransfer() {
                 </div>
               </motion.div>
 
-              {/* Dashed flight path — from the print's top-right corner,
+              {/* Dashed flight path - from the print's top-right corner,
                   arcing up to land just beside the phone */}
               <svg
                 aria-hidden
@@ -164,7 +164,7 @@ export function InstantTransfer() {
                 className="order-1 mx-auto -mt-3 h-6 w-[45%] rounded-[50%] bg-darkroom/25 blur-md lg:absolute lg:bottom-[3%] lg:left-[9%] lg:mt-0 lg:w-[28%]"
               />
 
-              {/* Mobile-only transfer arrow — the print travelling down into
+              {/* Mobile-only transfer arrow - the print travelling down into
                   the phone, so the "instant transfer" motive is legible when
                   the desktop flight path can't fit */}
               <div aria-hidden className="order-3 mt-6 lg:hidden">
@@ -191,7 +191,7 @@ export function InstantTransfer() {
                 </motion.svg>
               </div>
 
-              {/* The phone — everything already arrived */}
+              {/* The phone - everything already arrived */}
               <div className="relative order-4 mx-auto mt-14 w-full max-w-[280px] sm:max-w-[300px] lg:order-none lg:ml-auto lg:mr-[1%] lg:mt-14">
                 <p className="font-marker absolute -top-12 left-1/2 z-10 w-max -translate-x-1/2 text-xl text-darkroom sm:text-2xl">
                   {instantTransfer.note}

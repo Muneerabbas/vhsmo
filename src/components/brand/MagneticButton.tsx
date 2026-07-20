@@ -14,7 +14,7 @@ type MagneticButtonProps = {
 
 /**
  * The reserve CTA. Leans toward the cursor within its hover zone and
- * presses down on click — tactile, like a shutter button.
+ * presses down on click - tactile, like a shutter button.
  */
 export function MagneticButton({
   href,

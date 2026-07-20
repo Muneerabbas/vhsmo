@@ -159,7 +159,7 @@ function SuccessContent() {
     .slice(-8)
     .toUpperCase();
 
-  // No valid order behind this id — show a dedicated "not found" page and
+  // No valid order behind this id - show a dedicated "not found" page and
   // never the thank-you / receipt.
   if (status === "error") {
     return (
@@ -262,7 +262,7 @@ function SuccessContent() {
         {/* ---------- Details ---------- */}
         {order && (
           <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_22rem]">
-            {/* Left — order items */}
+            {/* Left - order items */}
             <section className="overflow-hidden rounded-2xl border-2 border-darkroom/12 bg-overexpose shadow-[0_10px_40px_-24px_rgba(31,26,24,0.4)]">
               <header className="border-b border-darkroom/10 px-6 py-5">
                 <h2 className="flex items-center gap-2.5 text-lg font-bold text-darkroom">
@@ -334,7 +334,7 @@ function SuccessContent() {
               </div>
             </section>
 
-            {/* Right — address, payment, actions */}
+            {/* Right - address, payment, actions */}
             <aside className="space-y-6">
               <Card title="Shipping Address">
                 <p className="text-sm font-semibold text-darkroom">

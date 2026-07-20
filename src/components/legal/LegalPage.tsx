@@ -2,8 +2,14 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { LEGAL_DOCS, type LegalDoc } from "@/lib/legal";
 
-/** Rendered by every /legal/[slug] route — a clean editorial policy page. */
-export function LegalPage({ doc }: { doc: LegalDoc }) {
+/** Rendered by every /legal/[slug] route - a clean editorial policy page. */
+export function LegalPage({ doc, from }: { doc: LegalDoc; from?: string }) {
+  const fromCheckout = from === "checkout";
+  const backHref = fromCheckout ? "/checkout" : "/";
+  const backLabel = fromCheckout ? "Checkout" : "Home";
+  // Preserve the origin so navigating between policies keeps the return path.
+  const query = fromCheckout ? "?from=checkout" : "";
+
   return (
     <div className="paper min-h-dvh">
       <div className="container-px mx-auto max-w-3xl pt-28 pb-24 sm:pt-32">
@@ -12,8 +18,11 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
           aria-label="Breadcrumb"
           className="eyebrow flex items-center gap-2 text-darkroom/50"
         >
-          <Link href="/" className="transition-colors hover:text-darkroom">
-            Home
+          <Link
+            href={backHref}
+            className="transition-colors hover:text-darkroom"
+          >
+            {backLabel}
           </Link>
           <ChevronRight className="size-3" />
           <span className="text-darkroom">{doc.title}</span>
@@ -58,7 +67,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
             {LEGAL_DOCS.filter((d) => d.slug !== doc.slug).map((d) => (
               <Link
                 key={d.slug}
-                href={`/legal/${d.slug}`}
+                href={`/legal/${d.slug}${query}`}
                 className="text-sm font-semibold text-darkroom/60 transition-colors hover:text-darkroom"
               >
                 {d.title}

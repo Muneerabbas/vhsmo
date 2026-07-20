@@ -171,7 +171,7 @@ export function OrderSummary({
                   }),
                 );
               } catch {
-                // sessionStorage unavailable — page falls back to IDs only.
+                // sessionStorage unavailable - page falls back to IDs only.
               }
 
               onSuccess();

@@ -13,9 +13,9 @@ const boxItems: { label: string; image?: string; icon?: LucideIcon }[] = [
 ];
 
 const specs: { icon: LucideIcon; title: string; sub: string }[] = [
-  { icon: Aperture, title: "True 2000s optics", sub: "The warm bloom, kept — no filters." },
+  { icon: Aperture, title: "True 2000s optics", sub: "The warm bloom, kept - no filters." },
   { icon: MousePointerClick, title: "One button", sub: "No menus, no modes, no learning curve." },
-  { icon: ArrowLeftRight, title: "Wireless transfer", sub: "On your phone in seconds — iOS & Android." },
+  { icon: ArrowLeftRight, title: "Wireless transfer", sub: "On your phone in seconds - iOS & Android." },
   { icon: BatteryCharging, title: "All-day battery", sub: "A weekend of shooting. Tops up on USB-C." },
 ];
 

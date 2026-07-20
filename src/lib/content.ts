@@ -29,7 +29,7 @@ export const features: Feature[] = [
     icon: Aperture,
     title: "61MP full-frame",
     description:
-      "A sensor tuned for skin, light and shadow — not for spec sheets.",
+      "A sensor tuned for skin, light and shadow - not for spec sheets.",
   },
   {
     icon: Hand,
@@ -122,7 +122,7 @@ export const team: TeamMember[] = [
   {
     name: "Yuki Tanaka",
     role: "Head of Mechanical",
-    bio: "Makes things click — literally. Owns the feel of every moving part.",
+    bio: "Makes things click - literally. Owns the feel of every moving part.",
     image:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=600&q=80",
   },
@@ -268,7 +268,7 @@ export const preorderTrust: TrustItem[] = [
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Community — comments on reels + DMs                                 */
+/*  Community - comments on reels + DMs                                 */
 /* ------------------------------------------------------------------ */
 
 const avatar = (id: string) =>
