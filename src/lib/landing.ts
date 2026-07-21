@@ -74,33 +74,44 @@ export const story = {
   photos: [
     {
       src: "/story/story1.JPG",
-      alt: "A night out, caught in direct flash",
-      caption: "the night we didn't plan",
-      story: "Ten minutes before the party. Nobody said 'pose'.",
+      alt: "The first digicam shot that led to VHSMO",
+      caption: "the photo that started it",
+      story: "One digicam shot, one obvious problem, and the beginning of VHSMO.",
     },
     {
-      src: "/story/story2.HEIC",
-      alt: "A warm, grainy golden-hour moment shot on VHSMO",
-      caption: "golden hour, no retakes",
-      story: "The light lasted forty seconds. The camera was already out.",
+      src: "/story/story2.jpg",
+      alt: "The team celebrating VHSMO's first cheque with their mentors",
+      caption: "first big cheque",
+      story:
+        "Our first big win, shared with the mentors willing to bet on what it could become.",
     },
     {
-      src: "/story/story3.jpg",
-      alt: "An in-between moment shot on VHSMO, straight out of camera",
-      caption: "somewhere off route 9",
-      story: "We weren't even supposed to stop here.",
+      src: "/story/story3.png",
+      alt: "Friends piled together at night, shot on VHSMO Prototype Version 3.1",
+      caption: "an iconic night, in 3MP",
+      story:
+        "Captured on Prototype Version 3.1 of VHSMO - imperfect, unforgettable, and exactly how it felt.",
     },
     {
-      src: "/samples/sample-warm.jpg",
-      alt: "Two friends in warm indoor light, shot on VHSMO",
-      caption: "the one we almost deleted",
-      story: "Blurry, overexposed - and the only one that felt like that night.",
+      src: "/story/story4.avif",
+      alt: "A frame shot on VHSMO Prototype Version 2.3 with a 2MP lens",
+      caption: "the photo that put us on the map",
+      story:
+        "Shot on VHSMO Prototype Version 2.3 with a 2MP lens - the frame that started our social media journey.",
     },
     {
-      src: "/vhsmoclicks/seven.avif",
-      alt: "A quiet moment shot on VHSMO, straight out of camera",
-      caption: "no filters. promise.",
-      story: "Straight out of the camera. Every single time.",
+      src: "/story/story5.jpg",
+      alt: "An early 3D-printed VHSMO prototype held together by wires",
+      caption: "the version held together by wires",
+      story:
+        "An early VHSMO prototype - 3D-printed, hand-assembled, and built to prove the idea.",
+    },
+    {
+      src: "/story/story6.jpg",
+      alt: "A college dorm desk covered in unfinished VHSMO prototypes",
+      caption: "the original VHSMO HQ",
+      story:
+        "A college dorm desk, several unfinished prototypes, where VHSMO was soldered, tested, broken, and rebuilt.",
     },
   ],
 };

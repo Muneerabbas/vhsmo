@@ -88,11 +88,11 @@ function PinnedPrint({
  * pinned prints, doodles, and a promise note on the right.
  */
 export function Story() {
-  const [night, golden, route9, almostDeleted, promiseShot] = story.photos;
+  const [firstShot, cheque, mentors, onTheMap, wires, dormHQ] = story.photos;
 
-  // Five prints, three columns. The middle and right columns drop down a
+  // Six prints, three columns. The middle and right columns drop down a
   // little so the wall reads pinned-up rather than gridded, but every gutter
-  // stays even. The "golden hour" print carries the circled line.
+  // stays even. The "on the map" print carries the circled line.
   const corkboard: {
     photo?: StoryPhoto;
     seed: number;
@@ -100,18 +100,18 @@ export function Story() {
     offset?: string;
     circle?: string;
   }[] = [
-    { photo: night, seed: 23, from: -5 },
+    { photo: firstShot, seed: 23, from: -5 },
+    { photo: cheque, seed: 31, from: 4, offset: "sm:mt-10" },
+    { photo: mentors, seed: 41, from: -3, offset: "sm:mt-4" },
     {
-      photo: golden,
-      seed: 31,
+      photo: onTheMap,
+      seed: 53,
       from: 4,
-      offset: "sm:mt-10",
-      circle: "The camera was already out.",
+      offset: "sm:-mt-2",
+      circle: "a 2MP lens",
     },
-    { photo: route9, seed: 41, from: -3, offset: "sm:mt-4" },
-    { photo: almostDeleted, seed: 53, from: 4, offset: "sm:-mt-2" },
-    { photo: promiseShot, seed: 17, from: -4, offset: "sm:mt-8" },
-    { photo: route9, seed: 41, from: -3, offset: "sm:mt-4" },
+    { photo: wires, seed: 17, from: -4, offset: "sm:mt-8" },
+    { photo: dormHQ, seed: 11, from: 3, offset: "sm:mt-2" },
   ];
 
   return (
