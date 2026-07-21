@@ -21,7 +21,16 @@ export function LandingFaq() {
             answered.
           </h2>
           <p className="font-marker mt-8 rotate-[-2deg] text-lg text-darkroom/70">
-            still curious? write to us.
+            still curious? DM us on
+            <a
+              href="https://instagram.com/vhsmo.cam_"
+              target="_blank"
+              rel="noreferrer"
+              className="bg-kodak py-1 px-1 mt-1 block w-fit text-darkroom transition-colors hover:text-bluehour"
+            >
+              @vhsmo.cam_
+            </a>
+            <span className="mt-2 block">or write to us at</span>
             <a
               href="mailto:team@vhsmo.com"
               className="bg-kodak py-1 px-1 mt-1 block w-fit text-darkroom  transition-colors hover:text-bluehour"
@@ -54,7 +63,7 @@ export function LandingFaq() {
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content className="overflow-hidden data-[state=closed]:animate-[acc-up_0.25s_ease-out] data-[state=open]:animate-[acc-down_0.3s_ease-out]">
-                  <p className="max-w-prose pb-8 pl-14 pr-8 text-base leading-relaxed text-darkroom/80">
+                  <p className="max-w-prose whitespace-pre-line pb-8 pl-14 pr-8 text-base leading-relaxed text-darkroom/80">
                     {item.a}
                   </p>
                 </Accordion.Content>

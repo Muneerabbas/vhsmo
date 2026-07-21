@@ -7,6 +7,16 @@
       "runtimeArgs": ["run", "dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "aperture-isolated",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "NEXT_DIST_DIR=.next-isolated NODE_OPTIONS=--no-experimental-webstorage npx next dev --port $PORT"
+      ],
+      "port": 3100,
+      "autoPort": true
     }
   ]
 }

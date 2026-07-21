@@ -232,23 +232,31 @@ export const faq = {
   items: [
     {
       q: "What makes VHSMO different from other cameras?",
-      a: "It's the only camera of its kind: true vintage photos straight from the lens, and wireless delivery to your phone in seconds. Not the modern-now-disposable cycle - one object, built to last.",
+      a: "VHSMO gives you the look of a real 2000s digicam without the usual hassle. Pocket-sized and ready when the moment starts. No screen pulling you away. No menus. No filters. Just you, your people, and the memory as it happened - then your photos transfer to your phone in seconds, locally and cloud-free.",
     },
     {
       q: "How do I transfer photos from the camera?",
-      a: "You don't, really - VHSMO does. Your photos transfer wirelessly to any phone, compatible with iOS and Android. No app gymnastics, no cables, no card readers.",
+      a: "Press the WI-FI button on the camera & connect your VHSMO to the app and transfer your photos wirelessly over a direct local connection. No internet, cloud, or SD card reader needed.\n\nPrefer a cable? Connect the camera to a compatible device using USB-C for wired photo transfer.",
     },
     {
       q: "Is the camera beginner-friendly?",
-      a: "If you can press one button, you're overqualified. No settings, no modes, no learning curve. Point, press, keep living. The photo's on your phone before you've put the camera down.",
+      a: "Extremely. VHSMO handles exposure and white balance automatically, while the fixed-focus lens keeps things simple.\n\nNo settings. No menus. Just point and shoot.",
     },
     {
       q: "What is the battery life of a VHSMO?",
-      a: "Built for full days, not full bars. A charge covers a weekend of normal shooting - trips, nights, and the in-between - and tops up over USB-C while you sleep.",
+      a: "Built for days out, not battery anxiety. The 1000mAh battery is designed for everyday shooting and recharges over USB-C in around 90 minutes. Actual use will vary depending on how often you use the flash and wireless transfer.",
     },
     {
-      q: "When does it ship?",
-      a: "First batch ships in 2026. Reserving now holds your place in line - early reservations get the first cameras off the line.",
+      q: "Why doesn't VHSMO have a screen?",
+      a: "Because the best moments happen when you're actually in them.\n\nNo stopping to check. No deleting the imperfect ones. No turning a memory into a photoshoot. Just take the picture, stay with your people, and let the moment keep moving.\n\nYou'll see what you caught later in the VHSMO app - and sometimes, the surprise is the best part.",
+    },
+    {
+      q: "Why is there a wait for the pre-order batch?",
+      a: "This is VHSMO's first production run - not stock sitting in a warehouse. We've spent too long building this to rush the part that matters most. Every camera is being manufactured, assembled, tested, and quality-checked to make sure VHSMO is genuinely worth the wait.\n\nReserved units are scheduled to ship by late August 2026. If your order has not shipped by 15 September 2026, you can request a full refund - no questions asked. We'll also send you an update before dispatch.",
+    },
+    {
+      q: "Does VHSMO record video?",
+      a: "VHSMO is built for still photography - capturing real, unplanned moments in a single frame. It does not record video; it is designed to make every photograph feel like a memory worth keeping.",
     },
   ],
 };
