@@ -26,9 +26,7 @@ export type LegalDoc = {
   sections: LegalSection[];
 };
 
-const CONTACT = "support@vhsmo.com";
-
-/** Registered-entity details used by the Terms of Service. */
+/** Registered-entity details shared by every policy. */
 const LEGAL_CONTACT = "team@vhsmo.com";
 const REGISTERED_OFFICE =
   "H. No. 20, Nilaya Kapil, Aasmant Society, S. No. 124/3/4, Armament, Sutarwadi, Pune, Maharashtra – 411021, India";
@@ -547,38 +545,62 @@ export const LEGAL_DOCS: LegalDoc[] = [
     slug: "shipping",
     title: "Shipping Policy",
     updated: "July 2026",
-    intro:
-      "Everything you need to know about how, when, and where your VHSMO ships.",
+    intro: "This policy applies to orders placed directly through vhsmo.com.",
     sections: [
       {
-        heading: "1. Processing time",
+        heading: "1. Shipping within India",
         body: [
-          "In-stock orders are processed and handed to our courier within 24–48 hours. Pre-orders ship in the batch window shown at checkout.",
+          "VHSMO currently offers free standard shipping across India. Any additional delivery charge, if applicable, will be shown before payment.",
+          "Orders are delivered only to serviceable Indian PIN codes.",
         ],
       },
       {
-        heading: "2. Delivery & partners",
+        heading: "2. Pre-order dispatch",
         body: [
-          "Orders are fulfilled through WARIQ Logistics and their courier network. You'll receive a tracking link by email once your order is dispatched.",
-          "Delivery timelines vary by location but typically fall within 3–7 business days after dispatch for most serviceable pincodes.",
+          "VHSMO’s first pre-order batch is currently in production and is scheduled to begin shipping by late August 2026.",
+          "If your order has not shipped by 15 September 2026, you may request a full refund—no questions asked.",
+          "We will send you an update before dispatch and tracking details once your VHSMO is on the way.",
         ],
       },
       {
-        heading: "3. Shipping charges",
+        heading: "3. Fulfilment and delivery partners",
         body: [
-          "Standard shipping is free across India for camera orders. Any charges for expedited options are shown at checkout before payment.",
+          "We use third-party warehousing, fulfilment and courier providers to store, pack and deliver orders. The delivery partner may vary depending on your location, serviceability and operational availability.",
+          "The information required to complete delivery—such as your name, phone number, address and order details—may be shared with these providers in accordance with our Privacy Policy.",
+          "Although third-party providers handle fulfilment and last-mile delivery, your purchase remains with VHSMO. Contact us directly if something goes wrong, and we will coordinate tracking, claims and issue resolution. This reflects VHSMO’s current fulfilment arrangement, which provides for outbound shipping, last-mile delivery, tracking and claims coordination through logistics partners.",
         ],
       },
       {
-        heading: "4. Addresses & failed deliveries",
+        heading: "4. Delivery estimates",
         body: [
-          "Please double-check your shipping address at checkout - we can't redirect a parcel once it's dispatched. If a delivery fails after multiple attempts, the parcel returns to us and we'll reach out to re-ship.",
+          "Delivery estimates begin after dispatch and will appear in your tracking information. They are estimates, not guaranteed arrival dates.",
+          "Delays may occur because of courier operations, weather, regional restrictions, public holidays, transport disruptions or other circumstances outside our reasonable control. We will assist with delayed shipments and provide updates where available.",
         ],
       },
       {
-        heading: "5. Questions",
+        heading: "5. Delivery address and failed attempts",
         body: [
-          `For anything shipping-related, email ${CONTACT} with your order ID.`,
+          "Please provide a complete and accurate delivery address and an active phone number.",
+          "VHSMO is not responsible for delays caused by incorrect or incomplete information. If a parcel is returned because of an incorrect address, refusal of delivery or repeated failed attempts, actual re-shipping charges may apply.",
+        ],
+      },
+      {
+        heading: "6. Lost, damaged or incorrect shipments",
+        body: [
+          `If your order arrives visibly damaged, contains the wrong product or appears to be lost in transit, email ${LEGAL_CONTACT} with your order number and supporting photographs or video.`,
+          "We will investigate the issue with our fulfilment and courier partners and arrange an appropriate replacement or refund where applicable. Your rights regarding defective, damaged or incorrectly supplied goods remain protected under applicable Indian consumer law.",
+        ],
+      },
+      {
+        heading: "7. Contact",
+        body: [
+          "For shipping or delivery support:",
+          [
+            "VHSMO LLP",
+            `Email: ${LEGAL_CONTACT}`,
+            "LLPIN: ACT-8214",
+            `Registered office: ${REGISTERED_OFFICE}`,
+          ],
         ],
       },
     ],

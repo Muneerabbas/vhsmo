@@ -11,10 +11,13 @@ import { Scribble } from "@/components/brand/Scribble";
 import { MagneticButton } from "@/components/brand/MagneticButton";
 import { Reveal } from "@/components/brand/Reveal";
 import { seededRotation } from "@/lib/random";
-import { TAGLINE, YEAR_MARK } from "@/lib/landing";
+import { TAGLINE } from "@/lib/landing";
 
 // VHSMO goes live - July 25, 6:00 PM IST.
 const LAUNCH_DATE = new Date("2026-07-25T18:00:00+05:30");
+
+/** The line both marquee bands run - the Marquee uppercases it. */
+const LAUNCH_BANNER = "launching july 25 2026: 6:00 pm ist";
 
 type Remaining = {
   days: number;
@@ -95,7 +98,7 @@ export default function LaunchPage() {
 
       {/* Running head - the "now rolling" band, teased for the drop */}
       <div className="relative z-10">
-        <Marquee text={`launching july 25 · 6:00 pm ist ${YEAR_MARK}`} duration={24} />
+        <Marquee text={LAUNCH_BANNER} duration={24} />
       </div>
 
   
@@ -277,7 +280,12 @@ export default function LaunchPage() {
 
       {/* Closing band */}
       <div className="relative z-10">
-        <Marquee text="rewind nothing" duration={32} reverse variant="darkroom" />
+        <Marquee
+          text={LAUNCH_BANNER}
+          duration={32}
+          reverse
+          variant="darkroom"
+        />
       </div>
     </div>
   );
