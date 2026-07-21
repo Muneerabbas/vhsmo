@@ -73,19 +73,19 @@ export const story = {
   note: "that's what made it real.",
   photos: [
     {
-      src: "/vhsmoclicks/two.avif",
+      src: "/story/story1.JPG",
       alt: "A night out, caught in direct flash",
       caption: "the night we didn't plan",
       story: "Ten minutes before the party. Nobody said 'pose'.",
     },
     {
-      src: "/vhsmoclicks/five.avif",
+      src: "/story/story2.HEIC",
       alt: "A warm, grainy golden-hour moment shot on VHSMO",
       caption: "golden hour, no retakes",
       story: "The light lasted forty seconds. The camera was already out.",
     },
     {
-      src: "/vhsmoclicks/three.avif",
+      src: "/story/story3.jpg",
       alt: "An in-between moment shot on VHSMO, straight out of camera",
       caption: "somewhere off route 9",
       story: "We weren't even supposed to stop here.",

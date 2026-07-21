@@ -126,7 +126,7 @@ const items: Item[] = [
             ["Shooting", "Automatic exposure and white balance"],
             ["Transfer", "Direct wireless transfer through the VHSMO app"],
             ["USB-C", "Rechargeable battery and wired photo transfer"],
-            ["Viewfinder", "Classic optical viewfinder"],
+            ["Viewfinder", "Classic 35MM optical viewfinder"],
             ["Flash", "Built-in 2W LED flash"],
             ["Storage", "4GB microSD card included"],
           ].map(([label, value]) => (
@@ -139,7 +139,7 @@ const items: Item[] = [
           ))}
         </dl>
         <p className="font-marker text-darkroom">
-          No screen. No filters. No overthinking. Just point, shoot and keep
+          No screen. No filters. Just point, shoot and keep
           living.
         </p>
       </div>
