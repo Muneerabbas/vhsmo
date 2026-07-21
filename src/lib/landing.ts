@@ -264,11 +264,13 @@ export const faq = {
 export const finalCta = {
   welcome: "welcome to\nthe club!!!!!!",
   population:
-    "Population: you, us, and everyone tired of looking perfect in every photo. Go make something worth being blurry.",
+    "Population: you, us, and everyone who knows the imperfect ones usually mean the most.",
+  closer: "You made it to the end. That probably means you get it.",
+  welcomeLine: "Welcome to the club.",
   wordmark: "VHSMO",
-  lineOne: "The world keeps",
-  lineTwo: "moving. Thanks for",
-  lineThree: "pausing to look!",
+  lineOne: "The world keeps moving.",
+  lineTwo: "Stay in the moment.",
+  lineThree: "Capture the memory.",
   sub: "First batch - /2026. Reserve yours before it's gone.",
   cta: "Reserve yours",
   photo: {

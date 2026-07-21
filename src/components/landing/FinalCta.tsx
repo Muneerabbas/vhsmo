@@ -93,11 +93,11 @@ export function FinalCta() {
                 </svg>
 
                 <h3 className="font-marker relative z-10 -rotate-[4deg] text-left text-[clamp(1.5rem,4.5vw,2.6rem)] leading-[0.95] text-overexpose drop-shadow-[0.12rem_0.2rem_0_rgba(31,26,24,0.35)]">
-                  The world keeps
+                  {finalCta.lineOne}
                   <br />
-                  moving. Thanks for
+                  {finalCta.lineTwo}
                   <br />
-                  pausing to look!
+                  {finalCta.lineThree}
                 </h3>
                 <div className="relative z-10 self-end">
                   <MagneticButton
@@ -112,9 +112,14 @@ export function FinalCta() {
 
               {/* Yellow panel */}
               <div className="flex flex-col justify-between bg-kodak p-8 md:aspect-[16/10]">
-                <p className="max-w-xl text-[clamp(1.15rem,1.9vw,1.7rem)] font-semibold leading-[1.2] tracking-tight text-darkroom">
-                  {finalCta.population}
-                </p>
+                <div className="flex max-w-xl flex-col gap-4 text-[clamp(1.15rem,1.9vw,1.7rem)] font-semibold leading-[1.2] tracking-tight text-darkroom">
+                  <p>{finalCta.population}</p>
+                  <p>
+                    {finalCta.closer}
+                    <br />
+                    {finalCta.welcomeLine}
+                  </p>
+                </div>
                 <span
                   aria-hidden
                   className="font-marker mt-6 self-end text-2xl text-darkroom sm:text-3xl -rotate-[15deg]"

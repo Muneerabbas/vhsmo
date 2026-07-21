@@ -9,7 +9,6 @@ import {
   Youtube,
 } from "lucide-react";
 import { Scribble } from "@/components/brand/Scribble";
-import { Sticker } from "@/components/brand/Sticker";
 import { RazorpayLogo } from "@/components/checkout/PartnerLogos";
 import { LEGAL_DOCS } from "@/lib/legal";
 import { RESERVE_HREF } from "@/lib/landing";
@@ -23,7 +22,6 @@ const columns = [
     links: [
       { label: "Pre-order Now", href: RESERVE_HREF },
       { label: "The Camera", href: "/product" },
-      { label: "Shipping Info", href: "/legal/shipping" },
     ],
   },
   {
@@ -32,7 +30,6 @@ const columns = [
     links: [
       { label: "Our Story", href: "/#story" },
       { label: "Shot on VHSMO", href: "/#photos" },
-      { label: "Community", href: "/#community" },
     ],
   },
   {
@@ -41,7 +38,6 @@ const columns = [
     links: [
       { label: "FAQ", href: "/#faq" },
       { label: "Contact Us", href: "mailto:support@vhsmo.com" },
-      { label: "Refund Policy", href: "/legal/refund" },
     ],
   },
 ];
@@ -112,13 +108,6 @@ export function Footer() {
   return (
     <footer className="paper relative overflow-hidden border-t border-darkroom/10">
       <div className="shell relative pt-16 pb-10 sm:pt-20">
-        {/* Slapped-on brand label */}
-        <div className="absolute right-[clamp(1.375rem,4vw,5rem)] top-8 hidden lg:block">
-          <Sticker rotate={-2.5} size="sm">
-            that&apos;s what made it real.
-          </Sticker>
-        </div>
-
         {/* Top zone - brand · links · newsletter */}
         <div className="grid gap-12 lg:grid-cols-[1.25fr_2fr_1.25fr] lg:gap-14">
           {/* Brand */}
@@ -131,9 +120,9 @@ export function Footer() {
               VHSMO
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-darkroom/70">
-              A new kind of camera experience.
+              Retro photography like never before.
               <br />
-              Real moments. No filters. Just you.
+              Real moments. No filters.
             </p>
             <ul className="mt-6 flex items-center gap-3">
               {socials.map(({ label, href, Icon }) => (
@@ -222,7 +211,7 @@ export function Footer() {
                 href={`/legal/${doc.slug}`}
                 className="transition-colors hover:text-darkroom"
               >
-                {doc.title}
+                {doc.navLabel ?? doc.title}
               </Link>
             </span>
           ))}

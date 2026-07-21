@@ -360,7 +360,6 @@ export default function CameraViewer({ view, autoRotate, onInteract }: CameraVie
         camera={{ position: initial, fov: 32, near: 0.1, far: 60 }}
         gl={{
           antialias: true,
-          preserveDrawingBuffer: true, // TEMP: pixel measurement
           // Transparent by default - no <color attach="background"> on the
           // root scene, so the page shows through. The dark surround above
           // lives only inside the environment cubemap.
@@ -378,7 +377,7 @@ export default function CameraViewer({ view, autoRotate, onInteract }: CameraVie
           // so the body renders the pink that's actually in the GLB.
           // Swap back to THREE.ACESFilmicToneMapping for a filmic look.
           toneMapping: THREE.NeutralToneMapping,
-          toneMappingExposure: 1.0,
+          toneMappingExposure: 1.2,
         }}
         fallback={<NoWebGLFallback />}
         aria-label="Interactive 3D model of the VHSMO camera. Drag to rotate, scroll to zoom."

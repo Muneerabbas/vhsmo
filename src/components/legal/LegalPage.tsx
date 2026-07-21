@@ -47,14 +47,25 @@ export function LegalPage({ doc, from }: { doc: LegalDoc; from?: string }) {
                 {section.heading}
               </h2>
               <div className="mt-3 space-y-3">
-                {section.body.map((para, i) => (
-                  <p
-                    key={i}
-                    className="text-[0.95rem] leading-relaxed text-darkroom/75"
-                  >
-                    {para}
-                  </p>
-                ))}
+                {section.body.map((block, i) =>
+                  Array.isArray(block) ? (
+                    <ul
+                      key={i}
+                      className="list-disc space-y-1.5 pl-5 text-[0.95rem] leading-relaxed text-darkroom/75 marker:text-darkroom/40"
+                    >
+                      {block.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      key={i}
+                      className="text-[0.95rem] leading-relaxed text-darkroom/75"
+                    >
+                      {block}
+                    </p>
+                  ),
+                )}
               </div>
             </section>
           ))}
@@ -70,7 +81,7 @@ export function LegalPage({ doc, from }: { doc: LegalDoc; from?: string }) {
                 href={`/legal/${d.slug}${query}`}
                 className="text-sm font-semibold text-darkroom/60 transition-colors hover:text-darkroom"
               >
-                {d.title}
+                {d.navLabel ?? d.title}
               </Link>
             ))}
           </nav>
