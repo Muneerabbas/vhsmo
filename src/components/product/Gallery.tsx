@@ -204,6 +204,15 @@ export function Gallery() {
               </p>
             )}
           </div>
+
+          {/* Honesty note - the swatches drive one material in a real-time
+              render, so the shell reads close to the finish but not exact */}
+          {showModel && (
+            <p className="mt-3 text-center text-xs leading-relaxed text-darkroom/55">
+              Note: this is a 3D render, not a photograph of the product. Actual
+              colours and finish may vary.
+            </p>
+          )}
         </div>
       </div>
 

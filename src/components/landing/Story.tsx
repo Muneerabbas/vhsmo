@@ -146,27 +146,6 @@ export function Story() {
                 </p>
               ))}
             </Reveal>
-
-            {/* The takeaway, framed in crop marks */}
-            <Reveal delay={0.2} className="mt-12">
-              <span className="relative inline-block px-5 py-4">
-                {[
-                  "left-0 top-0 border-l-2 border-t-2",
-                  "right-0 top-0 border-r-2 border-t-2",
-                  "bottom-0 left-0 border-b-2 border-l-2",
-                  "bottom-0 right-0 border-b-2 border-r-2",
-                ].map((corner) => (
-                  <span
-                    key={corner}
-                    aria-hidden
-                    className={`absolute h-4 w-4 border-darkroom ${corner}`}
-                  />
-                ))}
-                <span className="font-marker bg-kodak px-2 py-0.5 text-xl text-darkroom sm:text-2xl">
-                  {story.note}
-                </span>
-              </span>
-            </Reveal>
           </div>
 
           {/* Right page - the corkboard. Five distinct prints on a 3-column

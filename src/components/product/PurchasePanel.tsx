@@ -179,32 +179,24 @@ export function PurchasePanel() {
           <div>
             <h3 className="font-bold text-darkroom">{instantTransfer.app.name}</h3>
             <p className="mt-0.5 text-sm leading-snug text-darkroom/75">
-              Every shot lands on your phone in seconds - then edit with film
-              filters and share straight from your gallery.
+              {instantTransfer.app.description}
             </p>
           </div>
         </div>
+        {/* Badges are inert until the app ships - nothing to link to yet */}
         <div className="mt-4 flex flex-wrap items-center gap-2.5">
-          <a
-            href="#"
-            aria-label="Download on the App Store"
-            className="flex items-center gap-2 rounded-lg bg-darkroom-deep px-3 py-3 text-overexpose transition-transform hover:scale-[1.03]"
-          >
+          <span className="flex items-center gap-2 rounded-lg bg-darkroom-deep/60 px-3 py-3 text-overexpose/70">
             <AppleLogo />
             <span className="leading-tight">
               <span className="block text-sm font-semibold">App Store</span>
             </span>
-          </a>
-          <a
-            href="#"
-            aria-label="Get it on Google Play"
-            className="flex items-center gap-2 rounded-lg bg-darkroom-deep px-3 py-3 text-overexpose transition-transform hover:scale-[1.03]"
-          >
+          </span>
+          <span className="flex items-center gap-2 rounded-lg bg-darkroom-deep/60 px-3 py-3 text-overexpose/70">
             <PlayLogo />
             <span className="leading-tight">
               <span className="block text-sm font-semibold">Google Play</span>
             </span>
-          </a>
+          </span>
         </div>
       </div>
     </div>

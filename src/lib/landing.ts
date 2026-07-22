@@ -73,7 +73,6 @@ export const story = {
       fact: "60 foam prototypes, 1 keeper.",
     },
   ],
-  note: "that's what made it real.",
   photos: [
     {
       src: "/story/story1.JPG",
@@ -125,9 +124,9 @@ export const instantTransfer = {
   body: "No cables. No card readers. No transfers. Every shot lands in your camera roll in seconds, while the night keeps going.",
   note: "it's already there",
   app: {
-    name: "The VHSMO App",
+    name: "VHSMO App",
     description:
-      "Edit with our film filters, curate your moments, and relive them - exactly as you saw them.",
+      "Your photos, on your phone in seconds - ready to view, organise, edit and share. Coming soon to iOS and Android.",
   },
   features: ["Film Filters", "Your Gallery", "Easy Sharing"],
   phone: {
@@ -302,7 +301,7 @@ export const faq = {
 export const finalCta = {
   welcome: "welcome to\nthe club!!!!!!",
   population:
-    "Population: you, us, and everyone who knows the imperfect ones usually mean the most.",
+    "Population: you, us, and everyone who know the imperfect ones usually mean the most.",
   closer: "You made it to the end. That probably means you get it.",
   welcomeLine: "Welcome to the club.",
   wordmark: "VHSMO",
