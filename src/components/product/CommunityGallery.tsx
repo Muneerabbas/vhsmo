@@ -5,11 +5,11 @@ import { Reveal } from "@/components/brand/Reveal";
 import { YEAR_MARK } from "@/lib/landing";
 
 const shots = [
-  { src: "/vhsmoclicks/one.jpeg", handle: "@jaden.visuals", likes: 241 },
-  { src: "/vhsmoclicks/two.avif", handle: "@film.by.sana", likes: 198 },
-  { src: "/vhsmoclicks/three.avif", handle: "@analog.archive", likes: 165 },
-  { src: "/vhsmoclicks/four.avif", handle: "@shotbykaii", likes: 201 },
-  { src: "/vhsmoclicks/five.avif", handle: "@luvv.shots", likes: 183 },
+  { src: "/vhsmoclicks/one.jpg", handle: "@jaden.visuals", likes: 241 },
+  { src: "/vhsmoclicks/two.JPEG", handle: "@film.by.sana", likes: 198 },
+  { src: "/vhsmoclicks/three.jpg", handle: "@analog.archive", likes: 165 },
+  { src: "/vhsmoclicks/four.jpeg", handle: "@shotbykaii", likes: 201 },
+  { src: "/vhsmoclicks/five.JPG", handle: "@luvv.shots", likes: 183 },
 ];
 
 export function CommunityGallery() {

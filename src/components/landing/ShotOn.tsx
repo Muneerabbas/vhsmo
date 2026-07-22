@@ -109,7 +109,12 @@ function GalleryTrack({
 }
 
 export function ShotOn() {
-  const photos = shotOn.photos;
+  // Split the roll across the two rows rather than repeating the whole set in
+  // each - with 26 prints, reusing every photo per track quadruples the DOM
+  // for no visual gain.
+  const mid = Math.ceil(shotOn.photos.length / 2);
+  const topRow = shotOn.photos.slice(0, mid);
+  const bottomRow = shotOn.photos.slice(mid);
 
   return (
     <section
@@ -137,14 +142,14 @@ export function ShotOn() {
       {/* Auto-scrolling gallery - two rows drifting in opposite directions */}
       <div className="relative flex flex-col gap-14 md:gap-20">
         <GalleryTrack
-          photos={photos}
+          photos={topRow}
           direction="left"
           rotSeed={3}
           durationMs={80000}
           tapeFor={(i) => (i % 2 === 0 ? "top" : "corners")}
         />
         <GalleryTrack
-          photos={[...photos].reverse()}
+          photos={[...bottomRow].reverse()}
           direction="right"
           rotSeed={7}
           durationMs={88000}
