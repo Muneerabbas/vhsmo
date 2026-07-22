@@ -9,6 +9,7 @@ import { SiteChrome } from "@/components/layout/SiteChrome";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Marquee } from "@/components/brand/Marquee";
 import { shotOn } from "@/lib/landing";
 
@@ -110,6 +111,7 @@ export default function RootLayout({
         <CartProvider>
           <SmoothScroll />
           <Analytics />
+          <SpeedInsights />
 
           <a
             href="#main"
