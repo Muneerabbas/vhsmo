@@ -8,102 +8,167 @@ import { shotOn } from "@/lib/landing";
 import { seededRotation } from "@/lib/random";
 import { useEffect, useRef } from "react";
 
-/** One auto-scrolling row of taped prints. Renders the strip twice so the
- *  translateX(-50%) loop lands on a seamless boundary - no jitter, no gaps.
+/** One auto-scrolling row of taped prints.
  *
- *  Driven by the Web Animations API rather than a CSS keyframe so hovering
- *  can *ease* the scroll to a halt (ramping playbackRate 1 → 0) instead of
- *  snapping it with `animation-play-state: paused`. */
+ *  The strip is rendered twice and the track is offset by
+ *  `offset % halfWidth` every frame, so the position is recomputed from a
+ *  wrapped value instead of being *accumulated* - it can never drift, and a
+ *  wrap is a no-op because the second half sits exactly where the first was.
+ *
+ *  Spacing lives in each item's horizontal padding rather than a flex `gap`,
+ *  so the distance across the seam is identical to the distance between any
+ *  two neighbours at every breakpoint.
+ *
+ *  Speed is px/second, so both rows drift at a matched pace no matter how
+ *  many prints they hold. */
 function GalleryTrack({
   photos,
   direction,
   rotSeed,
   tapeFor,
-  durationMs,
+  speed,
 }: {
   photos: typeof shotOn.photos;
   direction: "left" | "right";
   rotSeed: number;
   tapeFor: (i: number) => "top" | "corners" | "none";
-  durationMs: number;
+  /** pixels per second */
+  speed: number;
 }) {
   // Repeat the base strip so a single half comfortably overflows even ultrawide
   // screens, then duplicate that half for the seamless loop.
   const strip = [...photos, ...photos];
 
   const trackRef = useRef<HTMLDivElement>(null);
+  const halfRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
+    const track = trackRef.current;
+    const half = halfRef.current;
+    if (!track || !half) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const from = direction === "left" ? "translateX(0)" : "translateX(-50%)";
-    const to = direction === "left" ? "translateX(-50%)" : "translateX(0)";
-    const anim = el.animate([{ transform: from }, { transform: to }], {
-      duration: durationMs,
-      iterations: Infinity,
-      easing: "linear",
+    let halfWidth = half.offsetWidth;
+    let offset = 0; // 0..halfWidth, distance travelled within one wrap
+    let rate = 1; // current speed multiplier
+    let target = 1; // 1 = drifting, 0 = eased to a halt on hover
+    let last = 0;
+    let frame = 0;
+    let visible = true;
+
+    const draw = () => {
+      // `direction` only decides which way the wrapped offset is applied; the
+      // maths stays identical, so both rows share the same wrap guarantees.
+      const x = direction === "left" ? -offset : offset - halfWidth;
+      track.style.transform = `translate3d(${x}px, 0, 0)`;
+    };
+
+    const tick = (now: number) => {
+      frame = requestAnimationFrame(tick);
+      // Clamp dt so a backgrounded tab, a long task or a paint stall resumes
+      // from where it left off instead of teleporting a full second forward.
+      const dt = Math.min((now - last) / 1000, 1 / 30);
+      last = now;
+
+      // Frame-rate independent ease toward the target speed (~0.25s to settle),
+      // so hovering glides to a stop on 60Hz and 120Hz alike.
+      rate += (target - rate) * (1 - Math.exp(-dt / 0.09));
+
+      if (halfWidth > 0) {
+        offset += speed * rate * dt;
+        // Wrap by subtraction, never by resetting to 0 - the sub-pixel
+        // remainder carries over, so the seam crossing is invisible.
+        if (offset >= halfWidth) offset -= halfWidth;
+        draw();
+      }
+      if (rate < 0.001 && target === 0) {
+        // Fully stopped: stop burning frames until the pointer leaves.
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    };
+
+    const start = () => {
+      if (frame) return;
+      last = performance.now();
+      frame = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    };
+
+    // Re-measure when images finish loading or the viewport changes. Keep the
+    // offset inside the new half so the track never snaps.
+    const ro = new ResizeObserver(() => {
+      halfWidth = half.offsetWidth;
+      if (halfWidth > 0) offset %= halfWidth;
+      draw();
     });
+    ro.observe(half);
 
-    // Smoothly tween the scroll's playbackRate toward `target` (1 = full
-    // speed, 0 = stopped) with an ease-out curve, so hovering eases the
-    // marquee to a halt instead of snapping it.
-    let rampFrame = 0;
-    const rampTo = (target: number) => {
-      cancelAnimationFrame(rampFrame);
-      const start = anim.playbackRate;
-      const startT = performance.now();
-      const dur = 550;
-      const tick = (now: number) => {
-        const t = Math.min(1, (now - startT) / dur);
-        const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-        anim.playbackRate = start + (target - start) * eased;
-        if (t < 1) rampFrame = requestAnimationFrame(tick);
-      };
-      rampFrame = requestAnimationFrame(tick);
+    // Only animate while the row is on screen. Backgrounded tabs need no
+    // special casing: the browser already stops firing rAF, and the dt clamp
+    // absorbs the timestamp jump on the way back.
+    const io = new IntersectionObserver(
+      (entries) => {
+        visible = entries[entries.length - 1]?.isIntersecting ?? false;
+        if (visible) start();
+        else stop();
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(track);
+
+    // Bubbling mouseover/mouseout (not enter/leave) so the handlers still fire
+    // while the pointer is over a child print; `relatedTarget` filters out the
+    // crossings between prints inside the track.
+    const onOver = () => {
+      target = 0;
     };
-
-    // Use bubbling mouseover/mouseout (rather than mouseenter/leave) so the
-    // handlers fire even while the pointer is over a child print. onOver just
-    // eases toward a stop (idempotent); onOut only eases back to full speed
-    // once the pointer has actually left the track, not when it crosses
-    // between prints inside it.
-    const onOver = () => rampTo(0);
     const onOut = (e: MouseEvent) => {
-      if (!el.contains(e.relatedTarget as Node | null)) rampTo(1);
+      if (track.contains(e.relatedTarget as Node | null)) return;
+      target = 1;
+      if (visible) start();
     };
-    el.addEventListener("mouseover", onOver);
-    el.addEventListener("mouseout", onOut);
+    track.addEventListener("mouseover", onOver);
+    track.addEventListener("mouseout", onOut);
+
+    draw();
 
     return () => {
-      anim.cancel();
-      cancelAnimationFrame(rampFrame);
-      el.removeEventListener("mouseover", onOver);
-      el.removeEventListener("mouseout", onOut);
+      stop();
+      ro.disconnect();
+      io.disconnect();
+      track.removeEventListener("mouseover", onOver);
+      track.removeEventListener("mouseout", onOut);
     };
-  }, [direction, durationMs]);
+  }, [direction, speed]);
 
-  const half = (
-    <div className="flex shrink-0 items-center gap-8 px-4 md:gap-12">
-      {strip.map((photo, i) => (
-        <TapedPhoto
-          key={i}
-          src={photo.src}
-          alt={photo.alt}
-          width={300}
-          height={200}
-          rotate={seededRotation(i * rotSeed, 3)}
-          tape={tapeFor(i)}
-        />
-      ))}
-    </div>
-  );
+  const items = strip.map((photo, i) => (
+    <TapedPhoto
+      key={i}
+      src={photo.src}
+      alt={photo.alt}
+      width={300}
+      height={200}
+      rotate={seededRotation(i * rotSeed, 3)}
+      tape={tapeFor(i)}
+      className="px-4 md:px-6"
+    />
+  ));
 
   return (
-    <div ref={trackRef} className="flex w-max items-center">
-      {half}
-      <div aria-hidden>{half}</div>
+    <div
+      ref={trackRef}
+      className="flex w-max items-center will-change-transform"
+    >
+      <div ref={halfRef} className="flex shrink-0 items-center">
+        {items}
+      </div>
+      <div aria-hidden className="flex shrink-0 items-center">
+        {items}
+      </div>
     </div>
   );
 }
@@ -145,14 +210,14 @@ export function ShotOn() {
           photos={topRow}
           direction="left"
           rotSeed={3}
-          durationMs={80000}
+          speed={38}
           tapeFor={(i) => (i % 2 === 0 ? "top" : "corners")}
         />
         <GalleryTrack
           photos={[...bottomRow].reverse()}
           direction="right"
           rotSeed={7}
-          durationMs={88000}
+          speed={32}
           tapeFor={(i) => (i % 2 === 0 ? "corners" : "top")}
         />
 
