@@ -5,7 +5,6 @@ import { InstantTransfer } from "@/components/landing/InstantTransfer";
 import { ShotOn } from "@/components/landing/ShotOn";
 import { Community } from "@/components/landing/Community";
 import { LandingFaq } from "@/components/landing/Faq";
-import { Inspect } from "@/components/landing/Inspect";
 import { FinalCta } from "@/components/landing/FinalCta";
 import { cameraProduct } from "@/lib/products";
 import { Gallery } from "@/components/product/Gallery";
@@ -39,11 +38,8 @@ export default function HomePage() {
       <ShotOn />
       {/* <Community /> */}
 
-      {/* Inspect - the camera as a 3D object: turn it over, hit a feature,
-          reserve it, get questions answered */}
-      <Inspect />
-
-      {/* Reserve - the object itself, gallery + price, then the feature strip */}
+      {/* Reserve - the object itself (photos or the 3D model, same stage) +
+          price, then the feature strip */}
       <div id="reserve" className="paper scroll-mt-20">
         <section className="shell section">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
