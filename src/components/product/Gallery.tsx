@@ -5,10 +5,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Rotate3d } from "lucide-react";
-import { inspectFeatures, type InspectFeature } from "@/lib/products";
 import { useColor } from "@/lib/color-context";
 import { cn } from "@/lib/utils";
-import type { ModelView } from "@/components/product/CameraViewer";
 
 /**
  * The 3D stack (three.js + the model) never touches the initial bundle or
@@ -45,11 +43,12 @@ export function Gallery() {
   const [active, setActive] = useState(0);
   const [mode, setMode] = useState<"photos" | "model">("photos");
 
-  // Picking a new finish shows that body from the front again, and pulls the
-  // stage back from the 3D model so the change is actually visible.
+  // Picking a new finish shows that body from the front again. The stage is
+  // deliberately left alone: the model repaints itself now, so someone who
+  // went to 3D to compare finishes gets the comparison in place instead of
+  // being thrown back to the photos and having to click into 3D again.
   useEffect(() => {
     setActive(0);
-    setMode("photos");
   }, [color]);
 
   const holderRef = useRef<HTMLDivElement>(null);
@@ -61,8 +60,6 @@ export function Gallery() {
   const [mounted, setMounted] = useState(false);
   const [inView, setInView] = useState(false);
   const [interacted, setInteracted] = useState(false);
-  const [activeFeature, setActiveFeature] = useState<string | null>(null);
-  const [view, setView] = useState<ModelView | null>(null);
 
   useEffect(() => {
     const el = holderRef.current;
@@ -87,12 +84,6 @@ export function Gallery() {
       viewObs.disconnect();
     };
   }, []);
-
-  const selectFeature = (feature: InspectFeature) => {
-    setActiveFeature(feature.id);
-    // Fresh object each click so re-selecting the same angle still glides.
-    setView({ ...feature.view });
-  };
 
   const showModel = mode === "model";
 
@@ -158,7 +149,8 @@ export function Gallery() {
               {showModel ? (
                 mounted ? (
                   <CameraViewer
-                    view={view}
+                    bodyColor={variant.body}
+                    poster={images[0]!}
                     autoRotate={inView && !interacted && !reduceMotion}
                     onInteract={() => setInteracted(true)}
                   />
@@ -215,29 +207,6 @@ export function Gallery() {
         </div>
       </div>
 
-      {/* Angle shortcuts, only while the object is on the stage */}
-      {showModel && (
-        <div className="flex flex-wrap gap-2 lg:pl-[84px]">
-          {inspectFeatures.map((feature) => {
-            const isActive = activeFeature === feature.id;
-            return (
-              <button
-                key={feature.id}
-                onClick={() => selectFeature(feature)}
-                aria-pressed={isActive}
-                className={cn(
-                  "rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors",
-                  isActive
-                    ? "border-bluehour bg-bluehour/10 text-bluehour"
-                    : "border-darkroom/20 text-darkroom/70 hover:border-darkroom/40 hover:text-darkroom",
-                )}
-              >
-                {feature.title}
-              </button>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }

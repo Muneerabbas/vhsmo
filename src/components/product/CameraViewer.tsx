@@ -13,7 +13,7 @@ import {
 } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import Image from "next/image";
-import { cameraProduct } from "@/lib/products";
+import type { ProductImage } from "@/lib/products";
 
 // Meshopt-compressed build of vhsmo.glb (4.88 MB -> 783 KB), generated with:
 //   npx @gltf-transform/cli optimize public/models/vhsmo.glb \
@@ -22,6 +22,16 @@ import { cameraProduct } from "@/lib/products";
 // The three opt-outs keep every material and draw call exactly as authored;
 // re-run this whenever vhsmo.glb is re-exported. useGLTF decodes meshopt itself.
 const MODEL_URL = "/models/vhsmo-opt.glb";
+
+/**
+ * The one material that carries the shell colour, and the only thing that
+ * differs between the Pink, Black and Red exports - see the note on
+ * ColorVariant.body. The name is a CAD appearance-library label carried
+ * through the CAD -> Blender -> glTF conversion, so it is stable across
+ * re-exports of the same part but would not survive the part being rebuilt
+ * from scratch; hence the dev warning if it ever goes missing.
+ */
+const BODY_MATERIAL_NAME = "Opaque(191,126,171).001";
 
 /**
  * Environment sampling is split by material class, because a single global
@@ -51,7 +61,23 @@ export interface ModelView {
   radius: number;
 }
 
-export const DEFAULT_VIEW: ModelView = { azimuth: 0, polar: 1.35, radius: 6.4 };
+/**
+ * Framing, derived rather than dialled in by eye. CameraModel normalises the
+ * GLB so its longest axis is exactly 3 units; after the -90° X stand-up that
+ * axis is the body's width, and the height works out at 2.27 units.
+ *
+ * At fov 32 the frame is 2·r·tan(16°) tall, so radius picks the fill directly:
+ *   r 6.4 -> 4.89 x 3.67 units visible -> body fills 61% wide, 62% tall
+ *   r 5.0 -> 3.82 x 2.87 units visible -> body fills 78% wide, 79% tall
+ * 6.4 left a ~19% empty band on every side, which read as dead white space
+ * around a small object rather than as a product shot.
+ *
+ * 5.0 is as tight as it goes safely: orbiting swings the widest silhouette to
+ * the width/depth diagonal, 3.26 units, and that still only spans 85% of the
+ * frame - so the body never touches the edge at any angle. Going below ~4.6
+ * starts clipping mid-spin.
+ */
+export const DEFAULT_VIEW: ModelView = { azimuth: 0, polar: 1.35, radius: 5 };
 
 function viewToVec3(view: ModelView) {
   return new THREE.Vector3().setFromSpherical(
@@ -209,25 +235,85 @@ function conditionMaterials(root: THREE.Object3D) {
   });
 }
 
+/**
+ * Repaint the shell. Deliberately separate from conditionMaterials, which
+ * self-guards against re-running: useGLTF caches the parsed scene, so these
+ * material instances outlive the component and the colour has to be re-applied
+ * on every change rather than once per mount.
+ *
+ * `Color.set` reads the hex as sRGB and converts into three's linear working
+ * space, which is the same space glTF's baseColorFactor is authored in - so
+ * the value that lands here is the one the exporter wrote.
+ */
+function paintBody(root: THREE.Object3D, hex: string) {
+  let found = false;
+
+  root.traverse((obj) => {
+    const mesh = obj as THREE.Mesh;
+    if (!mesh.isMesh) return;
+
+    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    for (const material of materials) {
+      if (material?.name !== BODY_MATERIAL_NAME) continue;
+      found = true;
+      const std = material as THREE.MeshStandardMaterial;
+      // No needsUpdate: colour is a uniform, not a shader-recompile trigger.
+      std.color.set(hex);
+    }
+  });
+
+  if (!found && process.env.NODE_ENV !== "production") {
+    console.warn(
+      `[CameraViewer] No material named "${BODY_MATERIAL_NAME}" in ${MODEL_URL} - ` +
+        "the model renders in its as-exported colour and the swatches no longer " +
+        "drive it. The GLB was probably re-exported with renamed materials.",
+    );
+  }
+}
+
+/** Normalisation computed from the GLB's own bounds - see CameraModel. */
+interface Fit {
+  scale: number;
+  offset: THREE.Vector3;
+}
+
 /** The GLB, normalised to a ~3-unit box centred on the origin so camera
  *  distances and shadow placement don't depend on the export's raw scale. */
-function CameraModel() {
+function CameraModel({ bodyColor }: { bodyColor: string }) {
   const { scene } = useGLTF(MODEL_URL);
   const { invalidate } = useThree();
 
   const { scale, offset } = useMemo(() => {
+    // useGLTF caches the parsed scene, and <primitive scale={...}> writes that
+    // scale onto the cached object - so on a remount (switching the gallery
+    // back to 3D) we would be measuring an already-normalised model and
+    // dividing 3 by 3, dropping the scale to 1 and rendering the raw CAD size.
+    // Measure once, from a pristine transform, and keep the result with the
+    // object so every later mount reuses it.
+    const cached = scene.userData.__fit as Fit | undefined;
+    if (cached) return cached;
+
+    // Local space: the primitive's ancestors supply the stand-up rotations, and
+    // on a remount `scene` may still be parented to the outgoing group.
+    scene.position.set(0, 0, 0);
+    scene.scale.set(1, 1, 1);
+
     const box = new THREE.Box3().setFromObject(scene);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const s = 3 / Math.max(size.x, size.y, size.z);
-    return { scale: s, offset: center.multiplyScalar(-s) };
+    const fit: Fit = { scale: s, offset: center.multiplyScalar(-s) };
+    scene.userData.__fit = fit;
+    return fit;
   }, [scene]);
 
-  // Before first paint, so the model is never shown with the raw materials.
+  // Before first paint, so the model is never shown with the raw materials -
+  // and, on a swatch change, never for a frame in the outgoing colour.
   useLayoutEffect(() => {
     conditionMaterials(scene);
+    paintBody(scene, bodyColor);
     invalidate();
-  }, [scene, invalidate]);
+  }, [scene, bodyColor, invalidate]);
 
   return (
     // The GLB is exported lying down - stand it up (-90° X), then yaw 180°
@@ -245,65 +331,25 @@ function CameraModel() {
 }
 
 /**
- * Drives the on-demand frameloop. The canvas renders zero frames unless:
- *  - the user is orbiting (drei's controls invalidate on change),
- *  - we're gliding to a selected feature view, or
- *  - auto-rotate is on (only while the section is actually on screen).
+ * Drives the on-demand frameloop. The canvas renders zero frames unless the
+ * user is orbiting (drei's controls invalidate on change) or auto-rotate is on
+ * (only while the section is actually on screen).
  */
-interface GlideTarget {
-  position: THREE.Vector3;
-  startedAt: number;
-}
-
 function Rig({
-  view,
   autoRotate,
-  glideRef,
   controlsRef,
 }: {
-  view: ModelView | null;
   autoRotate: boolean;
-  glideRef: React.RefObject<GlideTarget | null>;
   controlsRef: React.RefObject<OrbitControlsImpl | null>;
 }) {
-  const { camera, invalidate } = useThree();
-
-  useEffect(() => {
-    if (!view) return;
-    glideRef.current = {
-      position: viewToVec3(view),
-      startedAt: performance.now(),
-    };
-    invalidate();
-  }, [view, glideRef, invalidate]);
+  const { invalidate } = useThree();
 
   useEffect(() => {
     if (autoRotate) invalidate();
   }, [autoRotate, invalidate]);
 
-  useFrame((_, delta) => {
+  useFrame(() => {
     const controls = controlsRef.current;
-    const glide = glideRef.current;
-
-    if (glide) {
-      // Pause the idle spin while gliding - otherwise auto-rotate pushes the
-      // camera away from the target every frame and the glide never lands,
-      // which reads as the controls being locked.
-      if (controls) controls.autoRotate = false;
-      camera.position.lerp(glide.position, Math.min(1, delta * 5));
-      controls?.update();
-      // Done when we've arrived - or bail after 2s so a target the controls'
-      // constraints won't allow can never hold the camera hostage.
-      if (
-        camera.position.distanceTo(glide.position) < 0.02 ||
-        performance.now() - glide.startedAt > 2000
-      ) {
-        glideRef.current = null;
-      }
-      invalidate();
-      return;
-    }
-
     if (controls) controls.autoRotate = autoRotate;
     if (autoRotate) {
       controls?.update();
@@ -327,9 +373,10 @@ function LoadingVeil() {
   );
 }
 
-/** Static fallback for devices without WebGL. */
-function NoWebGLFallback() {
-  const hero = cameraProduct.images[0]!;
+/** Static fallback for devices without WebGL - the selected finish's own hero
+ *  shot, so a device that can't render the model still can't show you the
+ *  wrong colour. */
+function NoWebGLFallback({ hero }: { hero: ProductImage }) {
   return (
     <div className="relative h-full w-full overflow-hidden">
       <Image src={hero.src} alt={hero.alt} fill className="object-cover" />
@@ -338,17 +385,23 @@ function NoWebGLFallback() {
 }
 
 export interface CameraViewerProps {
-  /** Glide the camera here when it changes (feature selection). */
-  view: ModelView | null;
+  /** sRGB hex for the shell - the selected colourway's `body`. */
+  bodyColor: string;
+  /** Shown instead of the canvas when WebGL is unavailable. */
+  poster: ProductImage;
   /** Slow idle spin - pass false when the section is off screen. */
   autoRotate: boolean;
   /** Fired on first pointer interaction with the model. */
   onInteract?: () => void;
 }
 
-export default function CameraViewer({ view, autoRotate, onInteract }: CameraViewerProps) {
+export default function CameraViewer({
+  bodyColor,
+  poster,
+  autoRotate,
+  onInteract,
+}: CameraViewerProps) {
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
-  const glideRef = useRef<GlideTarget | null>(null);
   const initial = useMemo(() => viewToVec3(DEFAULT_VIEW), []);
 
   return (
@@ -379,7 +432,7 @@ export default function CameraViewer({ view, autoRotate, onInteract }: CameraVie
           toneMapping: THREE.NeutralToneMapping,
           toneMappingExposure: 1.2,
         }}
-        fallback={<NoWebGLFallback />}
+        fallback={<NoWebGLFallback hero={poster} />}
         aria-label="Interactive 3D model of the VHSMO camera. Drag to rotate, scroll to zoom."
         role="img"
       >
@@ -396,11 +449,17 @@ export default function CameraViewer({ view, autoRotate, onInteract }: CameraVie
         <directionalLight position={[-6, 3, -5]} intensity={0.3} color="#dfe8ff" />
 
         <Suspense fallback={null}>
-          <CameraModel />
+          <CameraModel bodyColor={bodyColor} />
+          {/* The body is centred on the origin and 2.27 units tall, so its
+              base sits at -1.14; the plane goes just under that. It used to be
+              at -1.35, which both floated the camera above its own shadow and,
+              at the new radius, would have pushed the shadow into the bottom
+              edge of the frame. Scale down with it - 9 units of plane baked
+              into a 512 map spent two thirds of the texture on empty floor. */}
           <ContactShadows
-            position={[0, -1.35, 0]}
+            position={[0, -1.16, 0]}
             opacity={0.4}
-            scale={9}
+            scale={5}
             blur={2.4}
             far={3}
             resolution={512}
@@ -416,20 +475,10 @@ export default function CameraViewer({ view, autoRotate, onInteract }: CameraVie
           minPolarAngle={0}
           maxPolarAngle={Math.PI}
           autoRotateSpeed={0.8}
-          onStart={() => {
-            // The user grabbed the model - any in-flight glide yields
-            // immediately instead of fighting the drag.
-            glideRef.current = null;
-            onInteract?.();
-          }}
+          onStart={() => onInteract?.()}
           makeDefault
         />
-        <Rig
-          view={view}
-          autoRotate={autoRotate}
-          glideRef={glideRef}
-          controlsRef={controlsRef}
-        />
+        <Rig autoRotate={autoRotate} controlsRef={controlsRef} />
       </Canvas>
     </div>
   );

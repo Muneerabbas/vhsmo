@@ -42,19 +42,19 @@ const columns = [
   },
 ];
 
-/** Discord glyph - not in lucide, so drawn here. */
-function DiscordLogo({ className }: { className?: string }) {
+/** X glyph - not in lucide, so drawn here. */
+function XLogo({ className }: { className?: string }) {
   return (
-    <svg aria-hidden viewBox="0 0 640 512" className={className} fill="currentColor">
-      <path d="M524.5 69.8a1.5 1.5 0 0 0-.8-.7A485.1 485.1 0 0 0 404.1 32a1.8 1.8 0 0 0-1.9.9 337.5 337.5 0 0 0-14.9 30.6 447.8 447.8 0 0 0-134.4 0 309.5 309.5 0 0 0-15.1-30.6 1.9 1.9 0 0 0-1.9-.9A483.7 483.7 0 0 0 116.1 69.1a1.7 1.7 0 0 0-.8.7C39.1 183.7 18.2 294.7 28.4 404.4a2 2 0 0 0 .8 1.4A487.7 487.7 0 0 0 176 479.9a1.9 1.9 0 0 0 2.1-.7 348.2 348.2 0 0 0 30-48.8 1.9 1.9 0 0 0-1-2.6 321.2 321.2 0 0 1-45.9-21.9 1.9 1.9 0 0 1-.2-3.1c3.1-2.3 6.2-4.7 9.1-7.1a1.8 1.8 0 0 1 1.9-.3c96.2 43.9 200.4 43.9 295.5 0a1.8 1.8 0 0 1 1.9.2c2.9 2.4 6 4.9 9.1 7.2a1.9 1.9 0 0 1-.2 3.1 301.4 301.4 0 0 1-45.9 21.8 1.9 1.9 0 0 0-1 2.6 391.1 391.1 0 0 0 30 48.8 1.9 1.9 0 0 0 2.1.7A486 486 0 0 0 610.7 405.8a1.9 1.9 0 0 0 .8-1.4c12.2-126.9-20.5-237-86.9-334.6zM222.5 337.6c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.6-23.4 59.2-52.8 59.2zm195.4 0c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.6-23.1 59.2-52.8 59.2z" />
+    <svg aria-hidden viewBox="0 0 512 512" className={className} fill="currentColor">
+      <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9L389.2 48zm-24.8 373.8h39.1L151.1 88h-42l255.3 333.8z" />
     </svg>
   );
 }
 
 const socials = [
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "YouTube", href: "#", Icon: Youtube },
-  { label: "Discord", href: "#", Icon: DiscordLogo },
+  { label: "Instagram", href: "https://www.instagram.com/vhsmo.cam_/", Icon: Instagram },
+  { label: "YouTube", href: "https://www.youtube.com/@vhsmo", Icon: Youtube },
+  { label: "X", href: "https://x.com/vhsmo_cam", Icon: XLogo },
 ];
 
 /** Official card / rail logos for the "We accept" row (public/payments). */
@@ -129,6 +129,8 @@ export function Footer() {
                 <li key={label}>
                   <a
                     href={href}
+                    target="_blank"
+                    rel="noreferrer noopener"
                     aria-label={label}
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-darkroom/20 text-darkroom transition-colors hover:border-darkroom/60 hover:bg-darkroom hover:text-kodak"
                   >

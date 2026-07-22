@@ -22,6 +22,21 @@ export interface ColorVariant {
   id: string;
   /** Hex shown in the swatch row on the purchase panel. */
   swatch: string;
+  /**
+   * The shell colour the 3D viewer paints onto the body material.
+   *
+   * These are not eyeballed to match `swatch` - each one is the literal
+   * baseColorFactor of the body material in that colourway's export
+   * (vhsmo.glb, blackVhsmo.glb, newredVhsmo.glb), converted from linear to sRGB
+   * hex. Those three files are byte-identical apart from that single value:
+   * same geometry buffers, same other nine materials, same node tree. So the
+   * viewer loads one model and re-tints it rather than shipping 783 KB per
+   * finish and re-downloading on every swatch click - the pixels come out the
+   * same either way. Re-read the factor from the GLB if a colourway is
+   * re-exported; only if an export ever changes something *other* than this
+   * material does a per-colour model file start to earn its weight.
+   */
+  body: string;
   images: ProductImage[];
 }
 
@@ -29,6 +44,7 @@ export const colorVariants: ColorVariant[] = [
   {
     id: "Pink",
     swatch: "#f2a8bd",
+    body: "#ffc9d2",
     images: [
       {
         src: "/buyproduct/pinkFront.png",
@@ -47,6 +63,7 @@ export const colorVariants: ColorVariant[] = [
   {
     id: "Black",
     swatch: "#1c1a19",
+    body: "#222222",
     images: [
       {
         src: "/buyproduct/blackFront.png",
@@ -65,6 +82,7 @@ export const colorVariants: ColorVariant[] = [
   {
     id: "Red",
     swatch: "#c02b25",
+    body: "#950606",
     images: [
       {
         src: "/buyproduct/redFront.png",
