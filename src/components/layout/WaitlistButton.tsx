@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Loader2, X } from "lucide-react";
 import {
@@ -42,6 +43,22 @@ const FIELDS: {
 ];
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** Escape hatch to /launch, where an email can be checked against the list. */
+function CheckStatusLink({ onNavigate }: { onNavigate: () => void }) {
+  return (
+    <p className="text-center text-xs text-darkroom/55">
+      Already signed up?{" "}
+      <Link
+        href="/launch"
+        onClick={onNavigate}
+        className="font-bold text-darkroom underline underline-offset-2 transition-colors hover:text-bluehour"
+      >
+        Check if you&apos;re on the waitlist
+      </Link>
+    </p>
+  );
+}
 
 const EMPTY = { name: "", email: "", whatsapp: "" };
 
@@ -185,6 +202,9 @@ export function WaitlistButton() {
                   >
                     Done
                   </button>
+                  <div className="mt-5 w-full">
+                    <CheckStatusLink onNavigate={() => setOpen(false)} />
+                  </div>
                 </div>
               ) : (
                 <>
@@ -281,6 +301,8 @@ export function WaitlistButton() {
                         That didn&apos;t work - please try again in a moment.
                       </p>
                     )}
+
+                    <CheckStatusLink onNavigate={() => setOpen(false)} />
                   </form>
                 </>
               )}

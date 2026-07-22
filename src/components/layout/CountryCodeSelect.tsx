@@ -161,9 +161,8 @@ export function CountryCodeSelect({ value, onChange, disabled }: Props) {
         aria-label={`Country code: ${value.name} +${value.dial}`}
         className="flex items-center gap-1.5 rounded-xl border-2 border-darkroom/15 bg-overexpose px-3 py-3 text-sm text-darkroom outline-none transition-colors hover:border-darkroom/30 focus:border-darkroom disabled:cursor-not-allowed disabled:opacity-55"
       >
-        <span aria-hidden className="text-base leading-none">
-          {value.flag}
-        </span>
+        
+       
         <span className="font-semibold tabular-nums">+{value.dial}</span>
         <ChevronDown
           aria-hidden

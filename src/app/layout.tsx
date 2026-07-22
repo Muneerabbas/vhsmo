@@ -8,6 +8,7 @@ import { FilmGrain } from "@/components/brand/FilmGrain";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { Marquee } from "@/components/brand/Marquee";
 import { shotOn } from "@/lib/landing";
 
@@ -108,6 +109,7 @@ export default function RootLayout({
         />
         <CartProvider>
           <SmoothScroll />
+          <Analytics />
 
           <a
             href="#main"
