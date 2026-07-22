@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Loader2, X } from "lucide-react";
+import {
+  CountryCodeSelect,
+  DEFAULT_COUNTRY,
+  type CountryCode,
+} from "./CountryCodeSelect";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Status = "idle" | "sending" | "done" | "error";
 
-type FieldName = "name" | "email" | "whatsapp";
+type FieldName = "name" | "email";
 
 const FIELDS: {
   name: FieldName;
@@ -16,7 +21,7 @@ const FIELDS: {
   type: string;
   placeholder: string;
   autoComplete: string;
-  inputMode: "text" | "email" | "tel";
+  inputMode: "text" | "email";
 }[] = [
   {
     name: "name",
@@ -34,14 +39,6 @@ const FIELDS: {
     autoComplete: "email",
     inputMode: "email",
   },
-  {
-    name: "whatsapp",
-    label: "WhatsApp number",
-    type: "tel",
-    placeholder: "+91 98765 43210",
-    autoComplete: "tel",
-    inputMode: "tel",
-  },
 ];
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,12 +50,13 @@ const INPUT_CLASS =
 
 /**
  * Floating "Join Waitlist" pill, pinned bottom-right on every chrome'd page.
- * Opens a signup modal that posts to /api/waitlist/sheet, which appends the
- * row to the Google Sheet. Location / country code are not collected.
+ * Opens a signup modal that posts to /api/waitlist/join, which stores the row
+ * in Supabase. The WhatsApp number is submitted with the picked dial code.
  */
 export function WaitlistButton() {
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(EMPTY);
+  const [country, setCountry] = useState<CountryCode>(DEFAULT_COUNTRY);
   const [status, setStatus] = useState<Status>("idle");
 
   const sending = status === "sending";
@@ -93,6 +91,7 @@ export function WaitlistButton() {
     if (open) return;
     const t = setTimeout(() => {
       setValues(EMPTY);
+      setCountry(DEFAULT_COUNTRY);
       setStatus("idle");
     }, 400);
     return () => clearTimeout(t);
@@ -103,13 +102,14 @@ export function WaitlistButton() {
     if (sending || !isValid) return;
     setStatus("sending");
     try {
-      const res = await fetch("/api/waitlist/sheet", {
+      const res = await fetch("/api/waitlist/join", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: values.name.trim(),
           email: values.email.trim(),
           whatsapp: values.whatsapp.trim(),
+          countryCode: country.dial,
         }),
       });
       const data = await res.json().catch(() => null);
@@ -222,6 +222,45 @@ export function WaitlistButton() {
                         />
                       </label>
                     ))}
+
+                    {/* Not a <label>: it wraps two controls (picker + input). */}
+                    <div className="flex flex-col gap-1.5">
+                      <span
+                        id="waitlist-whatsapp-label"
+                        className="text-xs font-bold uppercase tracking-wider text-darkroom/60"
+                      >
+                        WhatsApp number
+                      </span>
+                      <div className="flex items-start gap-2">
+                        <CountryCodeSelect
+                          value={country}
+                          onChange={setCountry}
+                          disabled={sending}
+                        />
+                        <input
+                          type="tel"
+                          name="whatsapp"
+                          value={values.whatsapp}
+                          onChange={(e) => {
+                            // Digits and the usual separators only - the dial
+                            // code comes from the picker beside it.
+                            const next = e.target.value.replace(
+                              /[^\d\s-]/g,
+                              "",
+                            );
+                            setValues((v) => ({ ...v, whatsapp: next }));
+                            if (status === "error") setStatus("idle");
+                          }}
+                          disabled={sending}
+                          required
+                          placeholder="98765 43210"
+                          autoComplete="tel-national"
+                          inputMode="tel"
+                          aria-labelledby="waitlist-whatsapp-label"
+                          className={INPUT_CLASS}
+                        />
+                      </div>
+                    </div>
 
                     <button
                       type="submit"

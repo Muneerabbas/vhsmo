@@ -34,7 +34,7 @@ const SITE_URL = "https://vhsmo.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "VHSMO - Play it. Live it. Rewind Nothing.",
+    default: "VHSMO - Point. Shoot. Share.",
     template: "%s · VHSMO",
   },
   description:
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE_URL,
-    title: "VHSMO - Play it. Live it. Rewind Nothing.",
+    title: "VHSMO - Point. Shoot. Share.",
     description:
       "A pocket camera with the soul of the 2000s. Reserve yours - /2026.",
     siteName: "VHSMO",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "VHSMO - Play it. Live it. Rewind Nothing.",
+    title: "VHSMO - Point. Shoot. Share.",
     description:
       "A pocket camera with the soul of the 2000s. Reserve yours - /2026.",
   },

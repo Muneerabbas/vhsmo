@@ -5,7 +5,7 @@
 
 export const RESERVE_HREF = "/#reserve";
 export const YEAR_MARK = "/2026";
-export const TAGLINE = ["Play it.", "Live it.", "Rewind Nothing."];
+export const TAGLINE = ["Point.", "Shoot.", "Share."];
 
 export const hero = {
   kicker: "Designed to be noticed · Built to last a lifetime",

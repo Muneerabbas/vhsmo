@@ -205,7 +205,7 @@ export function Header() {
               </motion.div>
             </nav>
             <p className="eyebrow container-px pb-8 text-halide/50">
-              Play it. Live it. Rewind Nothing. {YEAR_MARK}
+              Point. Shoot. Share. {YEAR_MARK}
             </p>
           </motion.div>
         )}
