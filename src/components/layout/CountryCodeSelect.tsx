@@ -229,7 +229,6 @@ export function CountryCodeSelect({ value, onChange, disabled }: Props) {
                       (i === active ? "bg-bluehour/10" : "")
                     }
                   >
-                    <span aria-hidden>{country.flag}</span>
                     <span className="min-w-0 flex-1 truncate">
                       {country.name}
                     </span>
