@@ -191,10 +191,13 @@ export const shotOn = {
       src: "/vhsmoclicks/nine.jpg",
       alt: "Friends in direct flash, shot on VHSMO",
     },
-    { src: "/vhsmoclicks/twentythree.jpg", alt: "A candid moment shot on VHSMO" },
-    { src: "/vhsmoclicks/eleven.jpg", alt: "An evening out shot on VHSMO" },
+    { src: "/vhsmoclicks/eleven.jpg", alt: "A candid moment shot on VHSMO" },
+    {
+      src: "/vhsmoclicks/twentythree.jpg",
+      alt: "An evening out shot on VHSMO",
+    },
     { src: "/vhsmoclicks/twelve.jpg", alt: "A quiet moment shot on VHSMO" },
-    { src: "/vhsmoclicks/twentyone.JPEG", alt: "A day out shot on VHSMO" },
+    { src: "/vhsmoclicks/twentyone.jpg", alt: "A day out shot on VHSMO" },
     {
       src: "/vhsmoclicks/fourteen.JPEG",
       alt: "A moment between friends, shot on VHSMO",
@@ -208,7 +211,7 @@ export const shotOn = {
       alt: "An in-between moment shot on VHSMO",
     },
     { src: "/vhsmoclicks/twenty.jpg", alt: "A quiet moment shot on VHSMO" },
-    { src: "/vhsmoclicks/thirteen.jpg", alt: "Friends shot on VHSMO" },
+    { src: "/vhsmoclicks/thirteen.JPEG", alt: "Friends shot on VHSMO" },
     { src: "/vhsmoclicks/twentytwo.jpg", alt: "A late night shot on VHSMO" },
     {
       src: "/vhsmoclicks/ten.jpg",

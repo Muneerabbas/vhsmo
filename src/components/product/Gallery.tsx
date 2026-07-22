@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Rotate3d } from "lucide-react";
 import { useColor } from "@/lib/color-context";
+import { DEFAULT_PRODUCT_IMAGE } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
 /**
@@ -39,7 +40,8 @@ const MODEL_BACKGROUND =
  */
 export function Gallery() {
   const { color, variant } = useColor();
-  const images = variant.images;
+  // The photos are local artwork; only which set to show comes from the row.
+  const images = variant?.images ?? [DEFAULT_PRODUCT_IMAGE];
   const [active, setActive] = useState(0);
   const [mode, setMode] = useState<"photos" | "model">("photos");
 
@@ -149,7 +151,7 @@ export function Gallery() {
               {showModel ? (
                 mounted ? (
                   <CameraViewer
-                    bodyColor={variant.body}
+                    bodyColor={variant?.body ?? "#ffc9d2"}
                     poster={images[0]!}
                     autoRotate={inView && !interacted && !reduceMotion}
                     onInteract={() => setInteracted(true)}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, ShieldCheck, Truck } from "lucide-react";
-import { cameraProduct, colorVariants } from "@/lib/products";
+import { productCopy } from "@/lib/products";
 import { useColor } from "@/lib/color-context";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
@@ -33,34 +33,48 @@ function PlayLogo() {
 
 export function PurchasePanel() {
   const { addItem } = useCart();
-  const { color, setColor, variant } = useColor();
+  const { color, setColor, variants, variant } = useColor();
   const [adding, setAdding] = useState(false);
+
+  // Nothing active in the products table - say so rather than render a
+  // buy button that can't be honoured.
+  if (!variant) {
+    return (
+      <div className="lg:sticky lg:top-28">
+        <h1 className="display mt-6 text-[clamp(2.2rem,4vw,3.25rem)] text-darkroom">
+          VHSMO
+        </h1>
+        <p className="font-marker mt-2 text-xl text-darkroom/70">
+          Reservations are closed right now - check back shortly.
+        </p>
+      </div>
+    );
+  }
 
   // Whatever finish is on the stage is what flies to the cart.
   const hero = variant.images[0]!;
+  const soldOut = variant.stock <= 0;
+  const lowStock = !soldOut && variant.stock <= productCopy.lowStockThreshold;
 
   // Fly the product image to the cart icon, then land the item in the cart
-  // (addItem opens the drawer once the flight ends).
+  // (addItem opens the drawer once the flight ends). The cart line carries
+  // the row id, so checkout resolves back to this exact SKU.
   const reserve = async (button: HTMLElement) => {
-    if (adding) return;
+    if (adding || soldOut) return;
     setAdding(true);
     await flyToCart(button, hero.src);
     addItem({
-      id: cameraProduct.id,
-      name: cameraProduct.name,
-      variant: color,
-      price: cameraProduct.price,
+      id: variant.id,
+      name: variant.name,
+      variant: variant.color,
+      price: variant.price,
       image: hero.src,
     });
     setAdding(false);
   };
   const discount =
-    cameraProduct.compareAtPrice != null
-      ? Math.round(
-          ((cameraProduct.compareAtPrice - cameraProduct.price) /
-            cameraProduct.compareAtPrice) *
-            100,
-        )
+    variant.mrp > variant.price
+      ? Math.round(((variant.mrp - variant.price) / variant.mrp) * 100)
       : 0;
 
   return (
@@ -79,23 +93,23 @@ export function PurchasePanel() {
       </div> */}
 
       <h1 className="display mt-6 text-[clamp(2.2rem,4vw,3.25rem)] text-darkroom">
-        {cameraProduct.name}
+        {variant.name}
       </h1>
       <p className="font-marker mt-2 text-xl text-darkroom/70 sm:text-2xl">
-        {cameraProduct.tagline}
+        {variant.description || productCopy.tagline}
       </p>
 
       {/* Price */}
       <div className="mt-6 flex items-baseline gap-3">
         <span className="relative inline-block">
           <span className="display text-4xl text-darkroom">
-            {formatCurrency(cameraProduct.price)}
+            {formatCurrency(variant.price)}
           </span>
           <Scribble className="absolute -bottom-2 left-0 h-2.5 w-full" />
         </span>
-        {cameraProduct.compareAtPrice != null && (
+        {variant.mrp > variant.price && (
           <span className="text-lg text-darkroom/45 line-through">
-            {formatCurrency(cameraProduct.compareAtPrice)}
+            {formatCurrency(variant.mrp)}
           </span>
         )}
         {discount > 0 && (
@@ -117,7 +131,7 @@ export function PurchasePanel() {
 
       {/* What it is */}
       <ul className="mt-6 space-y-2.5">
-        {cameraProduct.highlights.map((h) => (
+        {productCopy.highlights.map((h) => (
           <li key={h} className="flex items-start gap-2.5 text-[0.95rem] text-darkroom/85">
             <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-bluehour">
               <Check className="size-3 text-overexpose" strokeWidth={3} />
@@ -132,42 +146,67 @@ export function PurchasePanel() {
       {/* Color */}
       <div>
         <p className="text-sm font-semibold text-darkroom">
-          Finish: <span className="font-normal text-darkroom/60">{color}</span>
+          Finish:{" "}
+          <span className="font-normal text-darkroom/60">{variant.color}</span>
         </p>
         <div className="mt-3 flex gap-3">
-          {colorVariants.map((c) => (
+          {variants.map((c) => (
             <button
               key={c.id}
               onClick={() => setColor(c.id)}
               aria-pressed={color === c.id}
-              aria-label={c.id}
-              className={`flex size-10 items-center justify-center rounded-full border-2 transition-all ${
+              aria-label={
+                c.stock > 0 ? c.color : `${c.color} - out of stock`
+              }
+              title={c.stock > 0 ? c.color : `${c.color} - out of stock`}
+              className={`relative flex size-10 items-center justify-center rounded-full border-2 transition-all ${
                 color === c.id ? "border-darkroom" : "border-darkroom/20"
-              }`}
+              } ${c.stock > 0 ? "" : "opacity-45"}`}
             >
               <span
                 className="size-6 rounded-full ring-1 ring-darkroom/10"
                 style={{ background: c.swatch }}
               />
+              {/* Sold-out finishes stay pickable - the panel explains why */}
+              {c.stock <= 0 && (
+                <span className="pointer-events-none absolute h-px w-7 rotate-45 bg-darkroom/70" />
+              )}
             </button>
           ))}
         </div>
+
+        {/* Stock, straight off the row */}
+        <p className="mt-3 text-sm">
+          {soldOut ? (
+            <span className="font-semibold text-darkroom/60">
+              {variant.color} is sold out - pick another finish.
+            </span>
+          ) : lowStock ? (
+            <span className="font-semibold text-darkroom">
+              Only {variant.stock} left in {variant.color}.
+            </span>
+          ) : (
+            <span className="text-darkroom/60">
+              In stock · {variant.stock} available
+            </span>
+          )}
+        </p>
       </div>
 
       {/* Actions */}
       <div className="mt-7">
         <button
           onClick={(e) => void reserve(e.currentTarget)}
-          disabled={adding}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-kodak px-8 py-4 text-base font-bold tracking-tight text-darkroom transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(253,241,0,0.25)] active:scale-[0.98] disabled:cursor-wait"
+          disabled={adding || soldOut}
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-kodak px-8 py-4 text-base font-bold tracking-tight text-darkroom transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(253,241,0,0.25)] active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-darkroom/15 disabled:text-darkroom/50 disabled:shadow-none"
         >
-          {adding ? "Adding…" : "Reserve yours"}
+          {soldOut ? "Sold out" : adding ? "Adding…" : "Reserve yours"}
         </button>
       </div>
 
       {/* Refundable note */}
       <p className="mt-4 flex items-start gap-2.5 border-l-2 border-kodak bg-kodak/10 px-4 py-3 text-sm text-darkroom/80">
-        {cameraProduct.depositNote}
+        {productCopy.depositNote}
       </p>
 
       {/* The app, in one breath - pairs with the camera instead of its own section */}

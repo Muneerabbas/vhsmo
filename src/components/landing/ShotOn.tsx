@@ -1,14 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { Marquee } from "@/components/brand/Marquee";
 import { Reveal } from "@/components/brand/Reveal";
 import { Scribble } from "@/components/brand/Scribble";
-import { TapedPhoto } from "@/components/brand/TapedPhoto";
 import { shotOn } from "@/lib/landing";
-import { seededRotation } from "@/lib/random";
 import { useEffect, useRef } from "react";
 
-/** One auto-scrolling row of taped prints.
+/** One auto-scrolling row of photos.
  *
  *  The strip is rendered twice and the track is offset by
  *  `offset % halfWidth` every frame, so the position is recomputed from a
@@ -24,14 +23,10 @@ import { useEffect, useRef } from "react";
 function GalleryTrack({
   photos,
   direction,
-  rotSeed,
-  tapeFor,
   speed,
 }: {
   photos: typeof shotOn.photos;
   direction: "left" | "right";
-  rotSeed: number;
-  tapeFor: (i: number) => "top" | "corners" | "none";
   /** pixels per second */
   speed: number;
 }) {
@@ -146,16 +141,17 @@ function GalleryTrack({
   }, [direction, speed]);
 
   const items = strip.map((photo, i) => (
-    <TapedPhoto
-      key={i}
-      src={photo.src}
-      alt={photo.alt}
-      width={300}
-      height={200}
-      rotate={seededRotation(i * rotSeed, 3)}
-      tape={tapeFor(i)}
-      className="px-4 md:px-6"
-    />
+    <div key={i} className="shrink-0 px-3 md:px-4">
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          width={480}
+          height={320}
+          className="block h-[160px] w-auto object-contain sm:h-[220px] md:h-[280px]"
+        />
+      </div>
+    </div>
   ));
 
   return (
@@ -205,20 +201,12 @@ export function ShotOn() {
       </div>
 
       {/* Auto-scrolling gallery - two rows drifting in opposite directions */}
-      <div className="relative flex flex-col gap-14 md:gap-20">
-        <GalleryTrack
-          photos={topRow}
-          direction="left"
-          rotSeed={3}
-          speed={38}
-          tapeFor={(i) => (i % 2 === 0 ? "top" : "corners")}
-        />
+      <div className="relative flex flex-col gap-6 md:gap-8">
+        <GalleryTrack photos={topRow} direction="left" speed={38} />
         <GalleryTrack
           photos={[...bottomRow].reverse()}
           direction="right"
-          rotSeed={7}
           speed={32}
-          tapeFor={(i) => (i % 2 === 0 ? "corners" : "top")}
         />
 
         {/* Soft edge fades so prints dissolve into the dark instead of clipping */}

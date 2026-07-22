@@ -9,7 +9,7 @@ import { useCart } from "@/lib/cart-context";
 import { flyToCart } from "@/lib/fly-to-cart";
 import { cn } from "@/lib/utils";
 import { RESERVE_HREF, YEAR_MARK } from "@/lib/landing";
-import { cameraProduct } from "@/lib/products";
+import { useDefaultProduct } from "@/lib/products-context";
 
 const navLinks = [
   { label: "Shop", href: RESERVE_HREF },
@@ -19,12 +19,11 @@ const navLinks = [
   { label: "FAQ", href: "/#faq" },
 ];
 
-/** Default variant - mirrors the purchase panel's first swatch so the
- *  header Reserve merges into the same cart line. */
-const DEFAULT_VARIANT = "Blush";
-
 export function Header() {
   const { count, openCart, isHydrated, addItem } = useCart();
+  // The header sells the first in-stock finish from the products table, so
+  // its Reserve merges into the same cart line as the panel's.
+  const product = useDefaultProduct();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,13 +31,14 @@ export function Header() {
   // Reserve = drop the camera in the cart (addItem also opens the drawer).
   // When triggered from a visible button, fly the product to the cart first.
   const reserve = async (source?: HTMLElement | null) => {
-    const image = cameraProduct.images[0]!.src;
+    if (!product || product.stock <= 0) return;
+    const image = product.images[0]!.src;
     if (source) await flyToCart(source, image);
     addItem({
-      id: cameraProduct.id,
-      name: cameraProduct.name,
-      variant: DEFAULT_VARIANT,
-      price: cameraProduct.price,
+      id: product.id,
+      name: product.name,
+      variant: product.color,
+      price: product.price,
       image,
     });
   };

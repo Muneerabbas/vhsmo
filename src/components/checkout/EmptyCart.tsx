@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
-import { cameraProduct } from "@/lib/products";
+import { useDefaultProduct } from "@/lib/products-context";
 
 export function EmptyCart() {
+  const product = useDefaultProduct();
+
   return (
     <div className="container-px mx-auto flex max-w-2xl flex-col items-center px-6 py-24 text-center sm:py-32">
       <span className="flex size-16 items-center justify-center rounded-full bg-overexpose shadow-[0_1px_2px_rgba(31,26,24,0.08)]">
@@ -19,7 +23,7 @@ export function EmptyCart() {
         href="/#reserve"
         className="mt-8 inline-flex items-center gap-2 rounded-full bg-kodak px-7 py-3.5 text-sm font-bold text-darkroom transition-transform hover:scale-[1.02]"
       >
-        Reserve yours - {formatCurrency(cameraProduct.price)}
+        {product ? `Reserve yours - ${formatCurrency(product.price)}` : "Reserve yours"}
       </Link>
     </div>
   );

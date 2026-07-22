@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { Aperture, ArrowLeftRight, BatteryCharging, BookOpen, Cable, MousePointerClick, Link2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { cameraProduct } from "@/lib/products";
+import { DEFAULT_PRODUCT_IMAGE } from "@/lib/products";
 import { Reveal } from "@/components/brand/Reveal";
 import { YEAR_MARK } from "@/lib/landing";
 
 const boxItems: { label: string; image?: string; icon?: LucideIcon }[] = [
-  { label: "VHSMO Camera", image: cameraProduct.images[0]!.src },
+  { label: "VHSMO Camera", image: DEFAULT_PRODUCT_IMAGE.src },
   { label: "USB-C cable", icon: Cable },
   { label: "Wrist strap", icon: Link2 },
   { label: "Quick-start zine", icon: BookOpen },

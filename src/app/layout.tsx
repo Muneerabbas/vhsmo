@@ -11,6 +11,8 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { Marquee } from "@/components/brand/Marquee";
 import { shotOn } from "@/lib/landing";
+import { getProducts } from "@/lib/get-products";
+import { ProductsProvider } from "@/lib/products-context";
 
 /*
  * Brand faces are Sequel Sans (display/body) and Kids Word (marker).
@@ -96,9 +98,13 @@ const productJsonLd = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Name, colour, price and stock all come from Supabase - fetched once here
+  // and handed to every client component that sells the camera.
+  const products = await getProducts();
+
   return (
     <html lang="en" className={`${sequel.variable} ${kids.variable}`}>
       <body className="min-h-dvh antialiased">
@@ -107,6 +113,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
         />
+        <ProductsProvider products={products}>
         <CartProvider>
           <SmoothScroll />
           <Analytics />
@@ -121,6 +128,7 @@ export default function RootLayout({
           <CartDrawer />
           <FilmGrain />
         </CartProvider>
+        </ProductsProvider>
         <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="beforeInteractive"

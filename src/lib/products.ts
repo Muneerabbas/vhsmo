@@ -3,23 +3,16 @@ export interface ProductImage {
   alt: string;
 }
 
-export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  tagline: string;
-  price: number;
-  compareAtPrice?: number;
-  currency: string;
-  depositNote: string;
-  estimatedShipping: string;
-  images: ProductImage[];
-  highlights: string[];
-}
-
-/** A body colour you can buy, with its own three-shot photo set. */
-export interface ColorVariant {
-  id: string;
+/**
+ * Everything sellable - name, colour, price, stock - comes from the Supabase
+ * `products` table. Nothing about a buyable product is hardcoded here.
+ *
+ * The only thing that stays local is the artwork: the studio renders in
+ * /public and the two hex values the swatch row and the 3D viewer need, keyed
+ * by SKU. A row whose SKU has no entry here still sells - it just falls back
+ * to the default finish's photos.
+ */
+export interface VariantAssets {
   /** Hex shown in the swatch row on the purchase panel. */
   swatch: string;
   /**
@@ -40,28 +33,45 @@ export interface ColorVariant {
   images: ProductImage[];
 }
 
-export const colorVariants: ColorVariant[] = [
-  {
-    id: "Pink",
+/** A row of `products` joined to its local artwork - what the UI renders. */
+export interface ProductVariant {
+  /** The Supabase row id; the cart and orders key off this. */
+  id: string;
+  sku: string;
+  name: string;
+  color: string;
+  description: string;
+  /** `selling_price` - what is actually charged. */
+  price: number;
+  /** `mrp` - struck through next to the price when it is higher. */
+  mrp: number;
+  stock: number;
+  swatch: string;
+  body: string;
+  images: ProductImage[];
+}
+
+/** Local artwork per SKU. Order here is the order the swatches render in. */
+export const variantAssets: Record<string, VariantAssets> = {
+  "VHSMO-BPK": {
     swatch: "#f2a8bd",
     body: "#ffc9d2",
     images: [
       {
         src: "/buyproduct/pinkFront.png",
-        alt: "VHSMO Camera in Pink, front view",
+        alt: "VHSMO Camera in Baby Pink, front view",
       },
       {
         src: "/buyproduct/pinkBack.png",
-        alt: "VHSMO Camera in Pink, back view",
+        alt: "VHSMO Camera in Baby Pink, back view",
       },
       {
         src: "/buyproduct/pinkSide.png",
-        alt: "VHSMO Camera in Pink, three-quarter side view",
+        alt: "VHSMO Camera in Baby Pink, three-quarter side view",
       },
     ],
   },
-  {
-    id: "Black",
+  "VHSMO-BLK": {
     swatch: "#1c1a19",
     body: "#222222",
     images: [
@@ -79,30 +89,53 @@ export const colorVariants: ColorVariant[] = [
       },
     ],
   },
-  {
-    id: "Red",
+  "VHSMO-CHR": {
     swatch: "#c02b25",
     body: "#950606",
     images: [
       {
         src: "/buyproduct/redFront.png",
-        alt: "VHSMO Camera in Red, front view",
+        alt: "VHSMO Camera in Cherry Red, front view",
       },
       {
         src: "/buyproduct/redBack.png",
-        alt: "VHSMO Camera in Red, back view",
+        alt: "VHSMO Camera in Cherry Red, back view",
       },
       {
         src: "/buyproduct/redSide.png",
-        alt: "VHSMO Camera in Red, three-quarter side view",
+        alt: "VHSMO Camera in Cherry Red, three-quarter side view",
       },
     ],
   },
-];
+};
 
-/** Look up a variant by id, falling back to the first (the default finish). */
-export function variantFor(id: string): ColorVariant {
-  return colorVariants.find((c) => c.id === id) ?? colorVariants[0]!;
+/** The shot used wherever the product stands in for itself outside the
+ *  gallery (open graph, the in-the-box grid, the fly-to-cart ghost). */
+export const DEFAULT_PRODUCT_IMAGE = variantAssets["VHSMO-BPK"]!.images[0]!;
+
+/** Copy that belongs to the product but has no column in the table. */
+export const productCopy = {
+  tagline: "A pocket camera with instant wireless transfer.",
+  currency: "INR",
+  depositNote:
+    "Reserve now to lock in the early price. Fully refundable if not shipped by September 15th 2026.",
+  estimatedShipping: "First batch · ships 2026",
+  highlights: [
+    "Real 2000s-style photos. No filters. No overlays.",
+    "Screen-free. No menus. Stay in the moment.",
+    "Wireless to the VHSMO app in seconds.",
+    "Palm-sized. Cloud-free. Ready to go.",
+  ],
+  /** Below this, the panel starts saying how few are left. */
+  lowStockThreshold: 20,
+};
+
+/** Look up a variant by row id, falling back to the first one on offer. */
+export function variantFor(
+  variants: ProductVariant[],
+  id: string,
+): ProductVariant | undefined {
+  return variants.find((v) => v.id === id) ?? variants[0];
 }
 
 export interface SpecGroup {
@@ -119,27 +152,6 @@ export interface Accessory {
   icon: "strap" | "skin" | "battery" | "looks";
   comingSoon?: boolean;
 }
-
-export const cameraProduct: Product = {
-  id: "vhsmo-camera",
-  slug: "vhsmo-camera",
-  name: "VHSMO Vol. 1",
-  tagline: "A pocket camera with instant wireless transfer.",
-  price: 4999,
-  compareAtPrice: 6999,
-  currency: "INR",
-  depositNote:
-    "Reserve now to lock in the early price. Fully refundable if not shipped by September 15th 2026.",
-  estimatedShipping: "First batch · ships 2026",
-  /** The default finish's shots - the gallery swaps these per selected colour. */
-  images: colorVariants[0]!.images,
-  highlights: [
-    "Real 2000s-style photos. No filters. No overlays.",
-    "Screen-free. No menus. Stay in the moment.",
-    "Wireless to the VHSMO app in seconds.",
-    "Palm-sized. Cloud-free. Ready to go.",
-  ],
-};
 
 export const specifications: SpecGroup[] = [
   {

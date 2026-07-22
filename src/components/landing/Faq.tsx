@@ -51,7 +51,7 @@ export function LandingFaq() {
                 <Accordion.Header>
                   <Accordion.Trigger className="group flex w-full items-baseline gap-6 py-6 text-left text-darkroom transition-colors hover:text-bluehour">
                     <span className="eyebrow shrink-0 opacity-50">
-                      /{String(i + 1).padStart(2, "0")}
+                      {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="flex-1 text-lg font-semibold leading-snug sm:text-xl">
                       {item.q}
