@@ -61,7 +61,7 @@ export function Accessories() {
                         id: acc.id,
                         name: acc.name,
                         price: acc.price,
-                        image: "/buyproduct/firstimage.jpg",
+                        image: "/buyproduct/pinkFront.png",
                       })
                     }
                     className="flex size-10 items-center justify-center rounded-full bg-darkroom text-halide transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"

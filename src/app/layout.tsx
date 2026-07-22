@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     siteName: "VHSMO",
     images: [
       {
-        url: "/buyproduct/firstimage.jpg",
+        url: "/buyproduct/pinkFront.png",
         width: 1500,
         height: 1000,
         alt: "The VHSMO pocket camera",

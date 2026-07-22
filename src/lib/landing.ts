@@ -7,6 +7,9 @@ export const RESERVE_HREF = "/#reserve";
 export const YEAR_MARK = "/2026";
 export const TAGLINE = ["Point.", "Shoot.", "Share."];
 
+/** The running-head band shared by the launch poster and the landing page. */
+export const LAUNCH_BANNER = "launching july 25 2026: 6:00 pm ist";
+
 export const hero = {
   kicker: "Designed to be noticed · Built to last a lifetime",
   headline: "VHSMO",
@@ -140,8 +143,8 @@ export const instantTransfer = {
       "/vhsmoclicks/seven.jpg",
       "/samples/sample-warm.jpg",
       "/samples/sample-flat.jpg",
-      "/buyproduct/vhsmoparty.jpg",
-      "/buyproduct/usingvhsmo.jpg",
+      "/buyproduct/pinkSide.png",
+      "/buyproduct/pinkFront.png",
       "/hero-green.jpg",
     ],
   },
@@ -154,7 +157,7 @@ export const careers = {
   headline: "Create Your Own Career.",
   body: "We're always on the lookout for creators & enthusiasts to join our team. If VHSMO sounds like the place for you, drop us your info - we'll be sure to reach out :)",
   image: {
-    src: "/buyproduct/usingvhsmo.jpg",
+    src: "/buyproduct/pinkFront.png",
     alt: "A VHSMO creator shooting on the pink camera",
     width: 1500,
     height: 1200,
@@ -168,29 +171,50 @@ export const shotOn = {
   kicker: "Shot on VHSMO / Vol. I",
   headline: "Real moments. No filters.",
   photos: [
-    { src: "/vhsmoclicks/one.jpg", alt: "Two friends dressed up at a house party" },
-    { src: "/vhsmoclicks/two.JPEG", alt: "A night out, caught in direct flash" },
-    { src: "/vhsmoclicks/three.jpg", alt: "An in-between moment shot on VHSMO" },
+    {
+      src: "/vhsmoclicks/one.jpg",
+      alt: "Two friends dressed up at a house party",
+    },
+    {
+      src: "/vhsmoclicks/two.JPEG",
+      alt: "A night out, caught in direct flash",
+    },
+    {
+      src: "/vhsmoclicks/three.jpg",
+      alt: "An in-between moment shot on VHSMO",
+    },
     { src: "/vhsmoclicks/four.jpeg", alt: "A trip photographed on VHSMO" },
     { src: "/vhsmoclicks/five.JPG", alt: "Golden hour shot on VHSMO" },
     { src: "/vhsmoclicks/six.jpg", alt: "Friends shot on VHSMO" },
     { src: "/vhsmoclicks/seven.jpg", alt: "A quiet moment shot on VHSMO" },
     { src: "/vhsmoclicks/eight.jpg", alt: "A night out shot on VHSMO" },
-    { src: "/vhsmoclicks/nine.jpg", alt: "Friends in direct flash, shot on VHSMO" },
-    { src: "/vhsmoclicks/ten.jpg", alt: "A candid moment shot on VHSMO" },
+    {
+      src: "/vhsmoclicks/nine.jpg",
+      alt: "Friends in direct flash, shot on VHSMO",
+    },
+    { src: "/vhsmoclicks/twentythree.jpg", alt: "A candid moment shot on VHSMO" },
     { src: "/vhsmoclicks/eleven.jpg", alt: "An evening out shot on VHSMO" },
     { src: "/vhsmoclicks/twelve.jpg", alt: "A quiet moment shot on VHSMO" },
-    { src: "/vhsmoclicks/thirteen.JPEG", alt: "A day out shot on VHSMO" },
-    { src: "/vhsmoclicks/fourteen.JPEG", alt: "A moment between friends, shot on VHSMO" },
-    { src: "/vhsmoclicks/fifteen.jpg", alt: "Golden hour, shot on VHSMO" },
+    { src: "/vhsmoclicks/twentyone.JPEG", alt: "A day out shot on VHSMO" },
+    {
+      src: "/vhsmoclicks/fourteen.JPEG",
+      alt: "A moment between friends, shot on VHSMO",
+    },
+    { src: "/vhsmoclicks/eighteen.jpg", alt: "Golden hour, shot on VHSMO" },
     { src: "/vhsmoclicks/sixteen.JPEG", alt: "A night in, shot on VHSMO" },
     { src: "/vhsmoclicks/seventeen.jpg", alt: "A trip photographed on VHSMO" },
-    { src: "/vhsmoclicks/eighteen.jpg", alt: "A party caught on VHSMO" },
-    { src: "/vhsmoclicks/nineteen.jpg", alt: "An in-between moment shot on VHSMO" },
+    { src: "/vhsmoclicks/fifteen.jpg", alt: "A party caught on VHSMO" },
+    {
+      src: "/vhsmoclicks/nineteen.jpg",
+      alt: "An in-between moment shot on VHSMO",
+    },
     { src: "/vhsmoclicks/twenty.jpg", alt: "A quiet moment shot on VHSMO" },
-    { src: "/vhsmoclicks/twentyone.jpg", alt: "Friends shot on VHSMO" },
+    { src: "/vhsmoclicks/thirteen.jpg", alt: "Friends shot on VHSMO" },
     { src: "/vhsmoclicks/twentytwo.jpg", alt: "A late night shot on VHSMO" },
-    { src: "/vhsmoclicks/twentythree.jpg", alt: "A candid frame shot on VHSMO" },
+    {
+      src: "/vhsmoclicks/ten.jpg",
+      alt: "A candid frame shot on VHSMO",
+    },
     { src: "/vhsmoclicks/twentyfour.jpg", alt: "A weekend shot on VHSMO" },
     { src: "/vhsmoclicks/twentyfive.jpg", alt: "A moment caught on VHSMO" },
     { src: "/vhsmoclicks/twentysix.JPEG", alt: "A night out shot on VHSMO" },
@@ -288,7 +312,7 @@ export const finalCta = {
   sub: "First batch - /2026. Reserve yours before it's gone.",
   cta: "Reserve yours",
   photo: {
-    src: "/buyproduct/usingvhsmo.jpg",
+    src: "/buyproduct/pinkFront.png",
     alt: "Someone raising a pink VHSMO to their eye, mid-shot in the sun",
   },
 };

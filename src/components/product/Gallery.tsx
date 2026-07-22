@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Rotate3d } from "lucide-react";
-import { inspectFeatures, type ProductImage, type InspectFeature } from "@/lib/products";
+import { inspectFeatures, type InspectFeature } from "@/lib/products";
+import { useColor } from "@/lib/color-context";
 import { cn } from "@/lib/utils";
 import type { ModelView } from "@/components/product/CameraViewer";
 
@@ -38,9 +39,18 @@ const MODEL_BACKGROUND =
  * Photo thumbs sit in the rail; the last tile flips the same stage over to the
  * 3D model, where the feature chips swing the orbit camera to that angle.
  */
-export function Gallery({ images }: { images: ProductImage[] }) {
+export function Gallery() {
+  const { color, variant } = useColor();
+  const images = variant.images;
   const [active, setActive] = useState(0);
   const [mode, setMode] = useState<"photos" | "model">("photos");
+
+  // Picking a new finish shows that body from the front again, and pulls the
+  // stage back from the 3D model so the change is actually visible.
+  useEffect(() => {
+    setActive(0);
+    setMode("photos");
+  }, [color]);
 
   const holderRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
@@ -107,7 +117,7 @@ export function Gallery({ images }: { images: ProductImage[] }) {
                   : "opacity-70 hover:opacity-100",
               )}
             >
-              <Image src={image.src} alt="" fill sizes="72px" className="object-cover" />
+              <Image src={image.src} alt="" fill sizes="72px" className="object-contain" />
             </button>
           ))}
 
@@ -128,22 +138,22 @@ export function Gallery({ images }: { images: ProductImage[] }) {
           </button>
         </div>
 
-        {/* The stage - a taped print in the darkroom, or the object itself */}
+        {/* The stage - a print in the darkroom, or the object itself */}
         <div className="relative order-1 flex-1 lg:order-2">
-          <span
-            aria-hidden
-            className="tape -top-3 left-1/2 z-10 -translate-x-1/2 -rotate-2"
-          />
           <div
             className={cn(
-              "relative aspect-square overflow-hidden p-2.5 shadow-[0.4rem_0.7rem_1.6rem_rgba(31,26,24,0.22)] sm:p-3",
+              // Same plate as the pinned prints in the story spread: white
+              // border with a deeper lip along the bottom, one soft shadow.
+              "relative overflow-hidden p-2.5 pb-4 shadow-[0.25rem_0.5rem_1.1rem_rgba(31,26,24,0.22)] sm:p-3 sm:pb-5",
               showModel ? "" : "bg-overexpose",
             )}
             style={showModel ? { background: MODEL_BACKGROUND } : undefined}
           >
+            {/* The aspect lives on the window, not the plate, so the border
+                can be uneven without squashing the 4:3 renders */}
             <div
               ref={holderRef}
-              className="relative h-full w-full touch-pan-y overflow-hidden"
+              className="relative aspect-[4/3] w-full touch-pan-y overflow-hidden"
             >
               {showModel ? (
                 mounted ? (
@@ -165,27 +175,35 @@ export function Gallery({ images }: { images: ProductImage[] }) {
                     priority={i === 0}
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className={cn(
-                      "object-cover",
-                      i === active ? "opacity-100" : "opacity-0",
+                      // The renders are 4:3 studio shots on white - cropping
+                      // them to the square stage clipped the body, so fit the
+                      // whole frame instead - the white letterbox is the same
+                      // white as the plate, so the bands don't read as bands
+                      "object-contain",
+                      // Swapping angles cross-dissolves, the incoming shot
+                      // easing down from a hair oversized - enough to feel
+                      // like a change, not enough to notice as an effect
+                      reduceMotion
+                        ? "transition-opacity duration-200"
+                        // Tailwind v4 scales via the standalone `scale`
+                        // property, so `transform` here would never animate
+                        : "transition-[opacity,scale] duration-500 ease-[var(--ease-out-expo)]",
+                      i === active
+                        ? "scale-100 opacity-100"
+                        : "scale-[1.04] opacity-0",
                     )}
                   />
                 ))
               )}
             </div>
 
-            {/* Badges */}
-            <div className="absolute left-4 top-4 flex flex-wrap items-center gap-2">
-              {showModel ? (
-                <span className="font-marker pointer-events-none rotate-[-3deg] rounded-full bg-bluehour px-2.5 py-1 text-xs text-overexpose">
-                  360° · this is the real shape
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-2 rounded-full bg-kodak px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-darkroom">
-                  <span className="size-1.5 animate-pulse rounded-full bg-darkroom" />
-                  Reservations open
-                </span>
-              )}
-            </div>
+            {/* Badge - only the 3D stage gets one; the photos stay a clean
+                print, like the ones pinned up in the story spread */}
+            {showModel && (
+              <span className="font-marker pointer-events-none absolute left-4 top-4 rotate-[-3deg] rounded-full bg-bluehour px-2.5 py-1 text-xs text-overexpose">
+                360° · this is the real shape
+              </span>
+            )}
 
             {/* Control hint - retires after the first grab */}
             {showModel && !interacted && (

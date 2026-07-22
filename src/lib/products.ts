@@ -17,6 +17,76 @@ export interface Product {
   highlights: string[];
 }
 
+/** A body colour you can buy, with its own three-shot photo set. */
+export interface ColorVariant {
+  id: string;
+  /** Hex shown in the swatch row on the purchase panel. */
+  swatch: string;
+  images: ProductImage[];
+}
+
+export const colorVariants: ColorVariant[] = [
+  {
+    id: "Pink",
+    swatch: "#f2a8bd",
+    images: [
+      {
+        src: "/buyproduct/pinkFront.png",
+        alt: "VHSMO Camera in Pink, front view",
+      },
+      {
+        src: "/buyproduct/pinkBack.png",
+        alt: "VHSMO Camera in Pink, back view",
+      },
+      {
+        src: "/buyproduct/pinkSide.png",
+        alt: "VHSMO Camera in Pink, three-quarter side view",
+      },
+    ],
+  },
+  {
+    id: "Black",
+    swatch: "#1c1a19",
+    images: [
+      {
+        src: "/buyproduct/blackFront.png",
+        alt: "VHSMO Camera in Black, front view",
+      },
+      {
+        src: "/buyproduct/blackBack.png",
+        alt: "VHSMO Camera in Black, back view",
+      },
+      {
+        src: "/buyproduct/blackSide.png",
+        alt: "VHSMO Camera in Black, three-quarter side view",
+      },
+    ],
+  },
+  {
+    id: "Red",
+    swatch: "#c02b25",
+    images: [
+      {
+        src: "/buyproduct/redFront.png",
+        alt: "VHSMO Camera in Red, front view",
+      },
+      {
+        src: "/buyproduct/redBack.png",
+        alt: "VHSMO Camera in Red, back view",
+      },
+      {
+        src: "/buyproduct/redSide.png",
+        alt: "VHSMO Camera in Red, three-quarter side view",
+      },
+    ],
+  },
+];
+
+/** Look up a variant by id, falling back to the first (the default finish). */
+export function variantFor(id: string): ColorVariant {
+  return colorVariants.find((c) => c.id === id) ?? colorVariants[0]!;
+}
+
 export interface SpecGroup {
   group: string;
   items: { label: string; value: string }[];
@@ -43,24 +113,8 @@ export const cameraProduct: Product = {
   depositNote:
     "Reserve now to lock in the early price. Fully refundable if not shipped by September 15th 2026.",
   estimatedShipping: "First batch · ships 2026",
-  images: [
-    {
-      src: "/buyproduct/firstimage.jpg",
-      alt: "VHSMO Camera, front view on a neutral background",
-    },
-    {
-      src: "/buyproduct/vhsmoinhand.jpg",
-      alt: "VHSMO Camera held in hand, showing compact size and finish",
-    },
-    {
-      src: "/buyproduct/usingvhsmo.jpg",
-      alt: "Someone shooting with the VHSMO Camera outdoors",
-    },
-    {
-      src: "/buyproduct/vhsmoparty.jpg",
-      alt: "VHSMO Camera on a table at a party",
-    },
-  ],
+  /** The default finish's shots - the gallery swaps these per selected colour. */
+  images: colorVariants[0]!.images,
   highlights: [
     "Real 2000s-style photos. No filters. No overlays.",
     "Screen-free. No menus. Stay in the moment.",

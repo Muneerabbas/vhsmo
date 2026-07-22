@@ -11,13 +11,10 @@ import { Scribble } from "@/components/brand/Scribble";
 import { MagneticButton } from "@/components/brand/MagneticButton";
 import { Reveal } from "@/components/brand/Reveal";
 import { seededRotation } from "@/lib/random";
-import { TAGLINE } from "@/lib/landing";
+import { TAGLINE, LAUNCH_BANNER } from "@/lib/landing";
 
 // VHSMO goes live - July 25, 6:00 PM IST.
 const LAUNCH_DATE = new Date("2026-07-25T18:00:00+05:30");
-
-/** The line both marquee bands run - the Marquee uppercases it. */
-const LAUNCH_BANNER = "launching july 25 2026: 6:00 pm ist";
 
 type Remaining = {
   days: number;

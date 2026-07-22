@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Check, ShieldCheck, Truck } from "lucide-react";
-import { cameraProduct } from "@/lib/products";
+import { cameraProduct, colorVariants } from "@/lib/products";
+import { useColor } from "@/lib/color-context";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { flyToCart } from "@/lib/fly-to-cart";
@@ -30,18 +31,13 @@ function PlayLogo() {
   );
 }
 
-const colors = [
-  { id: "Blush", swatch: "#f2b8c6" },
-  { id: "Cream", swatch: "#ece4d3" },
-  { id: "Charcoal", swatch: "#2a2422" },
-] as const;
-
 export function PurchasePanel() {
   const { addItem } = useCart();
-  const [color, setColor] = useState<string>(colors[0].id);
+  const { color, setColor, variant } = useColor();
   const [adding, setAdding] = useState(false);
 
-  const hero = cameraProduct.images[0]!;
+  // Whatever finish is on the stage is what flies to the cart.
+  const hero = variant.images[0]!;
 
   // Fly the product image to the cart icon, then land the item in the cart
   // (addItem opens the drawer once the flight ends).
@@ -139,7 +135,7 @@ export function PurchasePanel() {
           Finish: <span className="font-normal text-darkroom/60">{color}</span>
         </p>
         <div className="mt-3 flex gap-3">
-          {colors.map((c) => (
+          {colorVariants.map((c) => (
             <button
               key={c.id}
               onClick={() => setColor(c.id)}
