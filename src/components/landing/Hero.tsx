@@ -80,6 +80,8 @@ export function Hero() {
             sizes="100vw"
             className="hidden object-cover object-[center_30%] sm:block"
           />
+          {/* Brown wash + a light blur to soften the collage behind the type */}
+          <div className="pointer-events-none absolute inset-0 bg-[#5A4332]/30 mix-blend-multiply backdrop-blur-[2px]" />
           {/* <div className="absolute inset-0 bg-[#5A4332]/35 mix-blend-multiply" /> */}
           {/* <div className="absolute inset-0 bg-[#163B38]/45 mix-blend-multiply pointer-events-none" />{" "} */}
         </motion.div>
