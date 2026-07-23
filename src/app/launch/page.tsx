@@ -255,20 +255,7 @@ export default function LaunchPage() {
         </Reveal>
 
         {/* The pitch, in three slapped labels */}
-        <Reveal
-          delay={0.5}
-          className="mt-12 flex flex-wrap items-center justify-center gap-x-5 gap-y-4"
-        >
-          <Sticker variant="paper" size="sm" rotate={seededRotation(51, 5)}>
-            2000s vibes
-          </Sticker>
-          <Sticker variant="paper" size="sm" rotate={seededRotation(52, 5)}>
-            built different
-          </Sticker>
-          <Sticker variant="paper" size="sm" rotate={seededRotation(53, 5)}>
-            limited drop
-          </Sticker>
-        </Reveal>
+      
       </main>
 
       {/* Closing band */}
