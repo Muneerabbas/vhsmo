@@ -53,7 +53,7 @@ export function Hero() {
       ref={ref}
       onMouseMove={onMouseMove}
       aria-label="VHSMO"
-      className="relative flex h-[100svh] min-h-[620px] flex-col justify-end overflow-hidden bg-darkroom"
+      className="relative flex h-[62svh] min-h-[480px] flex-col overflow-hidden bg-darkroom sm:h-[100svh] sm:min-h-[620px] sm:justify-end"
     >
       {/* The scene */}
       <motion.div
@@ -65,12 +65,20 @@ export function Hero() {
           style={reduceMotion ? undefined : { y: scrollImgY }}
         >
           <Image
+            src={hero.imageMobile.src}
+            alt={hero.imageMobile.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_30%] sm:hidden"
+          />
+          <Image
             src={hero.image.src}
             alt={hero.image.alt}
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_30%]"
+            className="hidden object-cover object-[center_30%] sm:block"
           />
           {/* <div className="absolute inset-0 bg-[#5A4332]/35 mix-blend-multiply" /> */}
           {/* <div className="absolute inset-0 bg-[#163B38]/45 mix-blend-multiply pointer-events-none" />{" "} */}
@@ -81,10 +89,10 @@ export function Hero() {
         className="absolute inset-0 bg-gradient-to-t from-darkroom/85 via-darkroom/10 to-darkroom/65"
       />
 
-      {/* The wordmark - wider than the frame, always clipped */}
+      {/* The wordmark - wider than the frame, always clipped (desktop) */}
       <motion.h1
         aria-label="VHSMO"
-        className="pointer-events-none absolute left-1/2 top-1/2 w-[120vw] -translate-x-1/2 -translate-y-1/2 select-none text-center"
+        className="pointer-events-none absolute left-1/2 top-1/2 hidden w-[120vw] -translate-x-1/2 -translate-y-1/2 select-none text-center sm:block"
         style={reduceMotion ? undefined : { x: logoX, y: logoY }}
       >
         <motion.span
@@ -113,27 +121,43 @@ export function Hero() {
           ))}
         </motion.span>
       </motion.h1>
-      <div>
-        <Image
-          src={hero.camera.src}
-          alt={hero.camera.alt}
-          width={400}
-          height={400}
-          className="mx-auto mb-4 z-10"
-        />
-      </div>
+    
       {/* Running heads */}
 
       {/* The pitch */}
       <motion.div
         style={reduceMotion ? undefined : { opacity: fade }}
-        className="shell relative z-10 flex flex-col items-start gap-6 pb-12 sm:flex-row sm:items-end sm:justify-between sm:pb-16"
+        className="shell relative z-10 flex h-full flex-col items-center gap-4 pb-8 text-center sm:h-auto sm:flex-row sm:items-end sm:justify-between sm:pb-16 sm:text-left"
       >
-        <div>
-          <p className="max-w-md text-lg font-medium leading-snug text-overexpose sm:text-2xl">
+        <div className="my-auto pt-24 sm:my-0 sm:pt-0">
+          <p className="eyebrow text-kodak sm:hidden">{TAGLINE.join(" ")}</p>
+          {/* The wordmark, in the stack Flashback-style (mobile) */}
+          <h1
+            aria-label="VHSMO"
+            className="pointer-events-none mt-2 select-none text-center sm:hidden"
+          >
+            <span className="font-marker block whitespace-nowrap text-[19vw] leading-none text-kodak drop-shadow-[0.3rem_0.45rem_0_rgba(31,26,24,0.35)]">
+              {"VHSMO".split("").map((ch, i) => (
+                <span
+                  key={i}
+                  aria-hidden
+                  className="inline-block"
+                  style={{
+                    rotate: `${seededRotation(i + 7, 6)}deg`,
+                    translate: `0px ${seededRotation(i + 3, 2)}vw`,
+                  }}
+                >
+                  {ch}
+                </span>
+              ))}
+            </span>
+          </h1>
+          <p className="mt-4 max-w-md text-lg font-medium leading-snug text-overexpose sm:mt-0 sm:text-2xl">
             {hero.sub}
           </p>
-          <p className="eyebrow mt-3 text-kodak">{TAGLINE.join(" ")}</p>
+          <p className="eyebrow mt-3 hidden text-kodak sm:block">
+            {TAGLINE.join(" ")}
+          </p>
         </div>
         <MagneticButton href={RESERVE_HREF}>
           {hero.cta}

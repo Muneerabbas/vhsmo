@@ -16,7 +16,11 @@ export const hero = {
   sub: "A screen-free pocket camera with the soul of 2000s.",
   cta: "Reserve yours",
   image: {
-    src: "/heroNew2.png",
+    src: "/heroLatest.png",
+    alt: "VHSMO camera in a cinematic scene",
+  },
+  imageMobile: {
+    src: "/heroNewDim.png",
     alt: "VHSMO camera in a cinematic scene",
   },
   camera: {

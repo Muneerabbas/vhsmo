@@ -8,8 +8,9 @@ import { Menu, ShoppingBag, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { flyToCart } from "@/lib/fly-to-cart";
 import { cn } from "@/lib/utils";
-import { RESERVE_HREF, YEAR_MARK } from "@/lib/landing";
+import { RESERVE_HREF, YEAR_MARK, LAUNCH_BANNER } from "@/lib/landing";
 import { useDefaultProduct } from "@/lib/products-context";
+import { Marquee } from "@/components/brand/Marquee";
 
 const navLinks = [
   { label: "Shop", href: RESERVE_HREF },
@@ -77,6 +78,8 @@ export function Header() {
           : "border-b border-transparent bg-transparent",
       )}
     >
+      {/* Launch announcement band, Flashback-style, above the nav */}
+      <Marquee text={LAUNCH_BANNER} duration={24} />
       <div className="shell flex h-16 items-center justify-between sm:h-20">
         <Link
           href="/"

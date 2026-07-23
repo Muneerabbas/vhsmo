@@ -1,6 +1,4 @@
 import { Hero } from "@/components/landing/Hero";
-import { Marquee } from "@/components/brand/Marquee";
-import { LAUNCH_BANNER } from "@/lib/landing";
 import { Story } from "@/components/landing/Story";
 import { Showcase } from "@/components/landing/Showcase";
 import { InstantTransfer } from "@/components/landing/InstantTransfer";
@@ -34,8 +32,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      {/* Same "now rolling" band the launch poster runs under its head */}
-      <Marquee text={LAUNCH_BANNER} duration={24} />
       <Story />
       {/* <Showcase /> */}
       {/* <InstantTransfer /> */}
