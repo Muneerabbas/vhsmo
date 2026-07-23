@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { City, Country, State } from "country-state-city";
 import { Building2, Globe, Hash, Home, Landmark, MapPin, User } from "lucide-react";
 import type { Address } from "@/components/address/types";
@@ -186,17 +187,28 @@ export function ShippingSection({
           ))}
 
           {/* Cascading location: Country → State → City. */}
-          <LocationSelect
-            label="Country"
-            placeholder="Select Country"
-            required
-            disabled
-            icon={<Globe className={iconClass} />}
-            value={address.country}
-            options={countries}
-            onSelect={() => {}}
-            error={errors.country}
-          />
+          <div>
+            <LocationSelect
+              label="Country"
+              placeholder="Select Country"
+              required
+              disabled
+              icon={<Globe className={iconClass} />}
+              value={address.country}
+              options={countries}
+              onSelect={() => {}}
+              error={errors.country}
+            />
+            <p className="mt-1.5 text-xs text-darkroom/55">
+              Outside India?{" "}
+              <Link
+                href="/international-order"
+                className="font-bold text-darkroom underline underline-offset-2 transition-colors hover:text-bluehour"
+              >
+                Use the international order form
+              </Link>
+            </p>
+          </div>
           <LocationSelect
             label="State / Province"
             placeholder="Select State"

@@ -56,7 +56,20 @@ export function Faq({
               {items.map((faq, i) => (
                 <AccordionItem key={i} value={`item-${i}`}>
                   <AccordionTrigger>{faq.question}</AccordionTrigger>
-                  <AccordionContent>{faq.answer}</AccordionContent>
+                  <AccordionContent>
+                    {faq.answer}
+                    {faq.link && (
+                      <>
+                        {" "}
+                        <a
+                          href={faq.link.href}
+                          className="font-semibold text-darkroom underline decoration-kodak decoration-2 underline-offset-4"
+                        >
+                          {faq.link.label}
+                        </a>
+                      </>
+                    )}
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

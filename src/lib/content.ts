@@ -180,6 +180,8 @@ export const testimonials: Testimonial[] = [
 export interface FaqItem {
   question: string;
   answer: string;
+  /** Optional call-to-action rendered after the answer. */
+  link?: { href: string; label: string };
 }
 
 export const faqs: FaqItem[] = [
@@ -211,7 +213,11 @@ export const faqs: FaqItem[] = [
   {
     question: "Do you ship internationally?",
     answer:
-      "Yes. We ship to most countries with free standard delivery. Any import duties are calculated transparently at checkout based on your destination.",
+      "Checkout currently delivers within India and its union territories. Ordering from anywhere else? Fill in the international order form and we'll arrange shipping and pricing for your country directly.",
+    link: {
+      href: "/international-order",
+      label: "Open the international order form",
+    },
   },
 ];
 
