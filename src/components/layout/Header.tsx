@@ -128,13 +128,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* <button
-            type="button"
-            onClick={(e) => void reserve(e.currentTarget)}
-            className="hidden rounded-full bg-kodak px-5 py-2 text-sm font-bold text-darkroom transition-transform hover:scale-105 sm:inline-block"
-          >
-            Reserve
-          </button> */}
+        
           <button
             type="button"
             data-cart-icon
@@ -174,7 +168,7 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex flex-col bg-darkroom md:hidden"
+            className="sticky inset-0 z-50 flex flex-col bg-darkroom md:hidden"
           >
             <div className="container-px flex h-16 items-center justify-between">
               <Image
