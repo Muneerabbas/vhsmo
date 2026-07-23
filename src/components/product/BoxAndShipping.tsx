@@ -5,7 +5,7 @@ import { Reveal } from "@/components/common/Reveal";
 const shippingCards = [
   {
     icon: Truck,
-    title: "Free worldwide shipping",
+    title: "Free PAN India shipping",
     body: "Every pre-order ships free, fully insured and tracked door to door. Duties shown transparently at checkout.",
   },
   {

@@ -212,9 +212,9 @@ export default function LaunchPage() {
               {status === "verified" && (
                 <CheckCircle2 className="status-pop size-4 shrink-0 text-green-500" />
               )}
-              {(status === "notfound" || status === "error") && (
+              {/* {(status === "notfound" || status === "error") && (
                 <XCircle className="status-pop size-4 shrink-0 text-red-400" />
-              )}
+              )} */}
             </div>
 
             <button
@@ -235,7 +235,7 @@ export default function LaunchPage() {
             )}
             {status === "notfound" && (
               <p className="status-rise font-marker inline-block rotate-1 rounded-md bg-red-500/15 px-3 py-1 text-sm text-red-400">
-                This email isn&apos;t on the waitlist yet.
+                This email isn&apos;t on the waitlist.
               </p>
             )}
             {status === "error" && (

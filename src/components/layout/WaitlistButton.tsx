@@ -80,14 +80,14 @@ export function WaitlistButton() {
 
   const sending = status === "sending";
 
-  // Deep link: navigating to /#joinwaitlist opens the modal, so marketing
+  // Deep link: navigating to /#joinvhsmo opens the modal, so marketing
   // links, QR codes and other pages can point straight at the form. Three ways
   // to arrive, three triggers: fresh page load (mount), same-page hash change
   // (hashchange), and a client-side navigation from another route - which
   // pushes state without firing hashchange, hence the `pathname` dep.
   useEffect(() => {
     const check = () => {
-      if (window.location.hash.toLowerCase() === "#joinwaitlist") {
+      if (window.location.hash.toLowerCase() === "#joinvhsmo") {
         setOpen(true);
       }
     };
@@ -106,8 +106,8 @@ export function WaitlistButton() {
     if (sending) return;
     setOpen(false);
     // Drop the deep-link hash so the URL matches the closed state and a second
-    // click on the same #joinwaitlist link still fires a hashchange.
-    if (window.location.hash.toLowerCase() === "#joinwaitlist") {
+    // click on the same #joinvhsmo link still fires a hashchange.
+    if (window.location.hash.toLowerCase() === "#joinvhsmo") {
       history.replaceState(
         null,
         "",
@@ -220,7 +220,8 @@ export function WaitlistButton() {
                     You&apos;re on the list!
                   </h2>
                   <p className="mt-2 text-sm text-darkroom/65">
-                    We&apos;ll ping you on WhatsApp when the next batch drops.
+                    Keep an eye on your inbox and WhatsApp-We&apos;ll reach out
+                    to you when the batch goes live.
                   </p>
                   <button
                     type="button"
@@ -230,7 +231,9 @@ export function WaitlistButton() {
                     Done
                   </button>
                   <div className="mt-5 w-full">
-                    <CheckStatusLink onNavigate={() => setOpen(false)} />
+                    {status != "done" && (
+                      <CheckStatusLink onNavigate={() => setOpen(false)} />
+                    )}
                   </div>
                 </div>
               ) : (
@@ -242,10 +245,14 @@ export function WaitlistButton() {
                     Join the waitlist
                   </h2>
                   <p className="mt-2 text-sm text-darkroom/65">
-                    Be first in line when the next batch drops.
+                    Secure your spot before the waitlist closes on 24 July at
+                    11:59 PM IST.
                   </p>
 
-                  <form className="mt-6 flex flex-col gap-4" onSubmit={onSubmit}>
+                  <form
+                    className="mt-6 flex flex-col gap-4"
+                    onSubmit={onSubmit}
+                  >
                     {FIELDS.map((field) => (
                       <label key={field.name} className="flex flex-col gap-1.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-darkroom/60">

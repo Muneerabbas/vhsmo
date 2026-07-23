@@ -112,7 +112,7 @@ export function ContactSection({
                 {emailStatus === "verified" &&
                   "Verified - you're on the waitlist."}
                 {emailStatus === "notfound" &&
-                  "This email isn't on the waitlist yet."}
+                  "This email isn't on the waitlist."}
               </p>
             )
           )}
