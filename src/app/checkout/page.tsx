@@ -133,7 +133,7 @@ export default function CheckoutPage() {
           subtotal={subtotal}
           shipping={shipping}
           tax={tax}
-          total={1}
+          total={subtotal + shipping + tax}
           emailStatus={emailStatus}
           canCheckout={Object.keys(errors).length === 0 && emailStatus === "verified"}
           onAttemptCheckout={attemptCheckout}

@@ -1,3 +1,4 @@
+import { hasLaunched } from "@/lib/launch";
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 
@@ -7,6 +8,15 @@ const razorpay = new Razorpay({
 });
 
 export async function POST(req: Request) {
+
+
+    if (!hasLaunched()) {
+      return Response.json(
+        { error: "Launch has not started" },
+        { status: 403 },
+      );
+    } 
+    
   try {
     const { amount } = await req.json();
 
