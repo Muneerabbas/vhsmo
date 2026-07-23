@@ -50,12 +50,17 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scrollbar-color: var(--color-kodak) var(--color-darkroom-deep);
+    /* Kill rubber-band overscroll at the top. On iOS/in-app WebViews the
+       bounce drags the fixed header down, leaking page content above the
+       marquee (see Header.tsx). Clamping it keeps the nav pinned to y=0. */
+    overscroll-behavior-y: none;
   }
 
   body {
     background-color: var(--color-darkroom);
     color: var(--color-halide);
     font-family: var(--font-sans);
+    overscroll-behavior-y: none;
   }
 
   ::selection {
