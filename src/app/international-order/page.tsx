@@ -18,9 +18,8 @@ export default function Page() {
         outside India?
       </h1>
       <p className="mt-6 max-w-lg text-halide/70">
-        Our checkout currently delivers to Indian PIN codes only. Tell us where
-        you are and what you&apos;d like, and we&apos;ll get back with shipping
-        options and the total for your country - usually within 48 hours.
+        We’ll get back to you if shipping is possible to your country - usually
+        within 48 hours.
       </p>
       <div className="mt-10">
         <InternationalOrderForm />

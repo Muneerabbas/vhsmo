@@ -2,12 +2,17 @@
 
 import { useMemo, useState } from "react";
 import { Country } from "country-state-city";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Globe, Loader2 } from "lucide-react";
 import {
   CountryCodeSelect,
   DEFAULT_COUNTRY,
   type CountryCode,
 } from "@/components/layout/CountryCodeSelect";
+import {
+  LocationSelect,
+  type LocationOption,
+} from "@/components/checkout/LocationSelect";
+import { iconClass } from "@/components/checkout/styles";
 
 type Status = "idle" | "sending" | "done" | "error";
 
@@ -24,7 +29,6 @@ const EMPTY = {
   postalCode: "",
   address: "",
   colour: "",
-  quantity: "1",
   notes: "",
 };
 
@@ -49,11 +53,11 @@ export function InternationalOrderForm() {
   const sending = status === "sending";
 
   // Checkout owns India - it never appears as a destination here.
-  const countries = useMemo(
+  const countries = useMemo<LocationOption[]>(
     () =>
       Country.getAllCountries()
         .filter((c) => c.isoCode !== "IN")
-        .map((c) => c.name),
+        .map((c) => ({ name: c.name, isoCode: c.isoCode })),
     [],
   );
 
@@ -90,7 +94,6 @@ export function InternationalOrderForm() {
           postalCode: values.postalCode.trim(),
           address: values.address.trim(),
           colour: values.colour,
-          quantity: Number(values.quantity),
           notes: values.notes.trim(),
         }),
       });
@@ -187,26 +190,17 @@ export function InternationalOrderForm() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="flex flex-col gap-1.5 sm:col-span-2">
-          <span className={LABEL_CLASS}>Country</span>
-          <select
-            name="country"
-            value={values.country}
-            onChange={(e) => set("country", e.target.value)}
-            disabled={sending}
-            required
-            className={INPUT_CLASS}
-          >
-            <option value="" disabled>
-              Select country
-            </option>
-            {countries.map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <LocationSelect
+          label="Country"
+          placeholder="Select country"
+          className="sm:col-span-2"
+          required
+          disabled={sending}
+          icon={<Globe className={iconClass} />}
+          value={values.country}
+          options={countries}
+          onSelect={(o) => set("country", o.name)}
+        />
         <label className="flex flex-col gap-1.5">
           <span className={LABEL_CLASS}>City</span>
           <input
@@ -254,44 +248,26 @@ export function InternationalOrderForm() {
         />
       </label>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="flex flex-col gap-1.5">
-          <span className={LABEL_CLASS}>Colour</span>
-          <select
-            name="colour"
-            value={values.colour}
-            onChange={(e) => set("colour", e.target.value)}
-            disabled={sending}
-            required
-            className={INPUT_CLASS}
-          >
-            <option value="" disabled>
-              Select colour
+      <label className="flex flex-col gap-1.5">
+        <span className={LABEL_CLASS}>Colour</span>
+        <select
+          name="colour"
+          value={values.colour}
+          onChange={(e) => set("colour", e.target.value)}
+          disabled={sending}
+          required
+          className={INPUT_CLASS}
+        >
+          <option value="" disabled>
+            Select colour
+          </option>
+          {COLOURS.map((c) => (
+            <option key={c} value={c}>
+              {c}
             </option>
-            {COLOURS.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1.5">
-          <span className={LABEL_CLASS}>Quantity</span>
-          <select
-            name="quantity"
-            value={values.quantity}
-            onChange={(e) => set("quantity", e.target.value)}
-            disabled={sending}
-            className={INPUT_CLASS}
-          >
-            {Array.from({ length: 10 }, (_, i) => String(i + 1)).map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+          ))}
+        </select>
+      </label>
 
       <label className="flex flex-col gap-1.5">
         <span className={LABEL_CLASS}>Anything else? (optional)</span>

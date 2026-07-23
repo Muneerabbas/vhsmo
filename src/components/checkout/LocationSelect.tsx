@@ -26,6 +26,12 @@ type LocationSelectProps = {
   className?: string;
   /** Shown inside the open panel when there are genuinely no options. */
   emptyMessage?: string;
+  /**
+   * Cap the number of options rendered at once. Keeps very large lists (e.g.
+   * every city in a country) from mounting thousands of DOM nodes - the search
+   * box still reaches anything past the cap. Omit for no limit (the default).
+   */
+  maxResults?: number;
 };
 
 export function LocationSelect({
@@ -41,6 +47,7 @@ export function LocationSelect({
   error,
   className,
   emptyMessage = "No results found.",
+  maxResults,
 }: LocationSelectProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -51,12 +58,30 @@ export function LocationSelect({
   const listRef = useRef<HTMLUListElement>(null);
   const listboxId = useId();
 
+  // True only when `active` last changed via keyboard (or panel open). Hover
+  // also moves `active`, but auto-scrolling on hover fights the wheel: options
+  // sliding under the cursor fire onMouseEnter → scrollIntoView, cancelling the
+  // scroll. So we scroll into view for keys, not for the mouse.
+  const keyboardNav = useRef(false);
+
   const invalid = Boolean(error);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return options;
-    return options.filter((o) => o.name.toLowerCase().includes(q));
+    const matches = q
+      ? options.filter((o) => o.name.toLowerCase().includes(q))
+      : options;
+    return maxResults ? matches.slice(0, maxResults) : matches;
+  }, [options, query, maxResults]);
+
+  // How many matched before the cap - drives the "keep typing" hint.
+  const totalMatches = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return options.length;
+    return options.reduce(
+      (n, o) => (o.name.toLowerCase().includes(q) ? n + 1 : n),
+      0,
+    );
   }, [options, query]);
 
   // Close on outside click.
@@ -74,9 +99,10 @@ export function LocationSelect({
     if (open) searchRef.current?.focus();
   }, [open]);
 
-  // Keep the highlighted option scrolled into view.
+  // Keep the highlighted option scrolled into view - keyboard/open only.
   useEffect(() => {
-    if (!open) return;
+    if (!open || !keyboardNav.current) return;
+    keyboardNav.current = false;
     const el = listRef.current?.children[active] as HTMLElement | undefined;
     el?.scrollIntoView({ block: "nearest" });
   }, [active, open]);
@@ -91,7 +117,8 @@ export function LocationSelect({
     if (disabled) return;
     setOpen(true);
     setQuery("");
-    // Highlight the current selection if there is one.
+    // Highlight the current selection if there is one, and scroll to it.
+    keyboardNav.current = true;
     const idx = options.findIndex((o) => o.name === value);
     setActive(idx >= 0 ? idx : 0);
   };
@@ -113,10 +140,12 @@ export function LocationSelect({
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
+        keyboardNav.current = true;
         setActive((a) => Math.min(a + 1, filtered.length - 1));
         break;
       case "ArrowUp":
         e.preventDefault();
+        keyboardNav.current = true;
         setActive((a) => Math.max(a - 1, 0));
         break;
       case "Enter":
@@ -192,6 +221,7 @@ export function LocationSelect({
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
+                  keyboardNav.current = true;
                   setActive(0);
                 }}
                 onKeyDown={onKeyDown}
@@ -205,7 +235,10 @@ export function LocationSelect({
               id={listboxId}
               role="listbox"
               aria-label={label}
-              className="max-h-60 overflow-y-auto py-1"
+              // Lenis hijacks wheel events page-wide; this opts the list out so
+              // it scrolls on its own. See providers/SmoothScroll.tsx.
+              data-lenis-prevent
+              className="max-h-60 overflow-y-auto overscroll-contain py-1"
             >
               {filtered.length === 0 ? (
                 <li className="px-4 py-3 text-sm text-darkroom/45">
@@ -238,6 +271,12 @@ export function LocationSelect({
                 })
               )}
             </ul>
+            {totalMatches > filtered.length && (
+              <p className="border-t border-darkroom/10 px-4 py-2 text-xs text-darkroom/45">
+                Showing {filtered.length} of {totalMatches} — keep typing to
+                narrow.
+              </p>
+            )}
           </div>
         )}
       </div>

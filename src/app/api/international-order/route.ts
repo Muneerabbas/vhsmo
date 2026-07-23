@@ -20,7 +20,6 @@ export async function POST(req: Request) {
       postalCode,
       address,
       colour,
-      quantity,
       notes,
     } = await req.json();
 
@@ -41,11 +40,6 @@ export async function POST(req: Request) {
       typeof countryCode === "string"
         ? "+" + countryCode.replace(/[^\d-]/g, "")
         : "";
-
-    const cleanQuantity =
-      typeof quantity === "number" && Number.isInteger(quantity)
-        ? quantity
-        : NaN;
 
     if (!cleanName) {
       return NextResponse.json(
@@ -112,13 +106,6 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!(cleanQuantity >= 1 && cleanQuantity <= 10)) {
-      return NextResponse.json(
-        { success: false, message: "Quantity must be between 1 and 10." },
-        { status: 400 },
-      );
-    }
-
     const { error } = await supabase.from("international_orders").insert({
       name: cleanName,
       email: cleanEmail,
@@ -129,7 +116,9 @@ export async function POST(req: Request) {
       postal_code: cleanPostalCode,
       address: cleanAddress,
       colour: cleanColour,
-      quantity: cleanQuantity,
+      // The form no longer asks for quantity - international orders default to 1
+      // and are adjusted directly over email/WhatsApp if the buyer wants more.
+      quantity: 1,
       notes: cleanNotes || null,
     });
 

@@ -83,14 +83,17 @@ export default function LaunchPage() {
       {/* The scene - night-out photograph sunk into the darkroom */}
       <div aria-hidden className="absolute inset-0">
         <Image
-          src="/heroNew2.png"
+          src="/heroLatest.webp"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-30 "
+          className="object-cover object-[center_30%]"
         />
-        {/* <div className="absolute inset-0 bg-gradient-to-b from-darkroom/80 via-darkroom/55 to-darkroom" /> */}
+        {/* Brown wash + a light blur to soften the collage behind the type - matches the hero */}
+        <div className="pointer-events-none absolute inset-0 bg-[#5A4332]/30 mix-blend-multiply backdrop-blur-[2px]" />
+        {/* Darkroom gradient for type legibility - matches the hero */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-darkroom/85 via-darkroom/10 to-darkroom/65" />
       </div>
 
       {/* Running head - the "now rolling" band, teased for the drop */}

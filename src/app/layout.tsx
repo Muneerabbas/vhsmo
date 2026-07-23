@@ -14,6 +14,7 @@ import { shotOn } from "@/lib/landing";
 import { getProducts } from "@/lib/get-products";
 import { ProductsProvider } from "@/lib/products-context";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SITE_URL } from "@/lib/site";
 /*
  * Brand faces are Sequel Sans (display/body) and Kids Word (marker).
  * Sequel is commercial - Inter Tight is the closest free stand-in. Kids
@@ -31,8 +32,6 @@ const kids = localFont({
   variable: "--font-kids",
   display: "swap",
 });
-
-const SITE_URL = "https://vhsmo.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

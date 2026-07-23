@@ -16,15 +16,15 @@ export const hero = {
   sub: "A screen-free pocket camera with the soul of 2000s.",
   cta: "Reserve yours",
   image: {
-    src: "/heroLatest.png",
+    src: "/heroLatest.webp",
     alt: "VHSMO camera in a cinematic scene",
   },
   imageMobile: {
-    src: "/heroNewDim.png",
+    src: "/heroNewDim.webp",
     alt: "VHSMO camera in a cinematic scene",
   },
   camera: {
-    src: "/camera.png",
+    src: "/camera.webp",
     alt: "VHSMO camera in a cinematic scene",
   },
 };
@@ -92,7 +92,7 @@ export const story = {
         "Our first big win, shared with the mentors willing to bet on what it could become.",
     },
     {
-      src: "/story/story3.png",
+      src: "/story/story3.webp",
       alt: "Friends piled together at night, shot on VHSMO Prototype Version 3.1",
       caption: "an iconic night, in 3MP",
       story:
@@ -308,7 +308,7 @@ export const faq = {
 export const finalCta = {
   welcome: "welcome to\nthe club!!!!!!",
   population:
-    "Population: you, us, and everyone who know the imperfect ones usually mean the most.",
+    "Population: you, us, and everyone who knows the imperfect pictures usually mean the most.",
   closer: "You made it to the end. That probably means you get it.",
   welcomeLine: "Welcome to the club.",
   wordmark: "VHSMO",

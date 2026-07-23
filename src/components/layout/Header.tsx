@@ -54,6 +54,14 @@ export function Header() {
       pathname.startsWith("/legal"));
   const darkText = lightTop && !scrolled;
 
+  // On policy pages the white wordmark is invisible against the light paper
+  // until the header picks up its dark backdrop on scroll, so show the brown
+  // mark at the top and swap to the current white mark once scrolled.
+  const legalTop = !!pathname && pathname.startsWith("/legal") && !scrolled;
+  const logo = legalTop
+    ? { src: "/brownTrans.png", width: 748, height: 679 }
+    : { src: "/whiteTrans.png", width: 748, height: 679 };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -88,10 +96,10 @@ export function Header() {
           className="-rotate-2 leading-none transition-transform hover:rotate-0"
         >
           <Image
-            src="/whiteTrans.png"
+            src={logo.src}
             alt="VHSMO"
-            width={748}
-            height={679}
+            width={logo.width}
+            height={logo.height}
             priority
             className="h-9 w-auto sm:h-10"
           />

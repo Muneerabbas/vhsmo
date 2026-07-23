@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { LEGAL_DOCS } from "@/lib/legal";
+import { SITE_URL } from "@/lib/site";
 
-const BASE = "https://aperture.camera";
+const BASE = SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
