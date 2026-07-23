@@ -41,15 +41,24 @@ function GalleryTrack({
     const track = trackRef.current;
     const half = halfRef.current;
     if (!track || !half) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Reduced motion: no ambient drift, but dragging still works - the rows
+    // are the only way to reach the prints hidden past the viewport edge.
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     let halfWidth = half.offsetWidth;
     let offset = 0; // 0..halfWidth, distance travelled within one wrap
-    let rate = 1; // current speed multiplier
-    let target = 1; // 1 = drifting, 0 = eased to a halt on hover
+    let rate = reducedMotion ? 0 : 1; // current speed multiplier
+    let target = reducedMotion ? 0 : 1; // 1 = drifting, 0 = eased to a halt on hover
     let last = 0;
     let frame = 0;
     let visible = true;
+    let dragging = false;
+    let velocity = 0; // px/s carried over from a drag fling, decays to 0
+
+    // Velocity can run backwards, so wrap into [0, halfWidth) from either side.
+    const wrap = (v: number) => ((v % halfWidth) + halfWidth) % halfWidth;
 
     const draw = () => {
       // `direction` only decides which way the wrapped offset is applied; the
@@ -70,13 +79,13 @@ function GalleryTrack({
       rate += (target - rate) * (1 - Math.exp(-dt / 0.09));
 
       if (halfWidth > 0) {
-        offset += speed * rate * dt;
-        // Wrap by subtraction, never by resetting to 0 - the sub-pixel
-        // remainder carries over, so the seam crossing is invisible.
-        if (offset >= halfWidth) offset -= halfWidth;
+        offset = wrap(offset + (speed * rate + velocity) * dt);
+        // Exponential decay lets a fling glide back into the ambient drift.
+        velocity *= Math.exp(-dt / 0.6);
+        if (Math.abs(velocity) < 2) velocity = 0;
         draw();
       }
-      if (rate < 0.001 && target === 0) {
+      if (rate < 0.001 && target === 0 && velocity === 0) {
         // Fully stopped: stop burning frames until the pointer leaves.
         cancelAnimationFrame(frame);
         frame = 0;
@@ -115,19 +124,72 @@ function GalleryTrack({
     );
     io.observe(track);
 
-    // Bubbling mouseover/mouseout (not enter/leave) so the handlers still fire
-    // while the pointer is over a child print; `relatedTarget` filters out the
-    // crossings between prints inside the track.
-    const onOver = () => {
+    // Bubbling pointerover/pointerout (not enter/leave) so the handlers still
+    // fire while the pointer is over a child print; `relatedTarget` filters out
+    // the crossings between prints inside the track. Mouse only - the
+    // compatibility events a tap synthesises would otherwise freeze the row
+    // with no mouseout to ever unfreeze it.
+    const onOver = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
       target = 0;
     };
-    const onOut = (e: MouseEvent) => {
+    const onOut = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse" || reducedMotion) return;
       if (track.contains(e.relatedTarget as Node | null)) return;
       target = 1;
       if (visible) start();
     };
-    track.addEventListener("mouseover", onOver);
-    track.addEventListener("mouseout", onOut);
+    track.addEventListener("pointerover", onOver);
+    track.addEventListener("pointerout", onOut);
+
+    // Drag to browse - pointer events cover mouse and touch alike. While the
+    // pointer is down the wrapped offset follows it 1:1; on release the fling
+    // velocity (an EMA, so a pause before letting go means no fling) is handed
+    // to the tick loop and decays back into the ambient drift. `touch-pan-y`
+    // on the track leaves vertical page scrolling to the browser, which
+    // reports it as a pointercancel.
+    let dragLastX = 0;
+    let dragLastT = 0;
+    let flingVel = 0;
+
+    const onPointerDown = (e: PointerEvent) => {
+      dragging = true;
+      dragLastX = e.clientX;
+      dragLastT = e.timeStamp;
+      velocity = 0;
+      flingVel = 0;
+      try {
+        track.setPointerCapture(e.pointerId);
+      } catch {
+        // Pointer already gone (or synthetic) - the drag still works, the
+        // capture is only there to keep fast drags from escaping the track.
+      }
+      if (visible) start();
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging || halfWidth === 0) return;
+      const dx = e.clientX - dragLastX;
+      const dtMove = (e.timeStamp - dragLastT) / 1000;
+      dragLastX = e.clientX;
+      dragLastT = e.timeStamp;
+      // Screen-space dx maps onto the offset with the row's own direction, so
+      // the prints always follow the pointer.
+      const delta = direction === "left" ? -dx : dx;
+      offset = wrap(offset + delta);
+      draw();
+      if (dtMove > 0) flingVel = flingVel * 0.8 + (delta / dtMove) * 0.2;
+    };
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      velocity = flingVel;
+      flingVel = 0;
+      if (visible) start();
+    };
+    track.addEventListener("pointerdown", onPointerDown);
+    track.addEventListener("pointermove", onPointerMove);
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
 
     draw();
 
@@ -135,8 +197,12 @@ function GalleryTrack({
       stop();
       ro.disconnect();
       io.disconnect();
-      track.removeEventListener("mouseover", onOver);
-      track.removeEventListener("mouseout", onOut);
+      track.removeEventListener("pointerover", onOver);
+      track.removeEventListener("pointerout", onOut);
+      track.removeEventListener("pointerdown", onPointerDown);
+      track.removeEventListener("pointermove", onPointerMove);
+      track.removeEventListener("pointerup", endDrag);
+      track.removeEventListener("pointercancel", endDrag);
     };
   }, [direction, speed]);
 
@@ -148,6 +214,7 @@ function GalleryTrack({
           alt={photo.alt}
           width={480}
           height={320}
+          draggable={false}
           className="block h-[160px] w-auto object-contain sm:h-[220px] md:h-[280px]"
         />
       </div>
@@ -157,7 +224,7 @@ function GalleryTrack({
   return (
     <div
       ref={trackRef}
-      className="flex w-max items-center will-change-transform"
+      className="flex w-max cursor-grab touch-pan-y select-none items-center will-change-transform active:cursor-grabbing"
     >
       <div ref={halfRef} className="flex shrink-0 items-center">
         {items}
@@ -202,11 +269,11 @@ export function ShotOn() {
 
       {/* Auto-scrolling gallery - two rows drifting in opposite directions */}
       <div className="relative flex flex-col gap-6 md:gap-8">
-        <GalleryTrack photos={topRow} direction="left" speed={38} />
+        <GalleryTrack photos={topRow} direction="left" speed={60} />
         <GalleryTrack
           photos={[...bottomRow].reverse()}
           direction="right"
-          speed={32}
+          speed={52}
         />
 
         {/* Soft edge fades so prints dissolve into the dark instead of clipping */}

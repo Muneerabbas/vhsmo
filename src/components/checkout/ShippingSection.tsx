@@ -48,10 +48,12 @@ export function ShippingSection({
   const [stateIso, setStateIso] = useState("");
 
   // Ensure the submitted address always carries the locked country name.
+  // Runs on every drift, not just mount: the persisted-address hydration can
+  // land after mount and bring back an empty country from an old session.
   useEffect(() => {
     if (address.country !== "India") onChange({ country: "India" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [address.country]);
 
   // Load all countries once.
   const countries = useMemo<LocationOption[]>(

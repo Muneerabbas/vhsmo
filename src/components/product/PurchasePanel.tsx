@@ -187,7 +187,6 @@ export function PurchasePanel() {
             </span>
           ) : (
             <span className="text-darkroom/60">
-              In stock · {variant.stock} available
             </span>
           )}
         </p>

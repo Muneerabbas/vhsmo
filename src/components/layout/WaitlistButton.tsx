@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Loader2, X } from "lucide-react";
 import {
@@ -75,8 +76,25 @@ export function WaitlistButton() {
   const [values, setValues] = useState(EMPTY);
   const [country, setCountry] = useState<CountryCode>(DEFAULT_COUNTRY);
   const [status, setStatus] = useState<Status>("idle");
+  const pathname = usePathname();
 
   const sending = status === "sending";
+
+  // Deep link: navigating to /#joinwaitlist opens the modal, so marketing
+  // links, QR codes and other pages can point straight at the form. Three ways
+  // to arrive, three triggers: fresh page load (mount), same-page hash change
+  // (hashchange), and a client-side navigation from another route - which
+  // pushes state without firing hashchange, hence the `pathname` dep.
+  useEffect(() => {
+    const check = () => {
+      if (window.location.hash.toLowerCase() === "#joinwaitlist") {
+        setOpen(true);
+      }
+    };
+    check();
+    window.addEventListener("hashchange", check);
+    return () => window.removeEventListener("hashchange", check);
+  }, [pathname]);
 
   // Every field filled and plausible - gates the submit button.
   const isValid =
@@ -87,6 +105,15 @@ export function WaitlistButton() {
   function close() {
     if (sending) return;
     setOpen(false);
+    // Drop the deep-link hash so the URL matches the closed state and a second
+    // click on the same #joinwaitlist link still fires a hashchange.
+    if (window.location.hash.toLowerCase() === "#joinwaitlist") {
+      history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+    }
   }
 
   // Body scroll lock + escape to close, mirroring the cart drawer.

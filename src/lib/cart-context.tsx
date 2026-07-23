@@ -31,7 +31,10 @@ type CartAction =
   | { type: "setQuantity"; id: string; variant?: string; quantity: number }
   | { type: "clear" };
 
-const STORAGE_KEY = "aperture-cart-v1";
+// v1 ("aperture-cart-v1") predates the Supabase products table - its lines
+// carried made-up ids and colours ("vhsmo-camera" / "Blush") that polluted
+// real orders. Bumping the key abandons those carts rather than migrating.
+const STORAGE_KEY = "vhsmo-cart-v2";
 const TAX_RATE = 0.0; // Placeholder - calculated at real checkout
 const FREE_SHIPPING = true;
 

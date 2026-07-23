@@ -14,5 +14,6 @@ export const emptyAddress: Address = {
   city: "",
   state: "",
   postalCode: "",
-  country: "",
+  // The store only ships to India - the checkout locks the field to match.
+  country: "India",
 };
