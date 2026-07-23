@@ -102,9 +102,12 @@ function viewToVec3(view: ModelView) {
  * strips are what draw the crisp parallel highlights down a cylindrical lens
  * barrel that read as "product shot" rather than "3D model".
  */
-function StudioEnvironment() {
+function StudioEnvironment({ intensity }: { intensity: number }) {
   return (
-    <Environment resolution={256} frames={1} environmentIntensity={1}>
+    // environmentIntensity is scene.environmentIntensity - a shade-time
+    // multiplier, so per-finish dimming works even though the cubemap itself
+    // is baked once (frames={1}).
+    <Environment resolution={256} frames={1} environmentIntensity={intensity}>
       {/* Dark surround. Metal is a mirror: against a white world it flattens
           into light grey plastic. The contrast between this and the softboxes
           is the entire read of the material. */}
@@ -387,6 +390,10 @@ function NoWebGLFallback({ hero }: { hero: ProductImage }) {
 export interface CameraViewerProps {
   /** sRGB hex for the shell - the selected colourway's `body`. */
   bodyColor: string;
+  /** Multiplier on the whole lighting rig - the colourway's `lightScale`.
+   *  1 is the studio default; dark finishes pass less to avoid reading
+   *  over-lit. */
+  lightScale?: number;
   /** Shown instead of the canvas when WebGL is unavailable. */
   poster: ProductImage;
   /** Slow idle spin - pass false when the section is off screen. */
@@ -397,6 +404,7 @@ export interface CameraViewerProps {
 
 export default function CameraViewer({
   bodyColor,
+  lightScale = 1,
   poster,
   autoRotate,
   onInteract,
@@ -436,17 +444,21 @@ export default function CameraViewer({
         aria-label="Interactive 3D model of the VHSMO camera. Drag to rotate, scroll to zoom."
         role="img"
       >
-        <StudioEnvironment />
+        <StudioEnvironment intensity={lightScale} />
 
         {/* The environment carries the lighting. These are shaping only.
             Ambient is deliberately tiny: it is flat, directionless white and
             is the single most desaturating light in any rig. */}
-        <ambientLight intensity={0.05} />
+        <ambientLight intensity={0.05 * lightScale} />
         {/* Key - the only light doing real modelling on the body. */}
-        <directionalLight position={[5, 7, 4]} intensity={0.5} />
+        <directionalLight position={[5, 7, 4]} intensity={0.5 * lightScale} />
         {/* Cool rim, slightly up: separates the silhouette and makes the warm
             pink read warmer by contrast rather than by adding more light. */}
-        <directionalLight position={[-6, 3, -5]} intensity={0.3} color="#dfe8ff" />
+        <directionalLight
+          position={[-6, 3, -5]}
+          intensity={0.3 * lightScale}
+          color="#dfe8ff"
+        />
 
         <Suspense fallback={null}>
           <CameraModel bodyColor={bodyColor} />

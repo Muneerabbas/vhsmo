@@ -36,6 +36,7 @@ function joinAssets(row: ProductRow): ProductVariant {
     stock: row.stock ?? 0,
     swatch: assets?.swatch ?? "#d9d5d0",
     body: assets?.body ?? "#d9d5d0",
+    lightScale: assets?.lightScale ?? 1,
     images: assets?.images ?? [DEFAULT_PRODUCT_IMAGE],
   };
 }

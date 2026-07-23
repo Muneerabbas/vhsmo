@@ -13,7 +13,7 @@ import { Marquee } from "@/components/brand/Marquee";
 import { shotOn } from "@/lib/landing";
 import { getProducts } from "@/lib/get-products";
 import { ProductsProvider } from "@/lib/products-context";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 /*
  * Brand faces are Sequel Sans (display/body) and Kids Word (marker).
  * Sequel is commercial - Inter Tight is the closest free stand-in. Kids
@@ -117,6 +117,7 @@ export default async function RootLayout({
         <CartProvider>
           <SmoothScroll />
           <Analytics />
+          <SpeedInsights />
 
           <a
             href="#main"

@@ -30,6 +30,13 @@ export interface VariantAssets {
    * material does a per-colour model file start to earn its weight.
    */
   body: string;
+  /**
+   * Multiplier on the 3D viewer's lighting rig for this finish. The rig is
+   * balanced for the pale pink body; a dark saturated shell shows the same
+   * white environment sheen far more visibly and reads over-lit, so such a
+   * finish can run the lights at a fraction. Omit for 1 (the studio default).
+   */
+  lightScale?: number;
   images: ProductImage[];
 }
 
@@ -48,6 +55,7 @@ export interface ProductVariant {
   stock: number;
   swatch: string;
   body: string;
+  lightScale: number;
   images: ProductImage[];
 }
 
@@ -92,6 +100,7 @@ export const variantAssets: Record<string, VariantAssets> = {
   "VHSMO-CHR": {
     swatch: "#c02b25",
     body: "#950606",
+    lightScale: 0.7,
     images: [
       {
         src: "/buyproduct/redFront.png",

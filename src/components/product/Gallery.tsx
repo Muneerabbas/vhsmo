@@ -152,6 +152,7 @@ export function Gallery() {
                 mounted ? (
                   <CameraViewer
                     bodyColor={variant?.body ?? "#ffc9d2"}
+                    lightScale={variant?.lightScale ?? 1}
                     poster={images[0]!}
                     autoRotate={inView && !interacted && !reduceMotion}
                     onInteract={() => setInteracted(true)}
