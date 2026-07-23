@@ -110,7 +110,13 @@ export function Gallery() {
                   : "opacity-70 hover:opacity-100",
               )}
             >
-              <Image src={image.src} alt="" fill sizes="72px" className="object-contain" />
+              <Image
+                src={image.src}
+                alt=""
+                fill
+                sizes="72px"
+                className="object-contain"
+              />
             </button>
           ))}
 
@@ -127,7 +133,9 @@ export function Gallery() {
             style={{ background: MODEL_BACKGROUND }}
           >
             <Rotate3d className="size-5" strokeWidth={1.75} />
-            <span className="text-[0.6rem] font-bold uppercase tracking-wide">3D</span>
+            <span className="text-[0.6rem] font-bold uppercase tracking-wide">
+              3D
+            </span>
           </button>
         </div>
 
@@ -180,9 +188,9 @@ export function Gallery() {
                       // like a change, not enough to notice as an effect
                       reduceMotion
                         ? "transition-opacity duration-200"
-                        // Tailwind v4 scales via the standalone `scale`
-                        // property, so `transform` here would never animate
-                        : "transition-[opacity,scale] duration-500 ease-[var(--ease-out-expo)]",
+                        : // Tailwind v4 scales via the standalone `scale`
+                          // property, so `transform` here would never animate
+                          "transition-[opacity,scale] duration-500 ease-[var(--ease-out-expo)]",
                       i === active
                         ? "scale-100 opacity-100"
                         : "scale-[1.04] opacity-0",
@@ -212,13 +220,12 @@ export function Gallery() {
               render, so the shell reads close to the finish but not exact */}
           {showModel && (
             <p className="mt-3 text-center text-xs leading-relaxed text-darkroom/55">
-              Note: this is a 3D render, not a photograph of the product. Actual
-              colours and finish may vary.
+              Note: this is a 3D render and made strictly for entertainment and
+              interactive purposes. Actual colours and finish may vary.
             </p>
           )}
         </div>
       </div>
-
     </div>
   );
 }
