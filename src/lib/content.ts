@@ -299,7 +299,7 @@ export interface CommunityReel {
 export const communityReels: CommunityReel[] = [
   {
     title: "Reel: Launch Update",
-    thumbnail: "/buyproduct/pinkFront.png",
+    thumbnail: "/buyproduct/pinkFront.webp",
     totalComments: 48,
     comments: [
       {
@@ -328,7 +328,7 @@ export const communityReels: CommunityReel[] = [
   },
   {
     title: "Reel: Behind the Scenes",
-    thumbnail: "/buyproduct/blackSide.png",
+    thumbnail: "/buyproduct/blackSide.webp",
     totalComments: 32,
     comments: [
       {
@@ -356,7 +356,7 @@ export const communityReels: CommunityReel[] = [
   },
   {
     title: "Reel: First Look at VHSMO",
-    thumbnail: "/buyproduct/redFront.png",
+    thumbnail: "/buyproduct/redFront.webp",
     totalComments: 35,
     comments: [
       {
@@ -384,7 +384,7 @@ export const communityReels: CommunityReel[] = [
   },
   {
     title: "Reel: Packaging Reveal",
-    thumbnail: "/buyproduct/pinkSide.png",
+    thumbnail: "/buyproduct/pinkSide.webp",
     totalComments: 28,
     comments: [
       {

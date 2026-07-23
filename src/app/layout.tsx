@@ -60,9 +60,9 @@ export const metadata: Metadata = {
     siteName: "VHSMO",
     images: [
       {
-        url: "/buyproduct/pinkFront.png",
-        width: 1500,
-        height: 1000,
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 900,
         alt: "The VHSMO pocket camera",
       },
     ],

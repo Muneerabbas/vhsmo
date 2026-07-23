@@ -506,7 +506,7 @@ function downloadInvoice(order: Order) {
 
   <div class="foot">
     Thank you for your order. Your VHSMO is hand-assembled to order and ships within 6–7 weeks.
-    Returns are accepted within 7 days of delivery. Questions? support@vhsmo.com
+    Returns are accepted within 7 days of delivery. Questions? team@vhsmo.com
   </div>
 
   <script>window.onload = function () { window.print(); };</script>

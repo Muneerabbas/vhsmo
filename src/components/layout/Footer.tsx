@@ -21,7 +21,7 @@ const columns = [
     Icon: ShoppingBag,
     links: [
       { label: "Pre-order Now", href: RESERVE_HREF },
-      { label: "The Camera", href: "/product" },
+      { label: "International Orders", href: "/international-order" },
     ],
   },
   {
@@ -37,7 +37,7 @@ const columns = [
     Icon: Headphones,
     links: [
       { label: "FAQ", href: "/#faq" },
-      { label: "Contact Us", href: "mailto:support@vhsmo.com" },
+      { label: "Contact Us", href: "mailto:team@vhsmo.com" },
     ],
   },
 ];

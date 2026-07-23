@@ -12,7 +12,6 @@ import {
 } from "framer-motion";
 import { MagneticButton } from "@/components/brand/MagneticButton";
 import { hero, RESERVE_HREF, YEAR_MARK, TAGLINE } from "@/lib/landing";
-import { seededRotation } from "@/lib/random";
 
 /**
  * Full-bleed cinematic opener. The photograph is the set; the wordmark
@@ -91,36 +90,24 @@ export function Hero() {
         className="absolute inset-0 bg-gradient-to-t from-darkroom/85 via-darkroom/10 to-darkroom/65"
       />
 
-      {/* The wordmark - wider than the frame, always clipped (desktop) */}
+      {/* The wordmark - full width, centered inside the frame (desktop) */}
       <motion.h1
         aria-label="VHSMO"
-        className="pointer-events-none absolute left-1/2 top-1/2 hidden w-[120vw] -translate-x-1/2 -translate-y-1/2 select-none text-center sm:block"
+        className="pointer-events-none absolute left-1/2 top-1/2 hidden w-[90vw] max-w-[1400px] -translate-x-1/2 -translate-y-1/2 select-none text-center sm:block"
         style={reduceMotion ? undefined : { x: logoX, y: logoY }}
       >
         <motion.span
-          className="font-marker block whitespace-nowrap text-[30vw] leading-none text-kodak drop-shadow-[0.5rem_0.8rem_0_rgba(31,26,24,0.35)]  select-none"
+          className="block w-full select-none drop-shadow-[0.5rem_0.8rem_0_rgba(31,26,24,0.35)]"
           style={reduceMotion ? undefined : { y: scrollLogoY }}
         >
-          {/* <Image
-            src={hero.camera.src}
-            alt={hero.camera.alt}
-            width={1000}
-            height={400}
-            className="absolute mx-auto top-1rem right-130 z-0"
-          /> */}
-          {"VHSMO".split("").map((ch, i) => (
-            <span
-              key={i}
-              aria-hidden
-              className=" inline-block z-10"
-              style={{
-                rotate: `${seededRotation(i + 7, 6)}deg`,
-                translate: `0px ${seededRotation(i + 3, 2)}vw`,
-              }}
-            >
-              {ch}
-            </span>
-          ))}
+          <Image
+            src="/yellowLogoTrim.png"
+            alt="VHSMO"
+            width={2258}
+            height={589}
+            priority
+            className="block h-auto w-full"
+          />
         </motion.span>
       </motion.h1>
     
@@ -138,20 +125,15 @@ export function Hero() {
             aria-label="VHSMO"
             className="pointer-events-none mt-2 select-none text-center sm:hidden"
           >
-            <span className="font-marker block whitespace-nowrap text-[19vw] leading-none text-kodak drop-shadow-[0.3rem_0.45rem_0_rgba(31,26,24,0.35)]">
-              {"VHSMO".split("").map((ch, i) => (
-                <span
-                  key={i}
-                  aria-hidden
-                  className="inline-block"
-                  style={{
-                    rotate: `${seededRotation(i + 7, 6)}deg`,
-                    translate: `0px ${seededRotation(i + 3, 2)}vw`,
-                  }}
-                >
-                  {ch}
-                </span>
-              ))}
+            <span className="block w-full drop-shadow-[0.3rem_0.45rem_0_rgba(31,26,24,0.35)]">
+              <Image
+                src="/yellowLogoTrim.png"
+                alt="VHSMO"
+                width={2258}
+                height={589}
+                priority
+                className="block h-auto w-full"
+              />
             </span>
           </h1>
           <p className="mt-4 max-w-md text-lg font-medium leading-snug text-overexpose sm:mt-0 sm:text-2xl">

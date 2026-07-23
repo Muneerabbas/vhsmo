@@ -119,22 +119,15 @@ export default function LaunchPage() {
             aria-label="VHSMO"
             className="relative mt-2 select-none whitespace-nowrap"
           >
-            <Link href="/" aria-label="VHSMO home">
-              <span className="font-marker block text-[clamp(4.5rem,20vw,11rem)] leading-[0.9] text-kodak drop-shadow-[0.4rem_0.6rem_0_rgba(31,26,24,0.4)]">
-                {"VHSMO".split("").map((ch, i) => (
-                  <span
-                    key={i}
-                    aria-hidden
-                    className="inline-block"
-                    style={{
-                      rotate: `${seededRotation(i + 7, 6)}deg`,
-                      translate: `0px ${seededRotation(i + 3, 0.6)}rem`,
-                    }}
-                  >
-                    {ch}
-                  </span>
-                ))}
-              </span>
+            <Link href="/" aria-label="VHSMO home" className="block">
+              <Image
+                src="/yellowLogo.png"
+                alt="VHSMO"
+                width={2311}
+                height={679}
+                priority
+                className="mx-auto w-[min(90vw,42rem)] drop-shadow-[0.4rem_0.6rem_0_rgba(31,26,24,0.4)]"
+              />
             </Link>
           </h1>
         </Reveal>

@@ -152,7 +152,7 @@ export function CartDrawer() {
                   />
                   <Row
                     label="Tax"
-                    value={tax === 0 ? "Calculated at checkout" : formatCurrency(tax)}
+                    value={tax !== 0 ? "Calculated at checkout" : "Included"}
                     muted
                   />
                   <div className="my-3 h-px bg-darkroom/12" />

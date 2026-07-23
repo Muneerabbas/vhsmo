@@ -146,8 +146,8 @@ export const instantTransfer = {
       "/vhsmoclicks/seven.jpg",
       "/samples/sample-warm.jpg",
       "/samples/sample-flat.jpg",
-      "/buyproduct/pinkSide.png",
-      "/buyproduct/pinkFront.png",
+      "/buyproduct/pinkSide.webp",
+      "/buyproduct/pinkFront.webp",
       "/hero-green.jpg",
     ],
   },
@@ -160,7 +160,7 @@ export const careers = {
   headline: "Create Your Own Career.",
   body: "We're always on the lookout for creators & enthusiasts to join our team. If VHSMO sounds like the place for you, drop us your info - we'll be sure to reach out :)",
   image: {
-    src: "/buyproduct/pinkFront.png",
+    src: "/buyproduct/pinkFront.webp",
     alt: "A VHSMO creator shooting on the pink camera",
     width: 1500,
     height: 1200,
@@ -318,7 +318,7 @@ export const finalCta = {
   sub: "First batch - /2026. Reserve yours before it's gone.",
   cta: "Reserve yours",
   photo: {
-    src: "/buyproduct/pinkFront.png",
+    src: "/buyproduct/pinkFront.webp",
     alt: "Someone raising a pink VHSMO to their eye, mid-shot in the sun",
   },
 };

@@ -66,15 +66,15 @@ export const variantAssets: Record<string, VariantAssets> = {
     body: "#ffc9d2",
     images: [
       {
-        src: "/buyproduct/pinkFront.png",
+        src: "/buyproduct/pinkFront.webp",
         alt: "VHSMO Camera in Baby Pink, front view",
       },
       {
-        src: "/buyproduct/pinkBack.png",
+        src: "/buyproduct/pinkBack.webp",
         alt: "VHSMO Camera in Baby Pink, back view",
       },
       {
-        src: "/buyproduct/pinkSide.png",
+        src: "/buyproduct/pinkSide.webp",
         alt: "VHSMO Camera in Baby Pink, three-quarter side view",
       },
     ],
@@ -84,15 +84,15 @@ export const variantAssets: Record<string, VariantAssets> = {
     body: "#222222",
     images: [
       {
-        src: "/buyproduct/blackFront.png",
+        src: "/buyproduct/blackFront.webp",
         alt: "VHSMO Camera in Black, front view",
       },
       {
-        src: "/buyproduct/blackBack.png",
+        src: "/buyproduct/blackBack.webp",
         alt: "VHSMO Camera in Black, back view",
       },
       {
-        src: "/buyproduct/blackSide.png",
+        src: "/buyproduct/blackSide.webp",
         alt: "VHSMO Camera in Black, three-quarter side view",
       },
     ],
@@ -103,15 +103,15 @@ export const variantAssets: Record<string, VariantAssets> = {
     lightScale: 0.7,
     images: [
       {
-        src: "/buyproduct/redFront.png",
+        src: "/buyproduct/redFront.webp",
         alt: "VHSMO Camera in Cherry Red, front view",
       },
       {
-        src: "/buyproduct/redBack.png",
+        src: "/buyproduct/redBack.webp",
         alt: "VHSMO Camera in Cherry Red, back view",
       },
       {
-        src: "/buyproduct/redSide.png",
+        src: "/buyproduct/redSide.webp",
         alt: "VHSMO Camera in Cherry Red, three-quarter side view",
       },
     ],

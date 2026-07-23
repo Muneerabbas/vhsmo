@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -84,12 +85,16 @@ export function Header() {
         <Link
           href="/"
           aria-label="VHSMO home"
-          className={cn(
-            "font-marker -rotate-2 text-2xl leading-none transition-transform hover:rotate-0 sm:text-3xl",
-            darkText ? "text-darkroom" : "text-kodak",
-          )}
+          className="-rotate-2 leading-none transition-transform hover:rotate-0"
         >
-          VHSMO
+          <Image
+            src="/whiteTrans.png"
+            alt="VHSMO"
+            width={748}
+            height={679}
+            priority
+            className="h-9 w-auto sm:h-10"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
@@ -110,13 +115,13 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <button
+          {/* <button
             type="button"
             onClick={(e) => void reserve(e.currentTarget)}
             className="hidden rounded-full bg-kodak px-5 py-2 text-sm font-bold text-darkroom transition-transform hover:scale-105 sm:inline-block"
           >
             Reserve
-          </button>
+          </button> */}
           <button
             type="button"
             data-cart-icon
@@ -159,7 +164,13 @@ export function Header() {
             className="fixed inset-0 z-50 flex flex-col bg-darkroom md:hidden"
           >
             <div className="container-px flex h-16 items-center justify-between">
-              <span className="font-marker -rotate-2 text-2xl text-kodak">VHSMO</span>
+              <Image
+                src="/yellowLogo.png"
+                alt="VHSMO"
+                width={2311}
+                height={679}
+                className="h-6 w-auto -rotate-2"
+              />
               <button
                 type="button"
                 onClick={() => setMenuOpen(false)}

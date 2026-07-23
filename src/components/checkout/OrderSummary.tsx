@@ -308,7 +308,7 @@ export function OrderSummary({
           <p className="text-sm font-bold text-darkroom">Need help?</p>
           <p className="text-xs text-darkroom/55">We&apos;re here for you.</p>
           <a
-            href="mailto:support@vhsmo.com"
+            href="mailto:team@vhsmo.com"
             className="text-xs font-semibold text-bluehour hover:underline"
           >
             team@vhsmo.com

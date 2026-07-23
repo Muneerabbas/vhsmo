@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { hasLaunched } from "./lib/launch";
 
 export function middleware(req: NextRequest) {
-  console.log("Middleware hit:", req.nextUrl.pathname);
   const { pathname } = req.nextUrl;
 
   const launched = hasLaunched();

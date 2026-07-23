@@ -3,7 +3,6 @@ import { supabase } from "@/lib/supabase";
 
 export async function POST(req: Request) {
   const { email } = await req.json();
-    console.log("hello");
 
   const { data } = await supabase
     .from("waitlist")
