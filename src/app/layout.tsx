@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     template: "%s · VHSMO",
   },
   description:
-    "A pocket camera with the soul of the 2000s. True retro lens, every shot on your phone in seconds, small enough to live in your jacket. Reserve yours - /2026.",
+    "VHSMO is a screen-free pocket retro camera built to keep you in the moment. No screen. No filters. Just real authentic memories -transferred wirelessly to your phone in seconds, completely offline.",
   keywords: [
     "VHSMO",
     "retro digital camera",
@@ -50,12 +50,16 @@ export const metadata: Metadata = {
     "point and shoot",
   ],
   authors: [{ name: "VHSMO" }],
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     type: "website",
     url: SITE_URL,
     title: "VHSMO - Point. Shoot. Share.",
     description:
-      "A pocket camera with the soul of the 2000s. Reserve yours - /2026.",
+      "VHSMO is a screen-free pocket retro camera built to keep you in the moment. No screen. No filters. Just real authentic memories -transferred wirelessly to your phone in seconds, completely offline.",
     siteName: "VHSMO",
     images: [
       {
@@ -70,7 +74,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "VHSMO - Point. Shoot. Share.",
     description:
-      "A pocket camera with the soul of the 2000s. Reserve yours - /2026.",
+      "VHSMO is a screen-free pocket retro camera built to keep you in the moment. No screen. No filters. Just real authentic memories -transferred wirelessly to your phone in seconds, completely offline.",
+    images: ["/og-image.jpg"],
   },
   alternates: { canonical: SITE_URL },
   robots: { index: true, follow: true },
@@ -86,7 +91,7 @@ const productJsonLd = {
   "@type": "Product",
   name: "VHSMO Pocket Camera",
   description:
-    "A pocket camera with the soul of the 2000s - true retro lens, instant wireless transfer, palm-sized build.",
+    "VHSMO is a screen-free pocket retro camera built to keep you in the moment. No screen. No filters. Just real authentic memories -transferred wirelessly to your phone in seconds, completely offline.",
   brand: { "@type": "Brand", name: "VHSMO" },
   offers: {
     "@type": "Offer",

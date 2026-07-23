@@ -108,7 +108,6 @@ export function Story() {
       seed: 53,
       from: 4,
       offset: "sm:-mt-2",
-      circle: "a 2MP lens",
     },
     { photo: wires, seed: 17, from: -4, offset: "sm:mt-8" },
     { photo: dormHQ, seed: 11, from: 3, offset: "sm:mt-2" },

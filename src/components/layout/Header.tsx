@@ -88,7 +88,7 @@ export function Header() {
       )}
     >
       {/* Launch announcement band, Flashback-style, above the nav */}
-      <Marquee text={LAUNCH_BANNER} duration={24} />
+      <Marquee text={LAUNCH_BANNER} duration={40} />
       <div className="shell flex h-16 items-center justify-between sm:h-20">
         <Link
           href="/"
