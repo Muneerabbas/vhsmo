@@ -5,7 +5,6 @@ import { Headphones, Loader2, Lock, ShieldCheck } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import type { CartItem } from "@/lib/cart-context";
 import type { Address } from "@/components/address/types";
-import type { EmailStatus } from "./useEmailVerification";
 
 type RazorpayResponse = {
   razorpay_order_id: string;
@@ -20,8 +19,9 @@ type OrderSummaryProps = {
   shipping: number;
   tax: number;
   total: number;
-  emailStatus: EmailStatus;
-  /** True when every field is valid and the email is verified. */
+  /** True once the waitlist popup has unlocked checkout. */
+  unlocked: boolean;
+  /** True when every field is valid and checkout has been unlocked. */
   canCheckout: boolean;
   /** Reveals validation errors and reports whether checkout may proceed. */
   onAttemptCheckout: () => boolean;
@@ -42,7 +42,7 @@ export function OrderSummary({
   shipping,
   tax,
   total,
-  emailStatus,
+  unlocked,
   canCheckout,
   onAttemptCheckout,
   customer,
@@ -270,7 +270,7 @@ export function OrderSummary({
           ref={buttonRef}
           type="button"
           onClick={handleCheckout}
-          disabled={processing || emailStatus !== "verified" || !singleUnit}
+          disabled={processing || !unlocked || !singleUnit}
           className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none disabled:hover:shadow-none disabled:active:scale-100"
         >
           {processing ? (
@@ -285,9 +285,7 @@ export function OrderSummary({
                 ? "One unit per order"
                 : canCheckout
                   ? "Pay securely"
-                  : emailStatus === "verified"
-                    ? "Continue"
-                    : "Verify email & continue"}
+                  : "Complete your details"}
             </>
           )}
         </button>

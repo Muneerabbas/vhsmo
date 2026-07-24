@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePersistedState } from "./usePersistedState";
 
 export type EmailStatus = "idle" | "checking" | "verified" | "notfound";
 
-/** Debounced check of the entered email against the waitlist. */
-export function useEmailVerification() {
-  const [email, setEmail] = usePersistedState("checkout:email", "");
+/**
+ * Debounced check of a given email against the waitlist. The email is owned by
+ * the caller; this hook only reports its status. Waitlist membership is the
+ * "password" that unlocks checkout, so this lives with the access gate (the
+ * checkout popup) rather than the checkout form itself.
+ */
+export function useWaitlistCheck(email: string): EmailStatus {
   const [status, setStatus] = useState<EmailStatus>("idle");
   const isFormatValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
@@ -38,5 +41,5 @@ export function useEmailVerification() {
     };
   }, [email, isFormatValid]);
 
-  return { email, setEmail, status };
+  return status;
 }

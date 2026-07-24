@@ -17,15 +17,17 @@ import { EmptyCart } from "@/components/checkout/EmptyCart";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { ShippingSection } from "@/components/checkout/ShippingSection";
 import { DeliveryBanner } from "@/components/checkout/DeliveryBanner";
-import { useEmailVerification } from "@/components/checkout/useEmailVerification";
 import { usePincodeServiceability } from "@/components/checkout/usePincodeServiceability";
+import { WaitlistNotice } from "@/components/checkout/WaitlistNotice";
 
 export default function CheckoutPage() {
   const { items, subtotal, shipping, tax, count, isHydrated, clear } =
     useCart();
 
-  // Email verification against the waitlist.
-  const { email, setEmail, status: emailStatus } = useEmailVerification();
+  // The email is a plain contact field now — waitlist verification happens
+  // once, in the access-gate popup, which unlocks the form below.
+  const [email, setEmail] = usePersistedState("checkout:email", "");
+  const [unlocked, setUnlocked] = useState(false);
   const [firstName, setFirstName] = usePersistedState("checkout:firstName", "");
   const [lastName, setLastName] = usePersistedState("checkout:lastName", "");
   const [phone, setPhone] = usePersistedState("checkout:phone", "");
@@ -69,9 +71,10 @@ export default function CheckoutPage() {
 
   // A PIN Delhivery has explicitly rejected blocks checkout; a check that's
   // still pending or errored out falls back to the format validation alone.
+  // Waitlist access is proven by the popup gate (`unlocked`), not re-checked.
   const canCheckout =
     Object.keys(errors).length === 0 &&
-    emailStatus === "verified" &&
+    unlocked &&
     pincodeStatus !== "unserviceable";
 
   /** Called by the checkout button. Reveals errors and reports readiness. */
@@ -110,6 +113,11 @@ export default function CheckoutPage() {
 
   return (
     <div className="paper flex min-h-dvh flex-col">
+      <WaitlistNotice
+        email={email}
+        onEmailChange={setEmail}
+        onUnlock={() => setUnlocked(true)}
+      />
       <CheckoutHeader />
 
       <form
@@ -123,7 +131,6 @@ export default function CheckoutPage() {
             phone={phone}
             onPhoneChange={setPhone}
             onEmailChange={setEmail}
-            emailStatus={emailStatus}
             errors={visibleErrors}
             onBlurField={handleBlur}
           />
@@ -149,7 +156,7 @@ export default function CheckoutPage() {
           shipping={shipping}
           tax={tax}
           total={subtotal + shipping + tax}
-          emailStatus={emailStatus}
+          unlocked={unlocked}
           canCheckout={canCheckout}
           onAttemptCheckout={attemptCheckout}
           customer={{ firstName, lastName, email, phone }}
