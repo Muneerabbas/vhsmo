@@ -9,7 +9,6 @@ import { Sticker, StarburstSeal } from "@/components/brand/Sticker";
 import { TapedPhoto } from "@/components/brand/TapedPhoto";
 import { Scribble } from "@/components/brand/Scribble";
 import { MagneticButton } from "@/components/brand/MagneticButton";
-import { Reveal } from "@/components/brand/Reveal";
 import { seededRotation } from "@/lib/random";
 import { TAGLINE, LAUNCH_BANNER } from "@/lib/landing";
 
@@ -107,35 +106,30 @@ export default function LaunchPage() {
 
       {/* ---------- The poster ---------- */}
       <main className="container-px relative z-10 flex flex-1 flex-col items-center justify-center py-16 text-center sm:py-5">
-        <Reveal>
-  
-          <div className="mt-5">
-            <Sticker rotate={seededRotation(3, 4)} size="md">
-              Launching soon
-            </Sticker>
-          </div>
-        </Reveal>
+        <div className="mt-5">
+          <Sticker rotate={seededRotation(3, 4)} size="md">
+            Launching soon
+          </Sticker>
+        </div>
 
         {/* Wordmark - sprayed on, one letter at a time */}
-        <Reveal delay={0.1} fromRotate={-2}>
-          <h1
-            aria-label="VHSMO"
-            className="relative mt-2 select-none whitespace-nowrap"
-          >
-            <Link href="/" aria-label="VHSMO home" className="block">
-              <Image
-                src="/yellowLogo.png"
-                alt="VHSMO"
-                width={2311}
-                height={679}
-                priority
-                className="mx-auto w-[min(90vw,42rem)] drop-shadow-[0.4rem_0.6rem_0_rgba(31,26,24,0.4)]"
-              />
-            </Link>
-          </h1>
-        </Reveal>
+        <h1
+          aria-label="VHSMO"
+          className="relative mt-2 select-none whitespace-nowrap"
+        >
+          <Link href="/" aria-label="VHSMO home" className="block">
+            <Image
+              src="/yellowLogo.png"
+              alt="VHSMO"
+              width={2311}
+              height={679}
+              priority
+              className="mx-auto w-[min(90vw,42rem)] drop-shadow-[0.4rem_0.6rem_0_rgba(31,26,24,0.4)]"
+            />
+          </Link>
+        </h1>
 
-        <Reveal delay={0.2}>
+        <div>
           <p className="mx-auto mt-7 max-w-md text-balance text-lg font-medium leading-snug text-overexpose sm:text-xl">
             The camera with the soul of the 2000s drops{" "}
             <span className="font-marker inline-block -rotate-1 bg-kodak px-2 text-darkroom">
@@ -143,7 +137,7 @@ export default function LaunchPage() {
             </span>
           </p>
           <p className="eyebrow mt-4 text-kodak">{TAGLINE.join(" ")}</p>
-        </Reveal>
+        </div>
 
         {/* Countdown - four prints taped to the page, or the live sticker */}
         {time?.done ? (
@@ -157,21 +151,19 @@ export default function LaunchPage() {
             </MagneticButton>
           </div>
         ) : (
-          <Reveal delay={0.3}>
-            <div className="mt-12 flex items-center justify-center gap-1 sm:gap-3">
-              <TimePrint label="days" value={time?.days} seed={41} />
-              <Colon />
-              <TimePrint label="hours" value={time?.hours} seed={42} />
-              <Colon />
-              <TimePrint label="mins" value={time?.minutes} seed={43} />
-              <Colon />
-              <TimePrint label="secs" value={time?.seconds} seed={44} />
-            </div>
-          </Reveal>
+          <div className="mt-12 flex items-center justify-center gap-1 sm:gap-3">
+            <TimePrint label="days" value={time?.days} seed={41} />
+            <Colon />
+            <TimePrint label="hours" value={time?.hours} seed={42} />
+            <Colon />
+            <TimePrint label="mins" value={time?.minutes} seed={43} />
+            <Colon />
+            <TimePrint label="secs" value={time?.seconds} seed={44} />
+          </div>
         )}
 
         {/* ---------- Waitlist ---------- */}
-        <Reveal delay={0.4} className="mt-14 w-full max-w-md sm:mt-16">
+        <div className="mt-14 w-full max-w-md sm:mt-16">
           <Sticker variant="bluehour" rotate={seededRotation(17, 3)}>
             Are you on the list?
           </Sticker>
@@ -252,7 +244,7 @@ export default function LaunchPage() {
               </span>
             )}
           </div>
-        </Reveal>
+        </div>
 
         {/* The pitch, in three slapped labels */}
       

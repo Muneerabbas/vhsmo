@@ -123,19 +123,17 @@ export function Story() {
         <div className="grid grid-cols-12 gap-y-16 lg:gap-x-12">
           {/* Left page - the argument */}
           <div className="col-span-12 lg:col-span-4">
-            <Reveal>
-              <h2 className="display text-[clamp(2.1rem,3.4vw,3.6rem)] text-darkroom">
-                Cameras got smarter.
-                <br />
-                Photos got{" "}
-                <span className="font-marker relative inline-block font-normal tracking-normal">
-                  emptier.
-                  <Scribble />
-                </span>
-              </h2>
-            </Reveal>
+            <h2 className="display text-[clamp(2.1rem,3.4vw,3.6rem)] text-darkroom">
+              Cameras got smarter.
+              <br />
+              Photos got{" "}
+              <span className="font-marker relative inline-block font-normal tracking-normal">
+                emptier.
+                <Scribble />
+              </span>
+            </h2>
 
-            <Reveal delay={0.12} className="mt-10 max-w-prose">
+            <div className="mt-10 max-w-prose">
               {story.paragraphs.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 24)}
@@ -144,7 +142,7 @@ export function Story() {
                   {paragraph}
                 </p>
               ))}
-            </Reveal>
+            </div>
           </div>
 
           {/* Right page - the corkboard. Five distinct prints on a 3-column
