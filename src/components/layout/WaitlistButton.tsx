@@ -314,6 +314,10 @@ export function WaitlistButton() {
                           className={INPUT_CLASS}
                         />
                       </div>
+                      <p className="text-xs text-darkroom/50">
+                        *Your WhatsApp number will only be used for waitlist and
+                        order updates.
+                      </p>
                     </div>
 
                     <button
