@@ -9,6 +9,7 @@ import { useCart } from "@/lib/cart-context";
 import { formatCurrency } from "@/lib/utils";
 import { QuantityStepper } from "@/components/common/QuantityStepper";
 import { Button } from "@/components/ui/button";
+import { track } from "@vercel/analytics";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -168,12 +169,20 @@ export function CartDrawer() {
                 {count === 1 ? (
                   <Link
                     href="/checkout"
-                    onClick={closeCart}
+                    onClick={(e) => {
+                   track("checkout_clicked", {
+                     source: "cart_drawer",
+                   });
+ 
+
+                      closeCart();
+                      }}
                     className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98]"
                   >
                     <Lock className="size-4" />
                     Secure checkout
                   </Link>
+                  
                 ) : (
                   <>
                     <button

@@ -9,6 +9,7 @@ import { useCart } from "@/lib/cart-context";
 import { flyToCart } from "@/lib/fly-to-cart";
 import { Scribble } from "@/components/brand/Scribble";
 import { instantTransfer } from "@/lib/landing";
+import { track } from "@vercel/analytics";
 
 /** Apple logo, for the App Store badge. */
 function AppleLogo() {
@@ -195,7 +196,14 @@ export function PurchasePanel() {
       {/* Actions */}
       <div className="mt-7">
         <button
-          onClick={(e) => void reserve(e.currentTarget)}
+
+      onClick={(e) => {
+  track("reserve_clicked", {
+    source: "product_page",
+  });
+
+  void reserve(e.currentTarget);
+}}
           disabled={adding || soldOut}
           className="flex w-full items-center justify-center gap-2 rounded-full bg-kodak px-8 py-4 text-base font-bold tracking-tight text-darkroom transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(253,241,0,0.25)] active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-darkroom/15 disabled:text-darkroom/50 disabled:shadow-none"
         >
