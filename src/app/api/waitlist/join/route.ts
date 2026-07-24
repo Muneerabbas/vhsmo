@@ -77,6 +77,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false }, { status: 500 });
     }
 
+    // Mirror the email into the legacy `waitlist` table (/api/waitlist/check
+    // reads from it). Failure here shouldn't block the signup.
+    const { error: legacyError } = await supabase.from("waitlist").insert({
+      email: cleanEmail,
+      joined_at: new Date().toISOString(),
+    });
+
+    if (legacyError && legacyError.code !== "23505") {
+      console.error("waitlist legacy insert:", legacyError);
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("waitlist join:", err);
