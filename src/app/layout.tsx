@@ -9,11 +9,9 @@ import { SiteChrome } from "@/components/layout/SiteChrome";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-import { Marquee } from "@/components/brand/Marquee";
-import { shotOn } from "@/lib/landing";
+
 import { getProducts } from "@/lib/get-products";
 import { ProductsProvider } from "@/lib/products-context";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SITE_URL } from "@/lib/site";
 /*
  * Brand faces are Sequel Sans (display/body) and Kids Word (marker).
@@ -122,7 +120,6 @@ export default async function RootLayout({
         <CartProvider>
           <SmoothScroll />
           <Analytics />
-          <SpeedInsights />
 
           <a
             href="#main"
