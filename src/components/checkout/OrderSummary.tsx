@@ -53,8 +53,12 @@ export function OrderSummary({
   const [processing, setProcessing] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  // One VHSMO per order - a cart with more than a single unit (extra
+  // quantity or a second finish) can't be paid for.
+  const singleUnit = count === 1;
+
   const handleCheckout = async () => {
-    if (processing) return;
+    if (processing || !singleUnit) return;
     // Reveal any outstanding validation errors before touching Razorpay.
     if (!onAttemptCheckout()) {
       // Scroll the first error into view for the user.
@@ -215,9 +219,6 @@ export function OrderSummary({
                   sizes="64px"
                   className="object-cover"
                 />
-                <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-darkroom text-[0.65rem] font-bold text-kodak">
-                  {item.quantity}
-                </span>
               </div>
               <div className="flex flex-1 flex-col justify-center">
                 <p className="text-sm font-semibold leading-snug text-darkroom">
@@ -256,12 +257,20 @@ export function OrderSummary({
           </div>
         </div>
 
+        {/* One-unit guard - explains why checkout is blocked before the
+            button, so the disabled state isn't a dead end. */}
+        {!singleUnit && (
+          <p className="mt-5 rounded-xl border-l-2 border-kodak bg-kodak/10 px-4 py-3 text-sm text-darkroom/80">
+            One VHSMO per order - keep a single unit in one finish to check out.
+          </p>
+        )}
+
         {/* Checkout button */}
         <button
           ref={buttonRef}
           type="button"
           onClick={handleCheckout}
-          disabled={processing || emailStatus !== "verified"}
+          disabled={processing || emailStatus !== "verified" || !singleUnit}
           className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none disabled:hover:shadow-none disabled:active:scale-100"
         >
           {processing ? (
@@ -272,11 +281,13 @@ export function OrderSummary({
           ) : (
             <>
               <Lock className="size-4" />
-              {canCheckout
-                ? "Pay securely"
-                : emailStatus === "verified"
-                  ? "Continue"
-                  : "Verify email & continue"}
+              {!singleUnit
+                ? "One unit per order"
+                : canCheckout
+                  ? "Pay securely"
+                  : emailStatus === "verified"
+                    ? "Continue"
+                    : "Verify email & continue"}
             </>
           )}
         </button>

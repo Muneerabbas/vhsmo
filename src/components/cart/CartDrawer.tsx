@@ -162,14 +162,35 @@ export function CartDrawer() {
                   </div>
                 </div>
 
-                <Link
-                  href="/checkout"
-                  onClick={closeCart}
-                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98]"
-                >
-                  <Lock className="size-4" />
-                  Secure checkout
-                </Link>
+                {/* One VHSMO per order: checkout is only allowed when the
+                    cart holds a single unit. More than one quantity, or a
+                    second finish/product, blocks it with a nudge to trim. */}
+                {count === 1 ? (
+                  <Link
+                    href="/checkout"
+                    onClick={closeCart}
+                    className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-bluehour px-8 py-4 text-base font-bold tracking-tight text-overexpose transition-all duration-300 ease-[var(--ease-out-expo)] hover:shadow-[0_0_0_5px_rgba(16,147,255,0.25)] active:scale-[0.98]"
+                  >
+                    <Lock className="size-4" />
+                    Secure checkout
+                  </Link>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      disabled
+                      aria-disabled="true"
+                      className="mt-5 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full bg-darkroom/15 px-8 py-4 text-base font-bold tracking-tight text-darkroom/50"
+                    >
+                      <Lock className="size-4" />
+                      Secure checkout
+                    </button>
+                    <p className="mt-3 text-center text-sm text-darkroom/70">
+                      One VHSMO per order — keep a single unit in one finish to
+                      check out.
+                    </p>
+                  </>
+                )}
 
                 <div className="mt-3 flex items-center justify-center gap-4 text-xs text-darkroom/55">
                   <span className="flex items-center gap-1.5">
