@@ -155,7 +155,7 @@ export default function CheckoutPage() {
           subtotal={subtotal}
           shipping={shipping}
           tax={tax}
-          total={subtotal + shipping + tax}
+          total={1}
           unlocked={unlocked}
           canCheckout={canCheckout}
           onAttemptCheckout={attemptCheckout}
