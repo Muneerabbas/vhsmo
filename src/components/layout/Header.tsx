@@ -9,7 +9,7 @@ import { Menu, ShoppingBag, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { flyToCart } from "@/lib/fly-to-cart";
 import { cn } from "@/lib/utils";
-import { RESERVE_HREF, YEAR_MARK } from "@/lib/landing";
+import { RESERVE_HREF } from "@/lib/landing";
 import { useDefaultProduct } from "@/lib/products-context";
 
 const navLinks = [
@@ -168,7 +168,7 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="sticky inset-0 z-50 flex flex-col bg-darkroom md:hidden"
+            className="fixed inset-0 z-50 flex flex-col bg-darkroom md:hidden"
           >
             <div className="container-px flex h-16 items-center justify-between">
               <Image
@@ -225,9 +225,6 @@ export function Header() {
                 </button>
               </motion.div>
             </nav>
-            <p className="eyebrow container-px pb-8 text-halide/50">
-              Point. Shoot. Share. {YEAR_MARK}
-            </p>
           </motion.div>
         )}
       </AnimatePresence>
