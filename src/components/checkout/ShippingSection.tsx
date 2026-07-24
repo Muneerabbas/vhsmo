@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { City, Country, State } from "country-state-city";
-import { Building2, Globe, Hash, Home, Landmark, MapPin, User } from "lucide-react";
+import { Building2, Globe, Home, Landmark, MapPin, User } from "lucide-react";
 import type { Address } from "@/components/address/types";
 import type { CheckoutErrors, CheckoutField } from "@/lib/checkout-validation";
 import { Field } from "./Field";
 import { LocationSelect, type LocationOption } from "./LocationSelect";
+import { PincodeField } from "./PincodeField";
 import { SectionHeader } from "./SectionHeader";
 import { iconClass } from "./styles";
+import type { PincodeInfo, PincodeStatus } from "./usePincodeServiceability";
 
 type AddressKey = keyof Address;
 
@@ -20,6 +22,8 @@ type ShippingSectionProps = {
   onLastNameChange: (value: string) => void;
   errors: CheckoutErrors;
   onBlurField: (field: CheckoutField) => void;
+  pincodeStatus: PincodeStatus;
+  pincodeInfo: PincodeInfo | null;
 };
 
 type TextFieldDef = {
@@ -43,6 +47,8 @@ export function ShippingSection({
   onLastNameChange,
   errors,
   onBlurField,
+  pincodeStatus,
+  pincodeInfo,
 }: ShippingSectionProps) {
   // Country is locked to India - its ISO seeds the dependent state/city lists.
   const [countryIso] = useState("IN");
@@ -236,17 +242,11 @@ export function ShippingSection({
             emptyMessage="No cities available for this state."
           />
 
-          <Field
-            name="postalCode"
-            label="PIN code"
-            placeholder="411032"
-            required
-            autoComplete="postal-code"
-            inputMode="numeric"
-            maxLength={10}
-            icon={<Hash className={iconClass} />}
+          <PincodeField
             value={address.postalCode}
             error={errors.postalCode}
+            status={pincodeStatus}
+            info={pincodeInfo}
             onChange={(value) => onChange({ postalCode: value })}
             onBlur={() => onBlurField("postalCode")}
           />

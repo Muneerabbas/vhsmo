@@ -74,7 +74,7 @@ export function validateField(
     case "postalCode": {
       const v = address.postalCode.trim();
       if (!v) return "PIN code is required.";
-      if (!/^\d{4,10}$/.test(digitsOf(v))) return "Enter a valid PIN code.";
+      if (!/^\d{6}$/.test(digitsOf(v))) return "Enter a valid 6-digit PIN code.";
       return undefined;
     }
     case "country":

@@ -18,6 +18,7 @@ import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { ShippingSection } from "@/components/checkout/ShippingSection";
 import { DeliveryBanner } from "@/components/checkout/DeliveryBanner";
 import { useEmailVerification } from "@/components/checkout/useEmailVerification";
+import { usePincodeServiceability } from "@/components/checkout/usePincodeServiceability";
 
 export default function CheckoutPage() {
   const { items, subtotal, shipping, tax, count, isHydrated, clear } =
@@ -36,6 +37,11 @@ export default function CheckoutPage() {
   );
   const patchAddress = (patch: Partial<Address>) =>
     setAddress((a) => ({ ...a, ...patch }));
+
+  // Live Delhivery serviceability for the entered PIN code.
+  const { status: pincodeStatus, info: pincodeInfo } = usePincodeServiceability(
+    address.postalCode,
+  );
 
   // Validation - a field's error only shows once it's been touched or the
   // user has attempted checkout.
@@ -61,10 +67,17 @@ export default function CheckoutPage() {
   const handleBlur = (field: CheckoutField) =>
     setTouched((t) => new Set(t).add(field));
 
+  // A PIN Delhivery has explicitly rejected blocks checkout; a check that's
+  // still pending or errored out falls back to the format validation alone.
+  const canCheckout =
+    Object.keys(errors).length === 0 &&
+    emailStatus === "verified" &&
+    pincodeStatus !== "unserviceable";
+
   /** Called by the checkout button. Reveals errors and reports readiness. */
   const attemptCheckout = () => {
     setSubmitted(true);
-    return Object.keys(errors).length === 0 && emailStatus === "verified";
+    return canCheckout;
   };
 
   // The form only guards against accidental Enter-key submits.
@@ -123,6 +136,8 @@ export default function CheckoutPage() {
             onLastNameChange={setLastName}
             errors={visibleErrors}
             onBlurField={handleBlur}
+            pincodeStatus={pincodeStatus}
+            pincodeInfo={pincodeInfo}
           />
         </div>
 
@@ -135,7 +150,7 @@ export default function CheckoutPage() {
           tax={tax}
           total={subtotal + shipping + tax}
           emailStatus={emailStatus}
-          canCheckout={Object.keys(errors).length === 0 && emailStatus === "verified"}
+          canCheckout={canCheckout}
           onAttemptCheckout={attemptCheckout}
           customer={{ firstName, lastName, email, phone }}
           address={address}
