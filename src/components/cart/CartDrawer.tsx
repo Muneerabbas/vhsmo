@@ -197,7 +197,7 @@ export function CartDrawer() {
                     <Lock className="size-3.5" /> Encrypted
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <Truck className="size-3.5" /> Free worldwide shipping
+                    <Truck className="size-3.5" /> Free PAN India shipping
                   </span>
                 </div>
               </div>
